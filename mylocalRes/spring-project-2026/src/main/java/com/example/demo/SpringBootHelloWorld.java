@@ -225,7 +225,6 @@ public class SpringBootHelloWorld {
 		Object EventMayRession = JsonDrugEventData.get("JsonDrugEventMayRession"); // JSON轉為object
 		Object DrugDetail = JsonDrugEventData.get("JsonDrugDetail"); // JSON轉為object
 		Object DrugEventDeal = JsonDrugEventData.get("JsonDrugEventDeal"); // JSON轉為object
-		Object AllOB = new Object();
 
 		JSONObject JsonData1 = JSONObject.fromObject(DrugEventData); // object轉為另類Json
 		JSONObject JsonData2 = JSONObject.fromObject(DrugEventRession); // object轉為另類Json
@@ -323,22 +322,13 @@ public class SpringBootHelloWorld {
 		JSONArray EventForPa = JsonData3.getJSONArray("DrugEventResultContext3");
 		
 		String xX="";
-//		if (NursionNonFor.size() > 0) {
-//			int i = NursionNonFor.size();
-//			for (int x = 0; x < i; i++) {
-//				String CheckValue = "";
-//				CheckValue = (String) NursionNonFor.get(x);
-//				System.out.println(CheckValue);
-//				if (CheckValue == "已給藥，請接續回答下列2題") {
-//					PharFor = PharForKey;
-//					
-//				
-//				}
-//				
-//			}
-//		
-//			
-//		}
+	
+		if (NursionNonFor.size() > 0) {
+			int i = (int)NursionNonFor.size();
+	        Boolean NursCheck=false;
+	    	 PharFor=PharForKey;
+			
+		}
 		System.out.println(xX);
 		System.out.println(PharFor);
 		String RecallNursionNonFor = ChangArray.ArrayChange(NursionNonFor);
@@ -346,7 +336,7 @@ public class SpringBootHelloWorld {
 		String RecallEventForPa = ChangArray.ArrayChange(EventForPa);
         if(PharFor!=""||PharFor!=null)
         {
-        	PharFor ph=new PharFor(PharForKey,RecallEventForPa,RecallPaForEvent);
+        	PharFor ph=new PharFor(PharFor,RecallEventForPa,RecallPaForEvent);
         	DB.InsertPharfortable(ph);
         	
         }
@@ -409,6 +399,13 @@ public class SpringBootHelloWorld {
 //		System.out.println(JsonDrugDetail);
 //		System.out.println(JsonDrugEventDeal);
 		return DruDat;
+	}
+	@CrossOrigin()
+	@PostMapping("/PostMainData")
+	public ArrayList<Object> MainData()
+	{
+		DrugForm DB=new DrugForm();
+	 return DB.SelectDrugAll();
 	}
 
 	@PostMapping("/post")

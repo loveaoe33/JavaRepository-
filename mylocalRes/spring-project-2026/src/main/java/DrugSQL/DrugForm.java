@@ -1,6 +1,7 @@
 package DrugSQL;
 
 import DrugModel.EmployeeAc;
+import DrugModel.CallBackMainData;
 import DrugModel.DrugDetail;
 import DrugModel.DrugFormMRession;
 import DrugModel.DrugFormReassion;
@@ -19,6 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +35,9 @@ public class DrugForm {
 	private Connection con = null; // 連線
 	private Statement stat = null; // SQL字串
 	private ResultSet rs = null; // 結果值
+	private String NursingForErrorKey = "";
+	private String PharForKey = "";
+	private String ErrorNameKey = "";
 	private PreparedStatement pst = null; // 傳入之sql為預儲之字申,需要傳入變數之位置
 	private String EmpID = "";
 	private String createAccTble = "CREATE TABLE EmpAccount(" + "id INTEGER" + " , EmployeeID VARCHAR(20)"
@@ -56,6 +61,16 @@ public class DrugForm {
 	private String InsertPatabledrug = "insert into patabledrug(id,PaNumberKey,AboutOtherEvent,PreScript,DeliveryProcessEvent,PharMacyEvent,OtherEvent,NursingReEvent,NursingForErrorKey,NursionNonFor,PharFor,WorkStatusProcess,DrugInfoStatusProcess,EnvironmentStatusProcess,PhysiologicalStatusProcess,PersonStatusProcess,CommunicateStatusProcess,OtherStatusProcess,ProcessMethod,Suggest,DrugName,DrugDose,DrugDosage,DrugRouter,DrugFrequency,DrugNumber,ErrorName,EmployeeID,EmployeeName,InsertDate) "
 			+ "select ifNULL(max(id),0)+1,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? FROM patabledrug";
 
+//	private String SelectAllDrugData = "select patabledrug.AboutOtherEvent,patabledrug.PreScript,patabledrug.DeliveryProcessEvent,patabledrug.PharMacyEvent,patabledrug.NursingReEvent,patabledrug.OtherEvent,patabledrug.NursionNonFor,patabledrug.WorkStatusProcess,patabledrug.DrugInfoStatusProcess,patabledrug.EnvironmentStatusProcess,patabledrug.PhysiologicalStatusProcess,patabledrug.PersonStatusProcess,patabledrug.CommunicateStatusProcess,patabledrug.OtherStatusProcess,patabledrug.ProcessMethod,patabledrug.Suggest,patabledrug.DrugNamem,patabledrug.DrugDose,patabledrug.DrugDosage,patabledrug.DrugRouter,patabledrug.DrugFrequency,patabledrug.DrugNumber,patabledrug.EmployeeID,patabledrug.EmployeeName,patabledrug.InsertDate, from patabledrug"
+    private String SelectAllDrugDatA=  "select patabledrug.AboutOtherEvent,patabledrug.PreScript,nursingforerrortable.ErrorEvent from patabledrug inner join in nursingforerrortable on patabledrug.NursingForErrorKey=nursingforerrortable.NursingForErrorKey";
+    private String SelectAllDrugDatB=  "select Pa.PaName,Pa.PaGender,Pa.PaNumber,Pa.PaClass,Pa.PaAge,Pa.PaDia,Pa.PaFiD,Pa.PaStart,Pa.PaEnd,P.AboutOtherEvent,P.PreScript,NFET.ErrorEvent,PP.EvenForPa,PP.PaForEven from patable Pa  JOIN patabledrug P on Pa.PaNumberKey= P.PaNumberKey JOIN  nursingforerrortable NFET  on P.NursingForErrorKey=NFET.NursingForErrorKey JOIN pharfortable PP on P.PharFor=PP.PharForKey" ;
+    private String SelectAllMainDate=  "select Pa.id,Pa.PaName,Pa.PaGender,Pa.PaNumber,Pa.PaClass,Pa.PaAge,Pa.PaDia,Pa.PaFiD,Pa.PaStart,Pa.PaEnd,Pa.PaNumberKey,P.EmployeeName,P.InsertDate from patable Pa  JOIN patabledrug P on Pa.PaNumberKey= P.PaNumberKey";
+
+
+			
+			
+			String query ="SELECT fname,lname,isbn from author inner join books on author.AUTHORID = books.AUTHORID";
+	
 	private String selectOrderEmp = "select * from EmpAccount where EmployeeID ='" + this.EmpID + "'";
 
 	public DrugForm() {
@@ -71,6 +86,43 @@ public class DrugForm {
 			System.out.println("Exception :" + x.toString());
 		}
 
+	}
+	
+	public ArrayList<Object> SelectDrugAll()
+	{
+		ArrayList<Object> DataArray=new ArrayList();
+//		private String selectAllEmp = "select * from EmpAccount";
+//		SelectAllDrugDatA
+		try
+		{
+
+		  stat=con.createStatement();
+		  rs=stat.executeQuery(SelectAllMainDate);
+		  int i=0;
+		  while(rs.next())
+		  {
+			  i++;
+		     		      
+		      CallBackMainData CallDate=new CallBackMainData(rs.getInt("id"),rs.getString("PaName"), rs.getString("PaGender"), rs.getString("PaNumber"), rs.getString("PaClass"), rs.getString("PaAge"), rs.getString("PaDia"),rs.getString("PaFiD"),rs.getString("PaStart"),rs.getString("PaStart"),rs.getString("PaNumberKey"),rs.getString("EmployeeName"),rs.getString("InsertDate"));
+		      DataArray.add(CallDate);
+			  System.out.println(DataArray);
+		  }
+		  if(i>0)
+		  {
+			  System.out.println("有資料");
+		  }
+		  return DataArray;
+		}
+		catch(SQLException e) 
+		{
+			System.out.println(e.toString());
+			DataArray.add(e.toString());
+			return DataArray;
+			
+		}finally {
+			Close();
+		}
+		
 	}
 
 	public String AddDrugEvent(DrugFormPa pa, DrugFormReassion drugreassion, DrugFormResult drugformresult,
@@ -102,12 +154,10 @@ public class DrugForm {
 			pst.setString(15, drugformmression.getPersonStatusProcess());
 			pst.setString(16, drugformmression.getCommunicateStatusProcess());
 			pst.setString(17, drugformmression.getOtherStatusProcess());
-			
-			
+
 			pst.setString(18, evenetprocessfix.getProcessMethod());
 			pst.setString(19, evenetprocessfix.getSuggest());
-			
-			
+
 			pst.setString(20, drugdetail.getDrugName());
 			pst.setString(21, drugdetail.getDrugDose());
 			pst.setString(22, drugdetail.getDrugDosage());
@@ -115,13 +165,13 @@ public class DrugForm {
 			pst.setString(24, drugdetail.getDrugFrequency());
 			pst.setString(25, drugdetail.getDrugNumber());
 			pst.setString(26, drugdetail.getErrorNameKey());
-			
+
 			pst.setString(27, "E0010");
 			pst.setString(28, "黃立帆");
 			pst.setString(29, InsertDatetime);
-            pst.executeUpdate();
-            pst.clearParameters();
-			
+			pst.executeUpdate();
+			pst.clearParameters();
+
 			System.out.println("總表新增完成");
 			return "新增完成";
 		} catch (SQLException e) {
@@ -147,8 +197,7 @@ public class DrugForm {
 			pst.executeUpdate();
 			pst.clearParameters();
 			Close();
-			
-			
+
 			System.out.println("病歷資料新增完成");
 			return "病歷資料新增完成";
 
@@ -185,7 +234,7 @@ public class DrugForm {
 			pst.setString(2, Drug.getErrorName());
 			pst.executeUpdate();
 			pst.clearParameters();
-			
+
 			System.out.println("錯誤藥名新增完成");
 			Close();
 			return "錯誤藥名新增完成";
@@ -399,7 +448,7 @@ public class DrugForm {
 //	    test.SelectTable(); 
 //		HashMap<String, String> map = new HashMap<>();
 //		map = (HashMap<String, String>) drugForm.QueryOne("E0010");
-		drugForm.InsertPatabledrug();
+		drugForm.SelectDrugAll();
 
 	}
 
