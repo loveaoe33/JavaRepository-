@@ -430,7 +430,49 @@ public class DrugForm {
 		}
 
 	}
-
+        public String Delete(String PaID) 
+        {
+           	String ForePaNumberKey="";
+        	String ForeErrorName="";
+        	String ForePharFor="";
+        	String ForeNursingForErrorKey="";
+        	
+        	
+        	String SelectDeData="select * from patable where id='" + PaID + "'";
+        	String SelectChildDeData="select * from patabledrug where PaNumberKey='" +ForePaNumberKey+ "'";
+        	try 
+        	{
+        		stat = con.createStatement();
+        		rs = stat.executeQuery(SelectDeData);
+    			while (rs != null & rs.next()) {
+    				ForePaNumberKey=rs.getString("PaNumberKey");
+    			}
+    		
+    			rs = stat.executeQuery("select * from patabledrug where PaNumberKey='" +ForePaNumberKey+ "'");
+    			while (rs != null & rs.next()) {
+    				ForeErrorName=rs.getString("ErrorName");
+    				ForePharFor=rs.getString("PharFor");
+    				ForeNursingForErrorKey=rs.getString("NursingForErrorKey");
+    			}
+    	     	String DeleteData="Delete  from patable where id='"+PaID+"'";
+            	String DeleteForeErrorName="Delete  from errordrugtable where ErrorNameKey='"+ForeErrorName+"'";
+            	String DeleteForePaNumberKey="Delete  from patabledrug where PaNumberKey='"+ForePaNumberKey+"'";
+            	String DeleteForePharFor="Delete  from pharfortable where PharForKey='"+ForePharFor+"'";
+            	String DeleteForeNursingForErrorKey="Delete  from nursingforerrortable where NursingForErrorKey='"+ForeNursingForErrorKey+"'";
+            	
+    			 stat.executeUpdate(DeleteData);
+    			 stat.executeUpdate(DeleteForeErrorName);
+    			 stat.executeUpdate(DeleteForePaNumberKey);
+    			 stat.executeUpdate(DeleteForePharFor);
+    		     stat.executeUpdate(DeleteForeNursingForErrorKey);
+    			
+        		return "此患者刪除成功";
+        	}
+        	catch(SQLException e) 
+        	{
+                return "資料庫錯誤"+e.toString();
+        	}
+        }
 	public void Update() {
 
 	}
@@ -448,7 +490,8 @@ public class DrugForm {
 //	    test.SelectTable(); 
 //		HashMap<String, String> map = new HashMap<>();
 //		map = (HashMap<String, String>) drugForm.QueryOne("E0010");
-		drugForm.SelectDrugAll();
+//		drugForm.SelectDrugAll();
+//		drugForm.Delete(1);
 
 	}
 

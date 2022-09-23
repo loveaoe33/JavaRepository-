@@ -25,6 +25,7 @@ import java.util.Random;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -407,7 +408,28 @@ public class SpringBootHelloWorld {
 		DrugForm DB=new DrugForm();
 	 return DB.SelectDrugAll();
 	}
-
+	
+	@CrossOrigin()
+	@PostMapping("/PostDelData")
+    public HashMap<String, String> DeleteData(@RequestBody Map<String, String> PostID ) 
+    {
+    	DrugForm DB=new DrugForm();
+    	int PaID= Integer.parseInt(PostID.get("PaID"));
+    	HashMap<String,String>DeleAlert=new HashMap();
+    	String Alert=DB.Delete(PostID.get("PaID"));
+    	if(Alert=="此患者刪除成功")
+    	{
+    		DeleAlert.put("Sucess", Alert);
+    	}else
+    	{
+    		DeleAlert.put("Fail", Alert);
+    	}
+    	
+    	System.out.println(Alert);
+    	return DeleAlert;
+    }
+	
+	
 	@PostMapping("/post")
 	public String PostData(@RequestParam("test") String test) {
 		return test;
