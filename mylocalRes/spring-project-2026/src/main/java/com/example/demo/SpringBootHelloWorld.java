@@ -301,6 +301,8 @@ public class SpringBootHelloWorld {
 
 		// -------------事件原因護理相關有無給藥
 		JSONArray items = JsonData2.getJSONArray("NursingForErrorDrugEvent");
+		
+		
 		if (items.size() > 0) // 代表有給藥錯誤情形
 		{
 			int i;
@@ -310,12 +312,17 @@ public class SpringBootHelloWorld {
 				NusForErDrugStr = NusForErDrugStr + (x + 1) + ":" + items.get(x);
 			}
 			DrugFormnursingforerrortable DFNF = new DrugFormnursingforerrortable(NursingForErrorKey, NusForErDrugStr);
-		DB.InsertNursingforerrortable(DFNF);
+			DB.InsertNursingforerrortable(DFNF);
+
+		
 
 		} else {
-			DFR.setNursingForErrorKey("");
-		}
+			DrugFormnursingforerrortable DFNF = new DrugFormnursingforerrortable(NursingForErrorKey, "");
+			DB.InsertNursingforerrortable(DFNF);
 
+//			DFR.setNursingForErrorKey("");
+		}
+        
 		// ---------------事件結果
 
 		JSONArray NursionNonFor = JsonData3.getJSONArray("DrugEventResultContext");
@@ -335,6 +342,7 @@ public class SpringBootHelloWorld {
 		String RecallNursionNonFor = ChangArray.ArrayChange(NursionNonFor);
 		String RecallPaForEvent = ChangArray.ArrayChange(PaForEvent);
 		String RecallEventForPa = ChangArray.ArrayChange(EventForPa);
+		
         if(PharFor!=""||PharFor!=null)
         {
         	PharFor ph=new PharFor(PharFor,RecallEventForPa,RecallPaForEvent);
@@ -426,9 +434,22 @@ public class SpringBootHelloWorld {
     	}
     	
     	System.out.println(Alert);
+    
     	return DeleAlert;
     }
 	
+	@CrossOrigin()
+	@PostMapping("/DetailMainData")
+    public HashMap<String, String> DetailMainData(@RequestBody Map<String, String> DetailIdS ) 
+    {
+		int SelectId=Integer.parseInt(DetailIdS.get("DetailId"));
+		DrugForm DB=new DrugForm();
+		System.out.println(SelectId);
+	
+		return DB.DetailMain(SelectId);
+		
+    }
+    
 	
 	@PostMapping("/post")
 	public String PostData(@RequestParam("test") String test) {

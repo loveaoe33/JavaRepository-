@@ -465,6 +465,7 @@ public class DrugForm {
     			 stat.executeUpdate(DeleteForePaNumberKey);
     			 stat.executeUpdate(DeleteForePharFor);
     		     stat.executeUpdate(DeleteForeNursingForErrorKey);
+    		     Close();
     			
         		return "此患者刪除成功";
         	}
@@ -473,6 +474,93 @@ public class DrugForm {
                 return "資料庫錯誤"+e.toString();
         	}
         }
+        
+       public HashMap<String,String >DetailMain(int DataID) 
+       {
+    	   String DeatailPaNumberKey="";
+    	   String DetailForeErrorName="";
+    	   String DetailForePharFor="";
+    	   String DetailForeNursingForErrorKey="";
+    	   String DetailPaData="Select * from patable";
+    	   HashMap<String,String>DetailData=new HashMap<>();
+    	   try {
+    			stat = con.createStatement();
+     
+//    			while (rs != null & rs.next()) {
+//    				DeatailPaNumberKey=rs.getString("PaNumberKey");
+//    			}
+//    			
+//    			rs = stat.executeQuery("select * from patabledrug where PaNumberKey='" +DeatailPaNumberKey+ "'");
+//    			while (rs != null & rs.next()) {
+//    				DetailForeErrorName=rs.getString("ErrorName");
+//    				DetailForePharFor=rs.getString("PharFor");
+//    				DetailForeNursingForErrorKey=rs.getString("NursingForErrorKey");
+//    			}
+               final String DetailAllData=  "select Pa.PaName,Pa.PaGender,Pa.PaNumber,Pa.PaClass,Pa.PaAge,Pa.PaDia,Pa.PaFiD,Pa.PaStart,Pa.PaEnd,P.AboutOtherEvent,P.PreScript,P.DeliveryProcessEvent,P.PharMacyEvent,P.NursingReEvent,P.OtherEvent,P.NursionNonFor,P.WorkStatusProcess,P.DrugInfoStatusProcess,P.EnvironmentStatusProcess,P.PhysiologicalStatusProcess,P.PersonStatusProcess,P.CommunicateStatusProcess,P.OtherStatusProcess,P.ProcessMethod,P.Suggest,P.DrugName,P.DrugDose,P.DrugDosage,P.DrugRouter,P.DrugFrequency,P.DrugNumber,P.EmployeeID,P.EmployeeName,P.InsertDate,NFET.ErrorEvent,PP.EvenForPa,PP.PaForEven,ER.ErrorName "
+               		+ "from patable Pa  JOIN patabledrug P on Pa.PaNumberKey= P.PaNumberKey JOIN  nursingforerrortable NFET  on P.NursingForErrorKey=NFET.NursingForErrorKey JOIN pharfortable PP on P.PharFor=PP.PharForKey JOIN errordrugtable ER on P.ErrorName=ER.ErrorNameKey" ;
+          rs = stat.executeQuery(DetailAllData);
+           	while (rs != null & rs.next()) {
+		     
+           		DetailData.put( "PaName",rs.getString("PaName") );
+           		DetailData.put("PaGender",rs.getString("PaGender")  );
+           		DetailData.put("PaNumber",rs.getString("PaNumber")  );
+           		DetailData.put("PaClass",rs.getString("PaClass")  );
+           		DetailData.put("PaAge",rs.getString("PaAge")  );
+           		DetailData.put("PaDia", rs.getString("PaDia") );
+           		DetailData.put("PaFiD", rs.getString("PaFiD") );
+           		DetailData.put("PaStart",rs.getString("PaStart")  );
+           		DetailData.put("PaEnd",rs.getString("PaEnd")  );
+           		
+           		DetailData.put("AboutOtherEvent", rs.getString("AboutOtherEvent") );
+           		DetailData.put("PreScript", rs.getString("PreScript") );
+           		DetailData.put("DeliveryProcessEvent", rs.getString("DeliveryProcessEvent") );
+           		DetailData.put("PharMacyEvent",rs.getString("PharMacyEvent")  );
+           		DetailData.put("NursingReEvent", rs.getString("NursingReEvent") );
+           		DetailData.put("OtherEvent",rs.getString("OtherEvent")  );
+           		DetailData.put("NursionNonFor",rs.getString("NursionNonFor")  );
+           		DetailData.put("WorkStatusProcess", rs.getString("WorkStatusProcess") );
+           		DetailData.put("DrugInfoStatusProcess", rs.getString("DrugInfoStatusProcess") );
+           		DetailData.put("EnvironmentStatusProcess", rs.getString("EnvironmentStatusProcess") );
+           		DetailData.put("PhysiologicalStatusProcess", rs.getString("PhysiologicalStatusProcess") );
+           		DetailData.put("PersonStatusProcess",rs.getString("PersonStatusProcess") );
+           		DetailData.put("CommunicateStatusProcess", rs.getString("CommunicateStatusProcess"));
+           		DetailData.put("OtherStatusProcess", rs.getString("OtherStatusProcess"));
+           		DetailData.put("ProcessMethod", rs.getString("ProcessMethod"));
+           		DetailData.put("Suggest",rs.getString("Suggest") );
+           		DetailData.put("DrugName", rs.getString("DrugName"));
+           		DetailData.put("DrugDose", rs.getString("DrugDose"));
+           		DetailData.put("DrugDosage", rs.getString("DrugDosage"));
+           		DetailData.put("DrugRouter",rs.getString("DrugRouter") );
+           		
+           		DetailData.put("DrugFrequency",rs.getString("DrugFrequency") );
+           		DetailData.put("DrugNumber",rs.getString("DrugNumber") );
+           		DetailData.put("DrugRouter",rs.getString("DrugRouter") );
+           		DetailData.put("EmployeeID",rs.getString("EmployeeID") );
+           		DetailData.put("EmployeeName",rs.getString("EmployeeName") );
+           		DetailData.put("InsertDate",rs.getString("InsertDate") );
+           		DetailData.put("ErrorEvent",rs.getString("ErrorEvent") );
+           		DetailData.put("EvenForPa",rs.getString("EvenForPa") );
+           		
+           		DetailData.put("PaForEven",rs.getString("PaForEven") );
+           		DetailData.put("ErrorName",rs.getString("ErrorName") );
+           	   return DetailData;
+           		
+			}
+    			
+    			System.out.println(DetailData);
+    			
+    		  Close();
+    			
+    	   }
+    	   catch(SQLException e) 
+    	   {
+    		   DetailData.put("SQLError",e.toString());  
+    	   }
+		return DetailData;
+    	   
+    
+    	   
+       }
 	public void Update() {
 
 	}
@@ -492,7 +580,7 @@ public class DrugForm {
 //		map = (HashMap<String, String>) drugForm.QueryOne("E0010");
 //		drugForm.SelectDrugAll();
 //		drugForm.Delete(1);
-
+		drugForm.DetailMain(35);
 	}
 
 }
