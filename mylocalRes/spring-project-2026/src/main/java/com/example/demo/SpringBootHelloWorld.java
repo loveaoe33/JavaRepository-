@@ -317,7 +317,7 @@ public class SpringBootHelloWorld {
 		
 
 		} else {
-			DrugFormnursingforerrortable DFNF = new DrugFormnursingforerrortable(NursingForErrorKey, "");
+			DrugFormnursingforerrortable DFNF = new DrugFormnursingforerrortable(NursingForErrorKey, "無");
 			DB.InsertNursingforerrortable(DFNF);
 
 //			DFR.setNursingForErrorKey("");
@@ -331,17 +331,24 @@ public class SpringBootHelloWorld {
 		
 		String xX="";
 	
-		if (NursionNonFor.size() > 0) {
-			int i = (int)NursionNonFor.size();
-	        Boolean NursCheck=false;
-	    	 PharFor=PharForKey;
+
+	    PharFor=PharForKey;
 			
-		}
+		
 		System.out.println(xX);
 		System.out.println(PharFor);
 		String RecallNursionNonFor = ChangArray.ArrayChange(NursionNonFor);
 		String RecallPaForEvent = ChangArray.ArrayChange(PaForEvent);
 		String RecallEventForPa = ChangArray.ArrayChange(EventForPa);
+		
+		if(RecallPaForEvent==""||RecallPaForEvent==null)
+		{
+			RecallPaForEvent="無";
+		}
+		if(RecallEventForPa==""||RecallEventForPa==null)
+		{
+			RecallEventForPa="無";
+		}
 		
         if(PharFor!=""||PharFor!=null)
         {
@@ -385,11 +392,21 @@ public class SpringBootHelloWorld {
 		DrugNumber = (String) JsonData5.getString("DrugNumber");
 		FalseDrug = (String) JsonData5.getString("FalseDrug");
 		ErrorName = ErrorDrugKey;
-        if(FalseDrug!="" || FalseDrug==null)
+        int FalseDrugLen=FalseDrug.length();
+		System.out.println("FalseDrug:"+FalseDrugLen);
+        if(FalseDrugLen<1)
         {
-        	ErrorDrug ED=new ErrorDrug(ErrorName,FalseDrug);
+        	ErrorDrug ED=new ErrorDrug(ErrorName,"無");
             DB.InsertErrordrugtable(ED);
-        }
+
+    		System.out.println("有進入:");
+     
+        }else { ErrorDrug ED=new ErrorDrug(ErrorName,FalseDrug);
+        DB.InsertErrordrugtable(ED);
+    	System.out.println("沒進入:");}
+        
+        
+        
 		DrugDetail DDT = new DrugDetail(DrugName, DrugDose, DrugDosage, DrugRouter, DrugFrequency, DrugNumber,
 				ErrorName);
 		DB.AddDrugEvent(Npa,DFR,DFRT,DFRM,EPF,DDT);
@@ -400,7 +417,6 @@ public class SpringBootHelloWorld {
 
 	
 
-		System.out.println(PharFor);
 		System.out.println(PharForKey);
 //		System.out.println(var);
 

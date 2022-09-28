@@ -13,7 +13,7 @@ public class libraryFunction {
 	
 		for(int i=0;i<ArrayLength;i++)
 		{
-			CallBackString=CallBackString+ (i + 1) + ":" + nursionNonFor.get(i);
+			CallBackString=CallBackString+ (i + 1) + ":" + nursionNonFor.get(i)+"  ";
 		}
 		return CallBackString;
 		

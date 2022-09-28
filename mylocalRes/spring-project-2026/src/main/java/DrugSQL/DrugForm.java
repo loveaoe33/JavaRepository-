@@ -497,7 +497,7 @@ public class DrugForm {
 //    				DetailForeNursingForErrorKey=rs.getString("NursingForErrorKey");
 //    			}
                final String DetailAllData=  "select Pa.PaName,Pa.PaGender,Pa.PaNumber,Pa.PaClass,Pa.PaAge,Pa.PaDia,Pa.PaFiD,Pa.PaStart,Pa.PaEnd,P.AboutOtherEvent,P.PreScript,P.DeliveryProcessEvent,P.PharMacyEvent,P.NursingReEvent,P.OtherEvent,P.NursionNonFor,P.WorkStatusProcess,P.DrugInfoStatusProcess,P.EnvironmentStatusProcess,P.PhysiologicalStatusProcess,P.PersonStatusProcess,P.CommunicateStatusProcess,P.OtherStatusProcess,P.ProcessMethod,P.Suggest,P.DrugName,P.DrugDose,P.DrugDosage,P.DrugRouter,P.DrugFrequency,P.DrugNumber,P.EmployeeID,P.EmployeeName,P.InsertDate,NFET.ErrorEvent,PP.EvenForPa,PP.PaForEven,ER.ErrorName "
-               		+ "from patable Pa  JOIN patabledrug P on Pa.PaNumberKey= P.PaNumberKey JOIN  nursingforerrortable NFET  on P.NursingForErrorKey=NFET.NursingForErrorKey JOIN pharfortable PP on P.PharFor=PP.PharForKey JOIN errordrugtable ER on P.ErrorName=ER.ErrorNameKey" ;
+               		+ "from patable Pa  JOIN patabledrug P on Pa.PaNumberKey= P.PaNumberKey JOIN  nursingforerrortable NFET  on P.NursingForErrorKey=NFET.NursingForErrorKey JOIN pharfortable PP on P.PharFor=PP.PharForKey JOIN errordrugtable ER on P.ErrorName=ER.ErrorNameKey where pa.id='"+DataID+"'" ;
           rs = stat.executeQuery(DetailAllData);
            	while (rs != null & rs.next()) {
 		     
@@ -543,11 +543,13 @@ public class DrugForm {
            		
            		DetailData.put("PaForEven",rs.getString("PaForEven") );
            		DetailData.put("ErrorName",rs.getString("ErrorName") );
+           		    			System.out.println(DetailData);
+
            	   return DetailData;
            		
 			}
-    			
-    			System.out.println(DetailData);
+			System.out.println(DetailData);
+
     			
     		  Close();
     			
@@ -555,8 +557,10 @@ public class DrugForm {
     	   catch(SQLException e) 
     	   {
     		   DetailData.put("SQLError",e.toString());  
+    			return DetailData;
     	   }
 		return DetailData;
+	
     	   
     
     	   
