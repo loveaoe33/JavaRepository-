@@ -62,15 +62,12 @@ public class DrugForm {
 			+ "select ifNULL(max(id),0)+1,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? FROM patabledrug";
 
 //	private String SelectAllDrugData = "select patabledrug.AboutOtherEvent,patabledrug.PreScript,patabledrug.DeliveryProcessEvent,patabledrug.PharMacyEvent,patabledrug.NursingReEvent,patabledrug.OtherEvent,patabledrug.NursionNonFor,patabledrug.WorkStatusProcess,patabledrug.DrugInfoStatusProcess,patabledrug.EnvironmentStatusProcess,patabledrug.PhysiologicalStatusProcess,patabledrug.PersonStatusProcess,patabledrug.CommunicateStatusProcess,patabledrug.OtherStatusProcess,patabledrug.ProcessMethod,patabledrug.Suggest,patabledrug.DrugNamem,patabledrug.DrugDose,patabledrug.DrugDosage,patabledrug.DrugRouter,patabledrug.DrugFrequency,patabledrug.DrugNumber,patabledrug.EmployeeID,patabledrug.EmployeeName,patabledrug.InsertDate, from patabledrug"
-    private String SelectAllDrugDatA=  "select patabledrug.AboutOtherEvent,patabledrug.PreScript,nursingforerrortable.ErrorEvent from patabledrug inner join in nursingforerrortable on patabledrug.NursingForErrorKey=nursingforerrortable.NursingForErrorKey";
-    private String SelectAllDrugDatB=  "select Pa.PaName,Pa.PaGender,Pa.PaNumber,Pa.PaClass,Pa.PaAge,Pa.PaDia,Pa.PaFiD,Pa.PaStart,Pa.PaEnd,P.AboutOtherEvent,P.PreScript,NFET.ErrorEvent,PP.EvenForPa,PP.PaForEven from patable Pa  JOIN patabledrug P on Pa.PaNumberKey= P.PaNumberKey JOIN  nursingforerrortable NFET  on P.NursingForErrorKey=NFET.NursingForErrorKey JOIN pharfortable PP on P.PharFor=PP.PharForKey" ;
-    private String SelectAllMainDate=  "select Pa.id,Pa.PaName,Pa.PaGender,Pa.PaNumber,Pa.PaClass,Pa.PaAge,Pa.PaDia,Pa.PaFiD,Pa.PaStart,Pa.PaEnd,Pa.PaNumberKey,P.EmployeeName,P.InsertDate from patable Pa  JOIN patabledrug P on Pa.PaNumberKey= P.PaNumberKey";
+	private String SelectAllDrugDatA = "select patabledrug.AboutOtherEvent,patabledrug.PreScript,nursingforerrortable.ErrorEvent from patabledrug inner join in nursingforerrortable on patabledrug.NursingForErrorKey=nursingforerrortable.NursingForErrorKey";
+	private String SelectAllDrugDatB = "select Pa.PaName,Pa.PaGender,Pa.PaNumber,Pa.PaClass,Pa.PaAge,Pa.PaDia,Pa.PaFiD,Pa.PaStart,Pa.PaEnd,P.AboutOtherEvent,P.PreScript,NFET.ErrorEvent,PP.EvenForPa,PP.PaForEven from patable Pa  JOIN patabledrug P on Pa.PaNumberKey= P.PaNumberKey JOIN  nursingforerrortable NFET  on P.NursingForErrorKey=NFET.NursingForErrorKey JOIN pharfortable PP on P.PharFor=PP.PharForKey";
+	private String SelectAllMainDate = "select Pa.id,Pa.PaName,Pa.PaGender,Pa.PaNumber,Pa.PaClass,Pa.PaAge,Pa.PaDia,Pa.PaFiD,Pa.PaStart,Pa.PaEnd,Pa.PaNumberKey,P.EmployeeName,P.InsertDate from patable Pa  JOIN patabledrug P on Pa.PaNumberKey= P.PaNumberKey";
 
+	String query = "SELECT fname,lname,isbn from author inner join books on author.AUTHORID = books.AUTHORID";
 
-			
-			
-			String query ="SELECT fname,lname,isbn from author inner join books on author.AUTHORID = books.AUTHORID";
-	
 	private String selectOrderEmp = "select * from EmpAccount where EmployeeID ='" + this.EmpID + "'";
 
 	public DrugForm() {
@@ -87,42 +84,40 @@ public class DrugForm {
 		}
 
 	}
-	
-	public ArrayList<Object> SelectDrugAll()
-	{
-		ArrayList<Object> DataArray=new ArrayList();
+
+	public ArrayList<Object> SelectDrugAll() {
+		ArrayList<Object> DataArray = new ArrayList();
 //		private String selectAllEmp = "select * from EmpAccount";
 //		SelectAllDrugDatA
-		try
-		{
+		try {
 
-		  stat=con.createStatement();
-		  rs=stat.executeQuery(SelectAllMainDate);
-		  int i=0;
-		  while(rs.next())
-		  {
-			  i++;
-		     		      
-		      CallBackMainData CallDate=new CallBackMainData(rs.getInt("id"),rs.getString("PaName"), rs.getString("PaGender"), rs.getString("PaNumber"), rs.getString("PaClass"), rs.getString("PaAge"), rs.getString("PaDia"),rs.getString("PaFiD"),rs.getString("PaStart"),rs.getString("PaStart"),rs.getString("PaNumberKey"),rs.getString("EmployeeName"),rs.getString("InsertDate"));
-		      DataArray.add(CallDate);
-			  System.out.println(DataArray);
-		  }
-		  if(i>0)
-		  {
-			  System.out.println("有資料");
-		  }
-		  return DataArray;
-		}
-		catch(SQLException e) 
-		{
+			stat = con.createStatement();
+			rs = stat.executeQuery(SelectAllMainDate);
+			int i = 0;
+			while (rs.next()) {
+				i++;
+
+				CallBackMainData CallDate = new CallBackMainData(rs.getInt("id"), rs.getString("PaName"),
+						rs.getString("PaGender"), rs.getString("PaNumber"), rs.getString("PaClass"),
+						rs.getString("PaAge"), rs.getString("PaDia"), rs.getString("PaFiD"), rs.getString("PaStart"),
+						rs.getString("PaStart"), rs.getString("PaNumberKey"), rs.getString("EmployeeName"),
+						rs.getString("InsertDate"));
+				DataArray.add(CallDate);
+				System.out.println(DataArray);
+			}
+			if (i > 0) {
+				System.out.println("有資料");
+			}
+			return DataArray;
+		} catch (SQLException e) {
 			System.out.println(e.toString());
 			DataArray.add(e.toString());
 			return DataArray;
-			
-		}finally {
+
+		} finally {
 			Close();
 		}
-		
+
 	}
 
 	public String AddDrugEvent(DrugFormPa pa, DrugFormReassion drugreassion, DrugFormResult drugformresult,
@@ -430,62 +425,58 @@ public class DrugForm {
 		}
 
 	}
-        public String Delete(String PaID) 
-        {
-           	String ForePaNumberKey="";
-        	String ForeErrorName="";
-        	String ForePharFor="";
-        	String ForeNursingForErrorKey="";
-        	
-        	
-        	String SelectDeData="select * from patable where id='" + PaID + "'";
-        	String SelectChildDeData="select * from patabledrug where PaNumberKey='" +ForePaNumberKey+ "'";
-        	try 
-        	{
-        		stat = con.createStatement();
-        		rs = stat.executeQuery(SelectDeData);
-    			while (rs != null & rs.next()) {
-    				ForePaNumberKey=rs.getString("PaNumberKey");
-    			}
-    		
-    			rs = stat.executeQuery("select * from patabledrug where PaNumberKey='" +ForePaNumberKey+ "'");
-    			while (rs != null & rs.next()) {
-    				ForeErrorName=rs.getString("ErrorName");
-    				ForePharFor=rs.getString("PharFor");
-    				ForeNursingForErrorKey=rs.getString("NursingForErrorKey");
-    			}
-    	     	String DeleteData="Delete  from patable where id='"+PaID+"'";
-            	String DeleteForeErrorName="Delete  from errordrugtable where ErrorNameKey='"+ForeErrorName+"'";
-            	String DeleteForePaNumberKey="Delete  from patabledrug where PaNumberKey='"+ForePaNumberKey+"'";
-            	String DeleteForePharFor="Delete  from pharfortable where PharForKey='"+ForePharFor+"'";
-            	String DeleteForeNursingForErrorKey="Delete  from nursingforerrortable where NursingForErrorKey='"+ForeNursingForErrorKey+"'";
-            	
-    			 stat.executeUpdate(DeleteData);
-    			 stat.executeUpdate(DeleteForeErrorName);
-    			 stat.executeUpdate(DeleteForePaNumberKey);
-    			 stat.executeUpdate(DeleteForePharFor);
-    		     stat.executeUpdate(DeleteForeNursingForErrorKey);
-    		     Close();
-    			
-        		return "此患者刪除成功";
-        	}
-        	catch(SQLException e) 
-        	{
-                return "資料庫錯誤"+e.toString();
-        	}
-        }
-        
-       public HashMap<String,String >DetailMain(int DataID) 
-       {
-    	   String DeatailPaNumberKey="";
-    	   String DetailForeErrorName="";
-    	   String DetailForePharFor="";
-    	   String DetailForeNursingForErrorKey="";
-    	   String DetailPaData="Select * from patable";
-    	   HashMap<String,String>DetailData=new HashMap<>();
-    	   try {
-    			stat = con.createStatement();
-     
+
+	public String Delete(String PaID) {
+		String ForePaNumberKey = "";
+		String ForeErrorName = "";
+		String ForePharFor = "";
+		String ForeNursingForErrorKey = "";
+
+		String SelectDeData = "select * from patable where id='" + PaID + "'";
+		String SelectChildDeData = "select * from patabledrug where PaNumberKey='" + ForePaNumberKey + "'";
+		try {
+			stat = con.createStatement();
+			rs = stat.executeQuery(SelectDeData);
+			while (rs != null & rs.next()) {
+				ForePaNumberKey = rs.getString("PaNumberKey");
+			}
+
+			rs = stat.executeQuery("select * from patabledrug where PaNumberKey='" + ForePaNumberKey + "'");
+			while (rs != null & rs.next()) {
+				ForeErrorName = rs.getString("ErrorName");
+				ForePharFor = rs.getString("PharFor");
+				ForeNursingForErrorKey = rs.getString("NursingForErrorKey");
+			}
+			String DeleteData = "Delete  from patable where id='" + PaID + "'";
+			String DeleteForeErrorName = "Delete  from errordrugtable where ErrorNameKey='" + ForeErrorName + "'";
+			String DeleteForePaNumberKey = "Delete  from patabledrug where PaNumberKey='" + ForePaNumberKey + "'";
+			String DeleteForePharFor = "Delete  from pharfortable where PharForKey='" + ForePharFor + "'";
+			String DeleteForeNursingForErrorKey = "Delete  from nursingforerrortable where NursingForErrorKey='"
+					+ ForeNursingForErrorKey + "'";
+
+			stat.executeUpdate(DeleteData);
+			stat.executeUpdate(DeleteForeErrorName);
+			stat.executeUpdate(DeleteForePaNumberKey);
+			stat.executeUpdate(DeleteForePharFor);
+			stat.executeUpdate(DeleteForeNursingForErrorKey);
+			Close();
+
+			return "此患者刪除成功";
+		} catch (SQLException e) {
+			return "資料庫錯誤" + e.toString();
+		}
+	}
+
+	public HashMap<String, String> DetailMain(int DataID) {
+		String DeatailPaNumberKey = "";
+		String DetailForeErrorName = "";
+		String DetailForePharFor = "";
+		String DetailForeNursingForErrorKey = "";
+		String DetailPaData = "Select * from patable";
+		HashMap<String, String> DetailData = new HashMap<>();
+		try {
+			stat = con.createStatement();
+
 //    			while (rs != null & rs.next()) {
 //    				DeatailPaNumberKey=rs.getString("PaNumberKey");
 //    			}
@@ -496,76 +487,88 @@ public class DrugForm {
 //    				DetailForePharFor=rs.getString("PharFor");
 //    				DetailForeNursingForErrorKey=rs.getString("NursingForErrorKey");
 //    			}
-               final String DetailAllData=  "select Pa.PaName,Pa.PaGender,Pa.PaNumber,Pa.PaClass,Pa.PaAge,Pa.PaDia,Pa.PaFiD,Pa.PaStart,Pa.PaEnd,P.AboutOtherEvent,P.PreScript,P.DeliveryProcessEvent,P.PharMacyEvent,P.NursingReEvent,P.OtherEvent,P.NursionNonFor,P.WorkStatusProcess,P.DrugInfoStatusProcess,P.EnvironmentStatusProcess,P.PhysiologicalStatusProcess,P.PersonStatusProcess,P.CommunicateStatusProcess,P.OtherStatusProcess,P.ProcessMethod,P.Suggest,P.DrugName,P.DrugDose,P.DrugDosage,P.DrugRouter,P.DrugFrequency,P.DrugNumber,P.EmployeeID,P.EmployeeName,P.InsertDate,NFET.ErrorEvent,PP.EvenForPa,PP.PaForEven,ER.ErrorName "
-               		+ "from patable Pa  JOIN patabledrug P on Pa.PaNumberKey= P.PaNumberKey JOIN  nursingforerrortable NFET  on P.NursingForErrorKey=NFET.NursingForErrorKey JOIN pharfortable PP on P.PharFor=PP.PharForKey JOIN errordrugtable ER on P.ErrorName=ER.ErrorNameKey where pa.id='"+DataID+"'" ;
-          rs = stat.executeQuery(DetailAllData);
-           	while (rs != null & rs.next()) {
-		     
-           		DetailData.put( "PaName",rs.getString("PaName") );
-           		DetailData.put("PaGender",rs.getString("PaGender")  );
-           		DetailData.put("PaNumber",rs.getString("PaNumber")  );
-           		DetailData.put("PaClass",rs.getString("PaClass")  );
-           		DetailData.put("PaAge",rs.getString("PaAge")  );
-           		DetailData.put("PaDia", rs.getString("PaDia") );
-           		DetailData.put("PaFiD", rs.getString("PaFiD") );
-           		DetailData.put("PaStart",rs.getString("PaStart")  );
-           		DetailData.put("PaEnd",rs.getString("PaEnd")  );
-           		
-           		DetailData.put("AboutOtherEvent", rs.getString("AboutOtherEvent") );
-           		DetailData.put("PreScript", rs.getString("PreScript") );
-           		DetailData.put("DeliveryProcessEvent", rs.getString("DeliveryProcessEvent") );
-           		DetailData.put("PharMacyEvent",rs.getString("PharMacyEvent")  );
-           		DetailData.put("NursingReEvent", rs.getString("NursingReEvent") );
-           		DetailData.put("OtherEvent",rs.getString("OtherEvent")  );
-           		DetailData.put("NursionNonFor",rs.getString("NursionNonFor")  );
-           		DetailData.put("WorkStatusProcess", rs.getString("WorkStatusProcess") );
-           		DetailData.put("DrugInfoStatusProcess", rs.getString("DrugInfoStatusProcess") );
-           		DetailData.put("EnvironmentStatusProcess", rs.getString("EnvironmentStatusProcess") );
-           		DetailData.put("PhysiologicalStatusProcess", rs.getString("PhysiologicalStatusProcess") );
-           		DetailData.put("PersonStatusProcess",rs.getString("PersonStatusProcess") );
-           		DetailData.put("CommunicateStatusProcess", rs.getString("CommunicateStatusProcess"));
-           		DetailData.put("OtherStatusProcess", rs.getString("OtherStatusProcess"));
-           		DetailData.put("ProcessMethod", rs.getString("ProcessMethod"));
-           		DetailData.put("Suggest",rs.getString("Suggest") );
-           		DetailData.put("DrugName", rs.getString("DrugName"));
-           		DetailData.put("DrugDose", rs.getString("DrugDose"));
-           		DetailData.put("DrugDosage", rs.getString("DrugDosage"));
-           		DetailData.put("DrugRouter",rs.getString("DrugRouter") );
-           		
-           		DetailData.put("DrugFrequency",rs.getString("DrugFrequency") );
-           		DetailData.put("DrugNumber",rs.getString("DrugNumber") );
-           		DetailData.put("DrugRouter",rs.getString("DrugRouter") );
-           		DetailData.put("EmployeeID",rs.getString("EmployeeID") );
-           		DetailData.put("EmployeeName",rs.getString("EmployeeName") );
-           		DetailData.put("InsertDate",rs.getString("InsertDate") );
-           		DetailData.put("ErrorEvent",rs.getString("ErrorEvent") );
-           		DetailData.put("EvenForPa",rs.getString("EvenForPa") );
-           		
-           		DetailData.put("PaForEven",rs.getString("PaForEven") );
-           		DetailData.put("ErrorName",rs.getString("ErrorName") );
-           		    			System.out.println(DetailData);
+			final String DetailAllData = "select Pa.id,Pa.PaNumberKey,Pa.PaName,Pa.PaGender,Pa.PaNumber,Pa.PaClass,Pa.PaAge,Pa.PaDia,Pa.PaFiD,Pa.PaStart,Pa.PaEnd,P.AboutOtherEvent,P.PreScript,P.DeliveryProcessEvent,P.PharMacyEvent,P.NursingReEvent,P.OtherEvent,P.NursionNonFor,P.WorkStatusProcess,P.DrugInfoStatusProcess,P.EnvironmentStatusProcess,P.PhysiologicalStatusProcess,P.PersonStatusProcess,P.CommunicateStatusProcess,P.OtherStatusProcess,P.ProcessMethod,P.Suggest,P.DrugName,P.DrugDose,P.DrugDosage,P.DrugRouter,P.DrugFrequency,P.DrugNumber,P.EmployeeID,P.EmployeeName,P.InsertDate,NFET.ErrorEvent,PP.EvenForPa,PP.PaForEven,ER.ErrorName "
+					+ "from patable Pa  JOIN patabledrug P on Pa.PaNumberKey= P.PaNumberKey JOIN  nursingforerrortable NFET  on P.NursingForErrorKey=NFET.NursingForErrorKey JOIN pharfortable PP on P.PharFor=PP.PharForKey JOIN errordrugtable ER on P.ErrorName=ER.ErrorNameKey where pa.id='"
+					+ DataID + "'";
+			rs = stat.executeQuery(DetailAllData);
+			while (rs != null & rs.next()) {
 
-           	   return DetailData;
-           		
+				DetailData.put("PaId", rs.getString("id"));
+				DetailData.put("PaKey", rs.getString("PaNumberKey"));
+				DetailData.put("PaName", rs.getString("PaName"));
+				DetailData.put("PaGender", rs.getString("PaGender"));
+				DetailData.put("PaNumber", rs.getString("PaNumber"));
+				DetailData.put("PaClass", rs.getString("PaClass"));
+				DetailData.put("PaAge", rs.getString("PaAge"));
+				DetailData.put("PaDia", rs.getString("PaDia"));
+				DetailData.put("PaFiD", rs.getString("PaFiD"));
+				DetailData.put("PaStart", rs.getString("PaStart"));
+				DetailData.put("PaEnd", rs.getString("PaEnd"));
+
+				DetailData.put("AboutOtherEvent", rs.getString("AboutOtherEvent"));
+				DetailData.put("PreScript", rs.getString("PreScript"));
+				DetailData.put("DeliveryProcessEvent", rs.getString("DeliveryProcessEvent"));
+				DetailData.put("PharMacyEvent", rs.getString("PharMacyEvent"));
+				DetailData.put("NursingReEvent", rs.getString("NursingReEvent"));
+				DetailData.put("OtherEvent", rs.getString("OtherEvent"));
+				DetailData.put("NursionNonFor", rs.getString("NursionNonFor"));
+				DetailData.put("WorkStatusProcess", rs.getString("WorkStatusProcess"));
+				DetailData.put("DrugInfoStatusProcess", rs.getString("DrugInfoStatusProcess"));
+				DetailData.put("EnvironmentStatusProcess", rs.getString("EnvironmentStatusProcess"));
+				DetailData.put("PhysiologicalStatusProcess", rs.getString("PhysiologicalStatusProcess"));
+				DetailData.put("PersonStatusProcess", rs.getString("PersonStatusProcess"));
+				DetailData.put("CommunicateStatusProcess", rs.getString("CommunicateStatusProcess"));
+				DetailData.put("OtherStatusProcess", rs.getString("OtherStatusProcess"));
+				DetailData.put("ProcessMethod", rs.getString("ProcessMethod"));
+				DetailData.put("Suggest", rs.getString("Suggest"));
+				DetailData.put("DrugName", rs.getString("DrugName"));
+				DetailData.put("DrugDose", rs.getString("DrugDose"));
+				DetailData.put("DrugDosage", rs.getString("DrugDosage"));
+				DetailData.put("DrugRouter", rs.getString("DrugRouter"));
+
+				DetailData.put("DrugFrequency", rs.getString("DrugFrequency"));
+				DetailData.put("DrugNumber", rs.getString("DrugNumber"));
+				DetailData.put("DrugRouter", rs.getString("DrugRouter"));
+				DetailData.put("EmployeeID", rs.getString("EmployeeID"));
+				DetailData.put("EmployeeName", rs.getString("EmployeeName"));
+				DetailData.put("InsertDate", rs.getString("InsertDate"));
+				DetailData.put("ErrorEvent", rs.getString("ErrorEvent"));
+				DetailData.put("EvenForPa", rs.getString("EvenForPa"));
+
+				DetailData.put("PaForEven", rs.getString("PaForEven"));
+				DetailData.put("ErrorName", rs.getString("ErrorName"));
+				System.out.println(DetailData);
+
+				return DetailData;
+
 			}
 			System.out.println(DetailData);
 
-    			
-    		  Close();
-    			
-    	   }
-    	   catch(SQLException e) 
-    	   {
-    		   DetailData.put("SQLError",e.toString());  
-    			return DetailData;
-    	   }
+			Close();
+
+		} catch (SQLException e) {
+			DetailData.put("SQLError", e.toString());
+			return DetailData;
+		}
 		return DetailData;
-	
-    	   
-    
-    	   
-       }
-	public void Update() {
+
+	}
+
+	public HashMap<String, String> UpdateColumn(String PaKey, String SelectTable, String Column, String Value) {
+		HashMap<String, String> UpdateDetail = new HashMap<>();
+		try {
+			final String UpdateString = "UPDATE  '" + SelectTable + "' '" + Column + "' = '" + Value
+					+ "' where PaNumberKey='" + PaKey + "'";
+			String sql = "UPDATE Registration " + "SET age = 30 WHERE id in (100, 101)";
+			stat.executeUpdate(sql);
+			UpdateDetail.put("Sucess", "更新成功");
+
+			return UpdateDetail;
+		} catch (SQLException e) {
+			UpdateDetail.put("SQLError", e.toString());
+			return UpdateDetail;
+
+		}
 
 	}
 
