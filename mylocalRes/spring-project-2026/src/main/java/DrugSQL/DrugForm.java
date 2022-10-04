@@ -487,12 +487,18 @@ public class DrugForm {
 //    				DetailForePharFor=rs.getString("PharFor");
 //    				DetailForeNursingForErrorKey=rs.getString("NursingForErrorKey");
 //    			}
-			final String DetailAllData = "select Pa.id,Pa.PaNumberKey,Pa.PaName,Pa.PaGender,Pa.PaNumber,Pa.PaClass,Pa.PaAge,Pa.PaDia,Pa.PaFiD,Pa.PaStart,Pa.PaEnd,P.AboutOtherEvent,P.PreScript,P.DeliveryProcessEvent,P.PharMacyEvent,P.NursingReEvent,P.OtherEvent,P.NursionNonFor,P.WorkStatusProcess,P.DrugInfoStatusProcess,P.EnvironmentStatusProcess,P.PhysiologicalStatusProcess,P.PersonStatusProcess,P.CommunicateStatusProcess,P.OtherStatusProcess,P.ProcessMethod,P.Suggest,P.DrugName,P.DrugDose,P.DrugDosage,P.DrugRouter,P.DrugFrequency,P.DrugNumber,P.EmployeeID,P.EmployeeName,P.InsertDate,NFET.ErrorEvent,PP.EvenForPa,PP.PaForEven,ER.ErrorName "
+			final String DetailAllData = "select  NFET.NursingForErrorKey,ER.ErrorNameKey,PP.PharForKey,Pa.id,Pa.PaNumberKey,Pa.PaName,Pa.PaGender,Pa.PaNumber,Pa.PaClass,Pa.PaAge,Pa.PaDia,Pa.PaFiD,Pa.PaStart,Pa.PaEnd,P.AboutOtherEvent,P.PreScript,P.DeliveryProcessEvent,P.PharMacyEvent,P.NursingReEvent,P.OtherEvent,P.NursionNonFor,P.WorkStatusProcess,P.DrugInfoStatusProcess,P.EnvironmentStatusProcess,P.PhysiologicalStatusProcess,P.PersonStatusProcess,P.CommunicateStatusProcess,P.OtherStatusProcess,P.ProcessMethod,P.Suggest,P.DrugName,P.DrugDose,P.DrugDosage,P.DrugRouter,P.DrugFrequency,P.DrugNumber,P.EmployeeID,P.EmployeeName,P.InsertDate,NFET.ErrorEvent,PP.EvenForPa,PP.PaForEven,ER.ErrorName "
 					+ "from patable Pa  JOIN patabledrug P on Pa.PaNumberKey= P.PaNumberKey JOIN  nursingforerrortable NFET  on P.NursingForErrorKey=NFET.NursingForErrorKey JOIN pharfortable PP on P.PharFor=PP.PharForKey JOIN errordrugtable ER on P.ErrorName=ER.ErrorNameKey where pa.id='"
 					+ DataID + "'";
 			rs = stat.executeQuery(DetailAllData);
 			while (rs != null & rs.next()) {
-
+                
+				DetailData.put("NursingForKey", rs.getString("NursingForErrorKey"));
+				DetailData.put("DrugForKey", rs.getString("ErrorNameKey"));
+				DetailData.put("PharForKey", rs.getString("PharForKey"));
+		
+				
+				
 				DetailData.put("PaId", rs.getString("id"));
 				DetailData.put("PaKey", rs.getString("PaNumberKey"));
 				DetailData.put("PaName", rs.getString("PaName"));
@@ -554,13 +560,41 @@ public class DrugForm {
 
 	}
 
-	public HashMap<String, String> UpdateColumn(String PaKey, String SelectTable, String Column, String Value) {
+	public HashMap<String, String> UpdateColumn(String PaKey, String SelectTable, String Column, String Value,String CQD) {
 		HashMap<String, String> UpdateDetail = new HashMap<>();
 		try {
-			final String UpdateString = "UPDATE  '" + SelectTable + "' '" + Column + "' = '" + Value
+			final String UpdatePaString = "UPDATE  '" + SelectTable + "'SET '" + Column + "' = '" + Value
 					+ "' where PaNumberKey='" + PaKey + "'";
-			String sql = "UPDATE Registration " + "SET age = 30 WHERE id in (100, 101)";
-			stat.executeUpdate(sql);
+			final String UpdatePaDString = "UPDATE  '" + SelectTable + "'SET '" + Column + "' = '" + Value
+					+ "' where PaNumberKey='" + PaKey + "'";
+			final String UpdateNursString = "UPDATE  '" + SelectTable + "'SET '" + Column + "' = '" + Value
+					+ "' where NursingForErrorKey='" + PaKey + "'";
+			final String UpdatePharString = "UPDATE  '" + SelectTable + "'SET '" + Column + "' = '" + Value
+					+ "' where PharForKey='" + PaKey + "'";
+			final String UpdateErorString = "UPDATE  '" + SelectTable + "'SET '" + Column + "' = '" + Value
+					+ "' where ErrorNameKey='" + PaKey + "'";
+			String ChangeSQlString="";
+			
+			switch(CQD) 
+			{
+		      case "Patable":
+		    	  ChangeSQlString=UpdatePaString;
+		    	  break;
+		      case "patabledrug":
+		    	  ChangeSQlString=UpdatePaDString;
+		    	  break;
+		      case"nursingforerrortable":
+		    	  ChangeSQlString=UpdateNursString;
+		    	  break;
+		      case "pharfortable":
+		    	  ChangeSQlString=UpdatePharString;
+		    	  break;
+		      case "errordrugtable":
+		    	  ChangeSQlString=UpdateErorString;
+		    	  break;
+			
+			}
+			stat.executeUpdate(ChangeSQlString);
 			UpdateDetail.put("Sucess", "更新成功");
 
 			return UpdateDetail;

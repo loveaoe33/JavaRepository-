@@ -465,6 +465,53 @@ public class SpringBootHelloWorld {
 		return DB.DetailMain(SelectId);
 		
     }
+	
+	@CrossOrigin()
+	@PostMapping("/UpdateDetailData")
+    public HashMap<String, String> UpdateDetailData(@RequestBody Map<String, String> UpdateDetail ) 
+    {
+	  DrugForm DB=new DrugForm();
+	  HashMap<String,String>UpdateCulum=new HashMap();
+	  String PaId=(String) UpdateDetail.get("PostPaId");
+	  String PostPaNumberKey=(String) UpdateDetail.get("PostPaNumberKey");
+      String NursingForKey=(String) UpdateDetail.get("PostNursingForKey");
+      String DrugForKey=(String) UpdateDetail.get("PostDrugForKey");
+      String PharForKey=(String) UpdateDetail.get("PostPharForKey");
+      String TableName=(String) UpdateDetail.get("PostTable");
+      String Cloum=(String) UpdateDetail.get("PostColum");
+      String UpdateData=(String) UpdateDetail.get("PostUpdate");
+	  
+      switch(TableName) 
+      {
+      case "Patable":
+    	  UpdateCulum=DB.UpdateColumn(PostPaNumberKey, TableName, Cloum, UpdateData,"Patable");
+    	  break;
+      case "patabledrug":
+    	  UpdateCulum=DB.UpdateColumn(DrugForKey, PharForKey, Cloum, UpdateData,"patabledrug");
+    	  break;
+    	
+      case"nursingforerrortable":
+    	  UpdateCulum=DB.UpdateColumn(DrugForKey, PharForKey, Cloum, UpdateData,"nursingforerrortable");
+    	  break;
+    	
+      case "pharfortable":
+    	  UpdateCulum=DB.UpdateColumn(DrugForKey, PharForKey, Cloum, UpdateData,"pharfortable");
+    	  break;
+    	
+      case "errordrugtable":
+    	  UpdateCulum=DB.UpdateColumn(DrugForKey, PharForKey, Cloum, UpdateData,"errordrugtable");
+    	  break;
+    	
+      }
+
+      
+      
+      
+	  return UpdateCulum;
+		
+    }
+	
+	
     
 	
 	@PostMapping("/post")
