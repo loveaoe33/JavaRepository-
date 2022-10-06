@@ -473,33 +473,36 @@ public class SpringBootHelloWorld {
 	  DrugForm DB=new DrugForm();
 	  HashMap<String,String>UpdateCulum=new HashMap();
 	  String PaId=(String) UpdateDetail.get("PostPaId");
+	  
 	  String PostPaNumberKey=(String) UpdateDetail.get("PostPaNumberKey");
       String NursingForKey=(String) UpdateDetail.get("PostNursingForKey");
       String DrugForKey=(String) UpdateDetail.get("PostDrugForKey");
       String PharForKey=(String) UpdateDetail.get("PostPharForKey");
+      
       String TableName=(String) UpdateDetail.get("PostTable");
       String Cloum=(String) UpdateDetail.get("PostColum");
       String UpdateData=(String) UpdateDetail.get("PostUpdate");
-	  
+		 System.out.println("1:______"+PaId+     "1:_____"+PostPaNumberKey+    "1:_____"+NursingForKey+    "1:_____"+DrugForKey+    "1:_____"+PharForKey+    "1:_____"+TableName+   "1:_____"+Cloum+   "1:_____"+UpdateData);
+
       switch(TableName) 
       {
       case "Patable":
     	  UpdateCulum=DB.UpdateColumn(PostPaNumberKey, TableName, Cloum, UpdateData,"Patable");
     	  break;
       case "patabledrug":
-    	  UpdateCulum=DB.UpdateColumn(DrugForKey, PharForKey, Cloum, UpdateData,"patabledrug");
+    	  UpdateCulum=DB.UpdateColumn(PostPaNumberKey, TableName, Cloum, UpdateData,"patabledrug");
     	  break;
     	
       case"nursingforerrortable":
-    	  UpdateCulum=DB.UpdateColumn(DrugForKey, PharForKey, Cloum, UpdateData,"nursingforerrortable");
+    	  UpdateCulum=DB.UpdateColumn(NursingForKey, TableName, Cloum, UpdateData,"nursingforerrortable");
     	  break;
     	
       case "pharfortable":
-    	  UpdateCulum=DB.UpdateColumn(DrugForKey, PharForKey, Cloum, UpdateData,"pharfortable");
+    	  UpdateCulum=DB.UpdateColumn(PharForKey, TableName, Cloum, UpdateData,"pharfortable");
     	  break;
     	
       case "errordrugtable":
-    	  UpdateCulum=DB.UpdateColumn(DrugForKey, PharForKey, Cloum, UpdateData,"errordrugtable");
+    	  UpdateCulum=DB.UpdateColumn(DrugForKey, TableName, Cloum, UpdateData,"errordrugtable");
     	  break;
     	
       }

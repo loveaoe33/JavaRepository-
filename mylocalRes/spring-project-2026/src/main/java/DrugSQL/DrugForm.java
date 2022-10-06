@@ -563,22 +563,25 @@ public class DrugForm {
 	public HashMap<String, String> UpdateColumn(String PaKey, String SelectTable, String Column, String Value,String CQD) {
 		HashMap<String, String> UpdateDetail = new HashMap<>();
 		try {
-			final String UpdatePaString = "UPDATE  '" + SelectTable + "'SET '" + Column + "' = '" + Value
+			stat = con.createStatement();
+			final String UpdatePaString = "UPDATE  " + SelectTable + " SET " + Column + " = '" + Value
+					+ "' WHERE  PaNumberKey='" + PaKey + "'";
+			final String UpdatePaDString = "UPDATE " + SelectTable + " SET " + Column + " = '" + Value
 					+ "' where PaNumberKey='" + PaKey + "'";
-			final String UpdatePaDString = "UPDATE  '" + SelectTable + "'SET '" + Column + "' = '" + Value
-					+ "' where PaNumberKey='" + PaKey + "'";
-			final String UpdateNursString = "UPDATE  '" + SelectTable + "'SET '" + Column + "' = '" + Value
+			final String UpdateNursString = "UPDATE  " + SelectTable + " SET " + Column + " = '" + Value
 					+ "' where NursingForErrorKey='" + PaKey + "'";
-			final String UpdatePharString = "UPDATE  '" + SelectTable + "'SET '" + Column + "' = '" + Value
+			final String UpdatePharString = "UPDATE  " + SelectTable + " SET " + Column + " = '" + Value
 					+ "' where PharForKey='" + PaKey + "'";
-			final String UpdateErorString = "UPDATE  '" + SelectTable + "'SET '" + Column + "' = '" + Value
+			final String UpdateErorString = "UPDATE  " + SelectTable + " SET " + Column + " = '" + Value
 					+ "' where ErrorNameKey='" + PaKey + "'";
 			String ChangeSQlString="";
-			
+//			String ChangeSQlString=	"UPDATE patable" + " SET PaEnd = "+5555+" WHERE PaNumberKey="+487480cilllkpggg+"'";
+		 
 			switch(CQD) 
 			{
 		      case "Patable":
 		    	  ChangeSQlString=UpdatePaString;
+
 		    	  break;
 		      case "patabledrug":
 		    	  ChangeSQlString=UpdatePaDString;
@@ -596,10 +599,11 @@ public class DrugForm {
 			}
 			stat.executeUpdate(ChangeSQlString);
 			UpdateDetail.put("Sucess", "更新成功");
-
+            System.out.println(UpdateDetail);
 			return UpdateDetail;
 		} catch (SQLException e) {
 			UpdateDetail.put("SQLError", e.toString());
+			 System.out.println(UpdateDetail);
 			return UpdateDetail;
 
 		}
@@ -621,7 +625,8 @@ public class DrugForm {
 //		map = (HashMap<String, String>) drugForm.QueryOne("E0010");
 //		drugForm.SelectDrugAll();
 //		drugForm.Delete(1);
-		drugForm.DetailMain(35);
+//		public HashMap<String, String> UpdateColumn(String PaKey, String SelectTable, String Column, String Value,String CQD) {
+//		drugForm.UpdateColumn("487480cilllkpggg","patable","PaEnd","12553","Patable");
 	}
 
 }
