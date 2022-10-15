@@ -54,7 +54,7 @@ public class SpringBootHelloWorld {
 
 	{
 
-		return "取得ID為:" + id;
+		return "取得ID為" + id;
 	}
 
 	@RequestMapping("/List")
