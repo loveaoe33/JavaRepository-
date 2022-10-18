@@ -31,8 +31,8 @@ import SQL.jdbcmysql;
 
 @Repository
 public class DrugForm {
-	String SessionEmpID;
-	String SessionEmpName;
+	static String SessionEmpID;
+	static String SessionEmpName;
 	private Connection con = null; // 連線
 	private Statement stat = null; // SQL字串
 	private ResultSet rs = null; // 結果值
@@ -161,8 +161,8 @@ public class DrugForm {
 			pst.setString(24, drugdetail.getDrugFrequency());
 			pst.setString(25, drugdetail.getDrugNumber());
 			pst.setString(26, drugdetail.getErrorNameKey());
-			pst.setString(27, "EEEE");
-			pst.setString(28, "SSSSS");
+			pst.setString(27, this.SessionEmpID);
+			pst.setString(28, this.SessionEmpName);
 			pst.setString(29, InsertDatetime);
 			pst.executeUpdate();
 			pst.clearParameters();
