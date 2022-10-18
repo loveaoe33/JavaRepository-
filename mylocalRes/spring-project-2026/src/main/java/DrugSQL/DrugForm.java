@@ -31,8 +31,8 @@ import SQL.jdbcmysql;
 
 @Repository
 public class DrugForm {
-    String SessionEmpID;
-    String SessionEmpName;
+	String SessionEmpID;
+	String SessionEmpName;
 	private Connection con = null; // 連線
 	private Statement stat = null; // SQL字串
 	private ResultSet rs = null; // 結果值
@@ -161,8 +161,8 @@ public class DrugForm {
 			pst.setString(24, drugdetail.getDrugFrequency());
 			pst.setString(25, drugdetail.getDrugNumber());
 			pst.setString(26, drugdetail.getErrorNameKey());
-			pst.setString(27, this.SessionEmpID);
-			pst.setString(28, this.SessionEmpName="");
+			pst.setString(27, "EEEE");
+			pst.setString(28, "SSSSS");
 			pst.setString(29, InsertDatetime);
 			pst.executeUpdate();
 			pst.clearParameters();
@@ -394,8 +394,8 @@ public class DrugForm {
 	}
 
 	public Map<String, String> QueryOne(String EmpID) {
-		 this.SessionEmpID="";
-		 this.SessionEmpName="";
+		this.SessionEmpID = "";
+		this.SessionEmpName = "";
 
 		try {
 			HashMap<String, String> EmpRe = new HashMap<>();
@@ -407,8 +407,8 @@ public class DrugForm {
 				System.out.println(rs.getString("EmployeeID") + "\t\t" + rs.getString("Employee"));
 				String ReEmpID = rs.getString("EmployeeID");
 				String ReEmployee = rs.getString("Employee");
-				 this.SessionEmpID=ReEmpID;
-				 this.SessionEmpName=ReEmployee;
+				this.SessionEmpID = ReEmpID;
+				this.SessionEmpName = ReEmployee;
 				String ReTotal = "員編:" + ReEmpID + "員工:" + ReEmployee;
 				EmpRe.put("AcSucess", ReTotal);
 			}
@@ -496,13 +496,11 @@ public class DrugForm {
 					+ DataID + "'";
 			rs = stat.executeQuery(DetailAllData);
 			while (rs != null & rs.next()) {
-                
+
 				DetailData.put("NursingForKey", rs.getString("NursingForErrorKey"));
 				DetailData.put("DrugForKey", rs.getString("ErrorNameKey"));
 				DetailData.put("PharForKey", rs.getString("PharForKey"));
-		
-				
-				
+
 				DetailData.put("PaId", rs.getString("id"));
 				DetailData.put("PaKey", rs.getString("PaNumberKey"));
 				DetailData.put("PaName", rs.getString("PaName"));
@@ -564,7 +562,8 @@ public class DrugForm {
 
 	}
 
-	public HashMap<String, String> UpdateColumn(String PaKey, String SelectTable, String Column, String Value,String CQD) {
+	public HashMap<String, String> UpdateColumn(String PaKey, String SelectTable, String Column, String Value,
+			String CQD) {
 		HashMap<String, String> UpdateDetail = new HashMap<>();
 		try {
 			stat = con.createStatement();
@@ -578,36 +577,35 @@ public class DrugForm {
 					+ "' where PharForKey='" + PaKey + "'";
 			final String UpdateErorString = "UPDATE  " + SelectTable + " SET " + Column + " = '" + Value
 					+ "' where ErrorNameKey='" + PaKey + "'";
-			String ChangeSQlString="";
+			String ChangeSQlString = "";
 //			String ChangeSQlString=	"UPDATE patable" + " SET PaEnd = "+5555+" WHERE PaNumberKey="+487480cilllkpggg+"'";
-		 
-			switch(CQD) 
-			{
-		      case "Patable":
-		    	  ChangeSQlString=UpdatePaString;
 
-		    	  break;
-		      case "patabledrug":
-		    	  ChangeSQlString=UpdatePaDString;
-		    	  break;
-		      case"nursingforerrortable":
-		    	  ChangeSQlString=UpdateNursString;
-		    	  break;
-		      case "pharfortable":
-		    	  ChangeSQlString=UpdatePharString;
-		    	  break;
-		      case "errordrugtable":
-		    	  ChangeSQlString=UpdateErorString;
-		    	  break;
-			
+			switch (CQD) {
+			case "Patable":
+				ChangeSQlString = UpdatePaString;
+
+				break;
+			case "patabledrug":
+				ChangeSQlString = UpdatePaDString;
+				break;
+			case "nursingforerrortable":
+				ChangeSQlString = UpdateNursString;
+				break;
+			case "pharfortable":
+				ChangeSQlString = UpdatePharString;
+				break;
+			case "errordrugtable":
+				ChangeSQlString = UpdateErorString;
+				break;
+
 			}
 			stat.executeUpdate(ChangeSQlString);
 			UpdateDetail.put("Sucess", "更新成功");
-            System.out.println(UpdateDetail);
+			System.out.println(UpdateDetail);
 			return UpdateDetail;
 		} catch (SQLException e) {
 			UpdateDetail.put("SQLError", e.toString());
-			 System.out.println(UpdateDetail);
+			System.out.println(UpdateDetail);
 			return UpdateDetail;
 
 		}
