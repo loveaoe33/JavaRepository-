@@ -31,7 +31,8 @@ import SQL.jdbcmysql;
 
 @Repository
 public class DrugForm {
-
+    String SessionEmpID;
+    String SessionEmpName;
 	private Connection con = null; // 連線
 	private Statement stat = null; // SQL字串
 	private ResultSet rs = null; // 結果值
@@ -160,9 +161,8 @@ public class DrugForm {
 			pst.setString(24, drugdetail.getDrugFrequency());
 			pst.setString(25, drugdetail.getDrugNumber());
 			pst.setString(26, drugdetail.getErrorNameKey());
-
-			pst.setString(27, "E0010");
-			pst.setString(28, "黃立帆");
+			pst.setString(27, this.SessionEmpID);
+			pst.setString(28, this.SessionEmpName="");
 			pst.setString(29, InsertDatetime);
 			pst.executeUpdate();
 			pst.clearParameters();
@@ -394,6 +394,8 @@ public class DrugForm {
 	}
 
 	public Map<String, String> QueryOne(String EmpID) {
+		 this.SessionEmpID="";
+		 this.SessionEmpName="";
 
 		try {
 			HashMap<String, String> EmpRe = new HashMap<>();
@@ -405,6 +407,8 @@ public class DrugForm {
 				System.out.println(rs.getString("EmployeeID") + "\t\t" + rs.getString("Employee"));
 				String ReEmpID = rs.getString("EmployeeID");
 				String ReEmployee = rs.getString("Employee");
+				 this.SessionEmpID=ReEmpID;
+				 this.SessionEmpName=ReEmployee;
 				String ReTotal = "員編:" + ReEmpID + "員工:" + ReEmployee;
 				EmpRe.put("AcSucess", ReTotal);
 			}
