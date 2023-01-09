@@ -28,7 +28,8 @@ public class jdbcmysql {
   
   private String insertdbSQL = "insert into User(id,name,passwd) " + 
       "select ifNULL(max(id),0)+1,?,? FROM User"; 
-  private String InsertPatable="insert into Patable(id,PaName,PaGender,PaNumber,PaClass,PaAge,PaDia,PaStart,PaEnd,PaNumberKey) " + 
+  
+  /*private String InsertPatable="insert into Patable(id,PaName,PaGender,PaNumber,PaClass,PaAge,PaDia,PaStart,PaEnd,PaNumberKey) " + 
 	      "select ifNULL(max(id),0)+1,?,?,?,?,?,?,?,?,? FROM Patable"; 
   
   private String InsertPharfortable="insert into Pharfortable(id,PharForKey,EvenForPa,PaForEven) " + 
@@ -41,7 +42,8 @@ public class jdbcmysql {
 	      "select ifNULL(max(id),0)+1,?,? FROM Nursingforerrortable";
   
   private String InsertPatabledrug="insert into patabledrug(id,PaNumberKey,AboutOtherEvent,PreScript,DeliveryProcessEvent,PharMacyEvent,NursingReEvent,OtherEvent,PharNonFor,NursionNonFor,PharFor,WorkStatusProcess,DrugInfoStatusProcess,EnvironmentStatusProcess,PhysiologicalStatusProcess,PersonStatusProcess,CommunicateStatusProcess,OtherStatusProcess,ProcessMethod,Suggest,DrugName,DrugDose,DrugDosage,DrugRouter,DrugFrequency,DrugNumber,ErrorName,EmployeeID,EmployeeName,InsertDate) " + 
-	      "select ifNULL(max(id),0)+1,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? FROM patabledrug";
+	      "select ifNULL(max(id),0)+1,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? FROM patabledrug";*/
+  
   
   private String selectSQL = "select * from User "; 
   

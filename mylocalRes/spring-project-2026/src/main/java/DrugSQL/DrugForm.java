@@ -14,20 +14,20 @@ import DrugModel.PharFor;
 import DrugModel.libraryFunction;
 
 import java.sql.Connection;
-import java.sql.Date;
+//import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Calendar;
+//import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import SQL.jdbcmysql;
+//import SQL.jdbcmysql;
 
 @Repository
 public class DrugForm {
@@ -36,14 +36,14 @@ public class DrugForm {
 	private Connection con = null; // 連線
 	private Statement stat = null; // SQL字串
 	private ResultSet rs = null; // 結果值
-	private String NursingForErrorKey = "";
-	private String PharForKey = "";
-	private String ErrorNameKey = "";
+	//private String NursingForErrorKey = "";
+	//private String PharForKey = "";
+	//private String ErrorNameKey = "";
 	private PreparedStatement pst = null; // 傳入之sql為預儲之字申,需要傳入變數之位置
 	private String EmpID = "";
 	private String createAccTble = "CREATE TABLE EmpAccount(" + "id INTEGER" + " , EmployeeID VARCHAR(20)"
 			+ " , Employee VARCHAR(20)" + " ,JobTitle VARCHAR(20)" + ", ResDate  VARCHAR(20))";
-	private String selectAllEmp = "select * from EmpAccount";
+	//private String selectAllEmp = "select * from EmpAccount";
 	private String insertdbSQL = "insert into EmpAccount(id,EmployeeID,Employee,JobTitle,ResDate,ResTexarea)"
 			+ "select ifNull(max(id),0)+1,?,?,?,?,? FROM EmpAccount";
 
@@ -63,13 +63,13 @@ public class DrugForm {
 			+ "select ifNULL(max(id),0)+1,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? FROM patabledrug";
 
 //	private String SelectAllDrugData = "select patabledrug.AboutOtherEvent,patabledrug.PreScript,patabledrug.DeliveryProcessEvent,patabledrug.PharMacyEvent,patabledrug.NursingReEvent,patabledrug.OtherEvent,patabledrug.NursionNonFor,patabledrug.WorkStatusProcess,patabledrug.DrugInfoStatusProcess,patabledrug.EnvironmentStatusProcess,patabledrug.PhysiologicalStatusProcess,patabledrug.PersonStatusProcess,patabledrug.CommunicateStatusProcess,patabledrug.OtherStatusProcess,patabledrug.ProcessMethod,patabledrug.Suggest,patabledrug.DrugNamem,patabledrug.DrugDose,patabledrug.DrugDosage,patabledrug.DrugRouter,patabledrug.DrugFrequency,patabledrug.DrugNumber,patabledrug.EmployeeID,patabledrug.EmployeeName,patabledrug.InsertDate, from patabledrug"
-	private String SelectAllDrugDatA = "select patabledrug.AboutOtherEvent,patabledrug.PreScript,nursingforerrortable.ErrorEvent from patabledrug inner join in nursingforerrortable on patabledrug.NursingForErrorKey=nursingforerrortable.NursingForErrorKey";
-	private String SelectAllDrugDatB = "select Pa.PaName,Pa.PaGender,Pa.PaNumber,Pa.PaClass,Pa.PaAge,Pa.PaDia,Pa.PaFiD,Pa.PaStart,Pa.PaEnd,P.AboutOtherEvent,P.PreScript,NFET.ErrorEvent,PP.EvenForPa,PP.PaForEven from patable Pa  JOIN patabledrug P on Pa.PaNumberKey= P.PaNumberKey JOIN  nursingforerrortable NFET  on P.NursingForErrorKey=NFET.NursingForErrorKey JOIN pharfortable PP on P.PharFor=PP.PharForKey";
+	//private String SelectAllDrugDatA = "select patabledrug.AboutOtherEvent,patabledrug.PreScript,nursingforerrortable.ErrorEvent from patabledrug inner join in nursingforerrortable on patabledrug.NursingForErrorKey=nursingforerrortable.NursingForErrorKey";
+	//private String SelectAllDrugDatB = "select Pa.PaName,Pa.PaGender,Pa.PaNumber,Pa.PaClass,Pa.PaAge,Pa.PaDia,Pa.PaFiD,Pa.PaStart,Pa.PaEnd,P.AboutOtherEvent,P.PreScript,NFET.ErrorEvent,PP.EvenForPa,PP.PaForEven from patable Pa  JOIN patabledrug P on Pa.PaNumberKey= P.PaNumberKey JOIN  nursingforerrortable NFET  on P.NursingForErrorKey=NFET.NursingForErrorKey JOIN pharfortable PP on P.PharFor=PP.PharForKey";
 	private String SelectAllMainDate = "select Pa.id,Pa.PaName,Pa.PaGender,Pa.PaNumber,Pa.PaClass,Pa.PaAge,Pa.PaDia,Pa.PaFiD,Pa.PaStart,Pa.PaEnd,Pa.PaNumberKey,P.EmployeeName,P.InsertDate from patable Pa  JOIN patabledrug P on Pa.PaNumberKey= P.PaNumberKey";
 
 	String query = "SELECT fname,lname,isbn from author inner join books on author.AUTHORID = books.AUTHORID";
 
-	private String selectOrderEmp = "select * from EmpAccount where EmployeeID ='" + this.EmpID + "'";
+	//private String selectOrderEmp = "select * from EmpAccount where EmployeeID ='" + this.EmpID + "'";
 
 	public DrugForm() {
 		try {
@@ -87,7 +87,7 @@ public class DrugForm {
 	}
 
 	public ArrayList<Object> SelectDrugAll() {
-		ArrayList<Object> DataArray = new ArrayList();
+		ArrayList<Object> DataArray = new ArrayList<Object>();
 //		private String selectAllEmp = "select * from EmpAccount";
 //		SelectAllDrugDatA
 		try {
@@ -161,8 +161,8 @@ public class DrugForm {
 			pst.setString(24, drugdetail.getDrugFrequency());
 			pst.setString(25, drugdetail.getDrugNumber());
 			pst.setString(26, drugdetail.getErrorNameKey());
-			pst.setString(27, this.SessionEmpID);
-			pst.setString(28, this.SessionEmpName);
+			pst.setString(27, DrugForm.SessionEmpID);
+			pst.setString(28, DrugForm.SessionEmpName);
 			pst.setString(29, InsertDatetime);
 			pst.executeUpdate();
 			pst.clearParameters();
@@ -394,8 +394,8 @@ public class DrugForm {
 	}
 
 	public Map<String, String> QueryOne(String EmpID) {
-		this.SessionEmpID = "";
-		this.SessionEmpName = "";
+		DrugForm.SessionEmpID = "";
+		DrugForm.SessionEmpName = "";
 
 		try {
 			HashMap<String, String> EmpRe = new HashMap<>();
@@ -407,8 +407,8 @@ public class DrugForm {
 				System.out.println(rs.getString("EmployeeID") + "\t\t" + rs.getString("Employee"));
 				String ReEmpID = rs.getString("EmployeeID");
 				String ReEmployee = rs.getString("Employee");
-				this.SessionEmpID = ReEmpID;
-				this.SessionEmpName = ReEmployee;
+				DrugForm.SessionEmpID = ReEmpID;
+				DrugForm.SessionEmpName = ReEmployee;
 				String ReTotal = "員編:" + ReEmpID + "員工:" + ReEmployee;
 				EmpRe.put("AcSucess", ReTotal);
 			}
@@ -437,7 +437,7 @@ public class DrugForm {
 		String ForeNursingForErrorKey = "";
 
 		String SelectDeData = "select * from patable where id='" + PaID + "'";
-		String SelectChildDeData = "select * from patabledrug where PaNumberKey='" + ForePaNumberKey + "'";
+		//String SelectChildDeData = "select * from patabledrug where PaNumberKey='" + ForePaNumberKey + "'";
 		try {
 			stat = con.createStatement();
 			rs = stat.executeQuery(SelectDeData);
@@ -472,11 +472,11 @@ public class DrugForm {
 	}
 
 	public HashMap<String, String> DetailMain(int DataID) {
-		String DeatailPaNumberKey = "";
-		String DetailForeErrorName = "";
-		String DetailForePharFor = "";
-		String DetailForeNursingForErrorKey = "";
-		String DetailPaData = "Select * from patable";
+		//String DeatailPaNumberKey = "";
+		//String DetailForeErrorName = "";
+		//String DetailForePharFor = "";
+		//String DetailForeNursingForErrorKey = "";
+		//String DetailPaData = "Select * from patable";
 		HashMap<String, String> DetailData = new HashMap<>();
 		try {
 			stat = con.createStatement();
@@ -614,7 +614,7 @@ public class DrugForm {
 
 	public static void main(String[] args) {
 		// 測看看是否正常
-		DrugForm drugForm = new DrugForm();
+	//	DrugForm drugForm = new DrugForm();
 //	    drugForm.CreateTable();
 //		EmployeeAc d = new EmployeeAc("12", "12", "12", "12", "12");
 //		String x = drugForm.AddEmp(d);

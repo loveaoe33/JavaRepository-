@@ -3,8 +3,8 @@ package leetcode;
 public class LeetCode4 {
 
 	public String BackNumber(String s) {
-		Boolean[][] array = new Boolean[s.length()][s.length()];
-		int[][] array2 = new int[s.length()][s.length()];
+		//Boolean[][] array = new Boolean[s.length()][s.length()];
+		//int[][] array2 = new int[s.length()][s.length()];
 		int result = 0;
 		int len = 0;
 		int start = 0;

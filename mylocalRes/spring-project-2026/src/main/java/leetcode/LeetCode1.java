@@ -1,8 +1,8 @@
 package leetcode;
 
 import java.util.*;
-import java.lang.*;
-import java.io.*;
+//import java.lang.*;
+//import java.io.*;
 
 public class LeetCode1 {
 	Boolean check = true;

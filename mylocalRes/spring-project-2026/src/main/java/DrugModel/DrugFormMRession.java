@@ -1,6 +1,6 @@
 package DrugModel;
 
-import SQL.OOPSQLTable;
+//import SQL.OOPSQLTable;
 
 public class DrugFormMRession {
 	private String WorkStatusProcess;

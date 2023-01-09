@@ -26,7 +26,7 @@ public class libraryFunction {
 		int m=cal.get(Calendar.MONTH)+1;
 		int d=cal.get(Calendar.DATE);
 		int h=cal.get(Calendar.HOUR_OF_DAY);
-		int mi=cal.get(Calendar.MINUTE);
+		//int mi=cal.get(Calendar.MINUTE);
 		
         String ND="民國"+y+"年"+m+"月"+d+"日"+h+"時";
         return ND;
