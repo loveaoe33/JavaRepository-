@@ -16,28 +16,28 @@ import DrugModel.PharFor;
 import DrugModel.libraryFunction;
 
 import java.util.ArrayList;
-//import java.util.Arrays;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-//import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-//import org.apache.commons.collections.map.HashedMap;
-//import org.apache.tomcat.util.json.JSONParser;
-//import org.springframework.http.HttpRequest;
+import org.apache.commons.collections.map.HashedMap;
+import org.apache.tomcat.util.json.JSONParser;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-//import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 
 @RestController
 public class SpringBootHelloWorld {
@@ -68,7 +68,7 @@ public class SpringBootHelloWorld {
 
 	@RequestMapping("/oop")
 	public int oop() {
-		//TestOOp Data = new TestOOp();
+		TestOOp Data = new TestOOp();
 
 		return 0;
 	}
@@ -151,7 +151,7 @@ public class SpringBootHelloWorld {
 		int random2;
 
 		// --------------------關聯key
-		//int RandomMath;
+		int RandomMath;
 		String PharForKey; // 已給藥事件關聯key
 		String PaNumberKey; // 病患關聯事件表key
 		String NursingForErrorKey;// 給錯藥物事件關聯key
@@ -169,11 +169,11 @@ public class SpringBootHelloWorld {
 		String PaEnd;// 患者異常結束日
 
 		// -------------------已給藥事件對病患影響
-		//String EvenForPa; // 事件對病患影響
-		//String PaForEven;// 病患對事件影響
+		String EvenForPa; // 事件對病患影響
+		String PaForEven;// 病患對事件影響
 
 		// -------------------給藥錯誤事件
-		//String ErrorEvent; // 錯誤事件有哪些
+		String ErrorEvent; // 錯誤事件有哪些
 
 		// -------------------錯誤事件總表
 		// -----------------事件發生原因
@@ -213,12 +213,12 @@ public class SpringBootHelloWorld {
 
 		// ---------------------紀錄
 //		String EmployeeID=(String) EmpSession.getAttribute("EmpSession"); // 輸入員工
-		//String EmployeeName;// 員工姓名
-		//String InsertDate;// 輸入日期
+		String EmployeeName;// 員工姓名
+		String InsertDate;// 輸入日期
 
 		String RanStr = "abcdefghigklmnopkrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ0123456789";
 
-		Map<String, Object> DruDat = new HashMap<String, Object>();
+		Map<String, Object> DruDat = new HashMap();
 
 		Object DrugEventData = JsonDrugEventData.get("JsonDrugEventData"); // JSON轉為object
 		Object DrugEventRession = JsonDrugEventData.get("JsonDrugEventRession"); // JSON轉為object
@@ -438,8 +438,8 @@ public class SpringBootHelloWorld {
     public HashMap<String, String> DeleteData(@RequestBody Map<String, String> PostID ) 
     {
     	DrugForm DB=new DrugForm();
-    	//int PaID= Integer.parseInt(PostID.get("PaID"));
-    	HashMap<String,String>DeleAlert=new HashMap<String, String>();
+    	int PaID= Integer.parseInt(PostID.get("PaID"));
+    	HashMap<String,String>DeleAlert=new HashMap();
     	String Alert=DB.Delete(PostID.get("PaID"));
     	if(Alert=="此患者刪除成功")
     	{
@@ -471,7 +471,7 @@ public class SpringBootHelloWorld {
     public HashMap<String, String> UpdateDetailData(@RequestBody Map<String, String> UpdateDetail ) 
     {
 	  DrugForm DB=new DrugForm();
-	  HashMap<String,String>UpdateCulum=new HashMap<String, String>();
+	  HashMap<String,String>UpdateCulum=new HashMap();
 	  String PaId=(String) UpdateDetail.get("PostPaId");
 	  
 	  String PostPaNumberKey=(String) UpdateDetail.get("PostPaNumberKey");
