@@ -49,9 +49,11 @@ public class SQLStringSetting extends AbstractSQL {
 		}
 	}
 
-	public SQLStringSetting(String SQLString, String SQLConnectionString) throws ClassNotFoundException {
+	public SQLStringSetting(String SQLString, String SQLConnectionString,String Account,String Password) throws ClassNotFoundException {
 		super.SQLString = SQLString;
 		super.ConnectionString = SQLConnectionString;
+		super.Account=Account;
+		super.Password=Password;
 		SQLConnection();
 	}
 
@@ -60,7 +62,7 @@ public class SQLStringSetting extends AbstractSQL {
 		// TODO Auto-generated method stub
 		try {
 			Class.forName("com.mysql.jdbc.Driver");// 註冊driver
-			con = DriverManager.getConnection(ConnectionString);
+			con = DriverManager.getConnection(ConnectionString,Account,Password);
 		} catch (SQLException e) {
 			System.out.println("資料庫設置錯誤" + e.toString());
 		} catch (ClassNotFoundException x) {
@@ -194,7 +196,7 @@ public class SQLStringSetting extends AbstractSQL {
 	}
 
 	@Override
-	public String ReSettSQL(String SQLString, String SQLConnectionString) {
+	public String ReSettSQL(String SQLString, String SQLConnectionString,String Account,String Password) {
 		// TODO Auto-generated method stub
 		return null;
 	}

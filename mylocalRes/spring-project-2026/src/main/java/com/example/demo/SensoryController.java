@@ -23,6 +23,8 @@ public class SensoryController {
     private String SensoryString = "select * from sensorTable ";
     private String SensoryOneString = "";
     private String SQLConnectingSetting="jdbc:mysql://localhost/sensorTable?useUnicode=true&characterEncoding=Big5";
+    private String SQLAccount="root";
+    private String SQLPassword="love20720";
 
 
 	
@@ -38,13 +40,13 @@ public class SensoryController {
 
 		ArrayList<Sensory>SensoryAll=new ArrayList<>();
 		if(sqlSetting!=null) {
-			sqlSetting.ReSettSQL(PostDateString, SQLConnectingSetting);
+			sqlSetting.ReSettSQL(PostDateString, SQLConnectingSetting,SQLAccount,SQLPassword);
 			SensoryAll=sqlSetting.SQLCase(CaseSQL.PostDate);
 			return SensoryAll;
 		}else
 			
 		{
-			AbstractSQL sqlSetting=new SQLStringSetting(PostDateString,SQLConnectingSetting);
+			AbstractSQL sqlSetting=new SQLStringSetting(PostDateString,SQLConnectingSetting,SQLAccount,SQLPassword);
 			SensoryAll=sqlSetting.SQLCase(CaseSQL.PostDate);
 			return SensoryAll;
 
@@ -57,13 +59,13 @@ public class SensoryController {
 	public ArrayList<Sensory> QuerySensory() throws ClassNotFoundException, SQLException {
 		ArrayList<Sensory>SensoryAll=new ArrayList<>();
 		if(sqlSetting!=null) {
-			sqlSetting.ReSettSQL(SensoryString, SQLConnectingSetting);
+			sqlSetting.ReSettSQL(SensoryString, SQLConnectingSetting,SQLAccount,SQLPassword);
 			SensoryAll=sqlSetting.SQLCase(CaseSQL.Prinall);
 			return SensoryAll;
 		}else
 			
 		{   
-			AbstractSQL sqlSetting=new SQLStringSetting(SensoryString,SQLConnectingSetting);
+			AbstractSQL sqlSetting=new SQLStringSetting(SensoryString,SQLConnectingSetting,SQLAccount,SQLPassword);
 			SensoryAll=sqlSetting.SQLCase(CaseSQL.Prinall);
 			return SensoryAll;
 		}
@@ -75,13 +77,13 @@ public class SensoryController {
 		SensoryOneString = "select * from sensorTable where id="+SensorId;
 		ArrayList<Sensory>SensoryAll=new ArrayList<>();
 		if(sqlSetting!=null) {
-			sqlSetting.ReSettSQL(SensoryOneString, SQLConnectingSetting);
+			sqlSetting.ReSettSQL(SensoryOneString, SQLConnectingSetting,SQLAccount,SQLPassword);
 			SensoryAll=sqlSetting.SQLCase(CaseSQL.PrintOne);
 			return SensoryAll;
 		}else
 			
 		{   
-			AbstractSQL sqlSetting=new SQLStringSetting(SensoryOneString,SQLConnectingSetting);
+			AbstractSQL sqlSetting=new SQLStringSetting(SensoryOneString,SQLConnectingSetting,SQLAccount,SQLPassword);
 			SensoryAll=sqlSetting.SQLCase(CaseSQL.PrintOne);
 			return SensoryAll;
 		}
