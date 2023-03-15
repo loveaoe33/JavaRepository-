@@ -22,7 +22,7 @@ public class SensoryController {
 		+ "select ifNULL(max(id),0)+1,?,?,?,?,? FROM sensorTable";
     private String SensoryString = "select * from sensorTable ";
     private String SensoryOneString = "";
-    private String SQLConnectingSetting="jdbc:mysql://localhost/sensorytable?useUnicode=true&characterEncoding=Big5";
+    private String SQLConnectingSetting="jdbc:mysql://localhost/sensorTable?useUnicode=true&characterEncoding=Big5";
 
 
 	
