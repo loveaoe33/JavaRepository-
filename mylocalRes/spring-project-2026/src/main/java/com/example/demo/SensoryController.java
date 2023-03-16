@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +32,7 @@ public class SensoryController {
 
 	
 	@CrossOrigin()
-	@RequestMapping("Sensory/PostData")
+	@PostMapping("Sensory/PostData")
 	public  ArrayList<Sensory> SensoryPostData(@RequestBody Map<String, String> SensoryJson ) throws SQLException, ClassNotFoundException {
 		SensoryAll.clear();
 		SQLStringSetting.PostData.setSensorKey(SensoryJson.get("SensorKey"));
@@ -56,7 +57,7 @@ public class SensoryController {
 
 	}
 	@CrossOrigin()
-	@RequestMapping("Sensory/QuerySensory")
+	@PostMapping("Sensory/QuerySensory")
 	public ArrayList<Sensory> QuerySensory() throws ClassNotFoundException, SQLException {
 		SensoryAll.clear();
 		if(sqlSetting!=null) {
@@ -73,7 +74,7 @@ public class SensoryController {
 	}
 	
 	@CrossOrigin()
-	@RequestMapping("Sensory/QuerySensoryOne")
+	@PostMapping("Sensory/QuerySensoryOne")
 	public ArrayList<Sensory> QuerySensoryOne(int SensorId) throws SQLException, ClassNotFoundException {
 		SensoryOneString = "select * from sensorTable where id="+SensorId;
 		SensoryAll.clear();
