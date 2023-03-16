@@ -25,21 +25,22 @@ public class SensoryController {
     private String SQLConnectingSetting="jdbc:mysql://localhost/sensorTable?useUnicode=true&characterEncoding=Big5";
     private String SQLAccount="root";
     private String SQLPassword="love20720";
+    private static ArrayList<Sensory>SensoryAll=new ArrayList<>();
+
 
 
 	
 	@CrossOrigin()
 	@RequestMapping("Sensory/PostData")
 	public  ArrayList<Sensory> SensoryPostData(@RequestBody Map<String, String> SensoryJson ) throws SQLException, ClassNotFoundException {
-		
+		SensoryAll.clear();
 		SQLStringSetting.PostData.setSensorKey(SensoryJson.get("SensorKey"));
 		SQLStringSetting.PostData.setSensorTitle(SensoryJson.get("SensorTitle"));
 		SQLStringSetting.PostData.setSensorContext(SensoryJson.get("SensorContext"));
 		SQLStringSetting.PostData.setSensorDate(SensoryJson.get("SensorDate"));
 		SQLStringSetting.PostData.setSensorEmp(SensoryJson.get("SensorEmp"));
-
-		ArrayList<Sensory>SensoryAll=new ArrayList<>();
 		if(sqlSetting!=null) {
+			
 			sqlSetting.ReSettSQL(PostDateString, SQLConnectingSetting,SQLAccount,SQLPassword);
 			SensoryAll=sqlSetting.SQLCase(CaseSQL.PostDate);
 			return SensoryAll;
@@ -57,7 +58,7 @@ public class SensoryController {
 	@CrossOrigin()
 	@RequestMapping("Sensory/QuerySensory")
 	public ArrayList<Sensory> QuerySensory() throws ClassNotFoundException, SQLException {
-		ArrayList<Sensory>SensoryAll=new ArrayList<>();
+		SensoryAll.clear();
 		if(sqlSetting!=null) {
 			sqlSetting.ReSettSQL(SensoryString, SQLConnectingSetting,SQLAccount,SQLPassword);
 			SensoryAll=sqlSetting.SQLCase(CaseSQL.Prinall);
@@ -75,7 +76,7 @@ public class SensoryController {
 	@RequestMapping("Sensory/QuerySensoryOne")
 	public ArrayList<Sensory> QuerySensoryOne(int SensorId) throws SQLException, ClassNotFoundException {
 		SensoryOneString = "select * from sensorTable where id="+SensorId;
-		ArrayList<Sensory>SensoryAll=new ArrayList<>();
+		SensoryAll.clear();
 		if(sqlSetting!=null) {
 			sqlSetting.ReSettSQL(SensoryOneString, SQLConnectingSetting,SQLAccount,SQLPassword);
 			SensoryAll=sqlSetting.SQLCase(CaseSQL.PrintOne);
