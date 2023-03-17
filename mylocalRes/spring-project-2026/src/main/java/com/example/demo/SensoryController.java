@@ -29,7 +29,7 @@ public class SensoryController {
     private String SQLAccount="root";
     private String SQLPassword="love20720";
     private static ArrayList<Sensory>SensoryAll=new ArrayList<>();
-
+   
 
 
 	
@@ -58,7 +58,7 @@ public class SensoryController {
 	@CrossOrigin()
 	@PostMapping("Sensory/test")
 	public String test() {
-		return "123";
+		return "1234";
 	}
 	
 	@CrossOrigin()
