@@ -1,6 +1,8 @@
 package com.example.demo;
 import DrugSQL.SQLStringSetting.CaseSQL;
 import SensoryModel.Sensory;
+import SensoryModel.SensoryLibra;
+import net.sf.json.JSONObject;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,13 +35,9 @@ public class SensoryController {
 	
 	@CrossOrigin()
 	@PostMapping("Sensory/PostData")
-	public  ArrayList<Sensory> SensoryPostData(@RequestBody Map<String, String> SensoryJson ) throws SQLException, ClassNotFoundException {
+	public  ArrayList<Sensory> SensoryPostData(@RequestBody JSONObject SensryPOST ) throws SQLException, ClassNotFoundException {
+		SensoryLibra.TransFun(SensryPOST);
 		SensoryAll.clear();
-		SQLStringSetting.PostData.setSensorKey(SensoryJson.get("SensorKey"));
-		SQLStringSetting.PostData.setSensorTitle(SensoryJson.get("SensorTitle"));
-		SQLStringSetting.PostData.setSensorContext(SensoryJson.get("SensorContext"));
-		SQLStringSetting.PostData.setSensorDate(SensoryJson.get("SensorDate"));
-		SQLStringSetting.PostData.setSensorEmp(SensoryJson.get("SensorEmp"));
 		if(sqlSetting!=null) {
 			
 			sqlSetting.ReSettSQL(PostDateString, SQLConnectingSetting,SQLAccount,SQLPassword);
@@ -56,6 +54,13 @@ public class SensoryController {
 		
 
 	}
+	
+	@CrossOrigin()
+	@PostMapping("Sensory/test")
+	public String test() {
+		return "123";
+	}
+	
 	@CrossOrigin()
 	@PostMapping("Sensory/QuerySensory")
 	public ArrayList<Sensory> QuerySensory() throws ClassNotFoundException, SQLException {
