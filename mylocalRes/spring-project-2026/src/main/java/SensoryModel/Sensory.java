@@ -36,6 +36,7 @@ public void reSetConstruct() {
 	this.SensorContext="";
 	this.SensorDate="";
 	this.SensorEmp="";
+	this.id=0;
 	this.DataCheck=false;
 }
 public String getSensorKey() {
@@ -83,6 +84,6 @@ public int getId() {
 	return id;
 }
 public void setId(int Id) {
-	Id= Id;
+	id= Id;
 }
 }
