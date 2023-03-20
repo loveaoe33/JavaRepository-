@@ -21,11 +21,11 @@ import DrugSQL.SQLStringSetting;
 @RestController
 public class SensoryController {
 	private AbstractSQL sqlSetting;
-    private String PostDateString = "insert into Patable(id,SensorKey,SensorTitle,SensorContext,SensorDate,SensorEmp) "
+    private String PostDateString = "insert into sensorTable(id,SensorKey,SensorTile,SensorContext,SensorDate,SensorEmp) "
 		+ "select ifNULL(max(id),0)+1,?,?,?,?,? FROM sensorTable";
     private String SensoryString = "select * from sensorTable ";
     private String SensoryOneString = "";
-    private String SQLConnectingSetting="jdbc:mysql://localhost/sensorTable?useUnicode=true&characterEncoding=Big5";
+    private String SQLConnectingSetting="jdbc:mysql://localhost/drugsql?useUnicode=true&characterEncoding=Big5";
     private String SQLAccount="root";
     private String SQLPassword="love20720";
     private static ArrayList<Sensory>SensoryAll=new ArrayList<>();
@@ -62,7 +62,7 @@ public class SensoryController {
 	}
 	
 	@CrossOrigin()
-	@PostMapping("Sensory/QuerySensory")
+	@PostMapping("Sensory/PrintAllSensory")
 	public ArrayList<Sensory> QuerySensory() throws ClassNotFoundException, SQLException {
 		SensoryAll.clear();
 		if(sqlSetting!=null) {

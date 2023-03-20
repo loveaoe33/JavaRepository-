@@ -91,11 +91,12 @@ public class SQLStringSetting extends AbstractSQL {
 			{
 
 				while (rs.next()) {
+					CallBackData.setId(rs.getInt("id"));
 					CallBackData.setSensorContext(rs.getString("SensorContext"));
 					CallBackData.setSensorEmp(rs.getString("SensorEmp"));
 					CallBackData.setSensorDate(rs.getString("SensorDate"));
 					CallBackData.setSensorKey(rs.getString("SensorKey"));
-					CallBackData.setSensorTitle(rs.getString("SensorTitle"));
+					CallBackData.setSensorTitle(rs.getString("SensorTile"));
 					DataArray.add(CallBackData);
 
 				}
@@ -128,12 +129,12 @@ public class SQLStringSetting extends AbstractSQL {
 
 			} else {
 				while (rs.next()) {
-
+					CallBackData.setId(rs.getInt("id"));
 					CallBackData.setSensorContext(rs.getString("SensorContext"));
 					CallBackData.setSensorEmp(rs.getString("SensorEmp"));
 					CallBackData.setSensorDate(rs.getString("SensorDate"));
 					CallBackData.setSensorKey(rs.getString("SensorKey"));
-					CallBackData.setSensorTitle(rs.getString("SensorTitle"));
+					CallBackData.setSensorTitle(rs.getString("SensorTile"));
 					DataArray.add(CallBackData);
 				}
 				return DataArray;

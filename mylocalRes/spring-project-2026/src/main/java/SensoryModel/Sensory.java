@@ -9,6 +9,7 @@ private String SensorContext;
 private String SensorDate;
 private String SensorEmp;
 private Boolean DataCheck;
+private int id;
 
 
 public Sensory(String SensorKey,String SensorTitle,String SensorContext,String SensorDate,String SensorEmp) {
@@ -76,5 +77,12 @@ public Boolean getDataCheck() {
 }
 public void setDataCheck(Boolean dataCheck) {
 	DataCheck = dataCheck;
+}
+
+public int getId() {
+	return id;
+}
+public void setId(int Id) {
+	Id= Id;
 }
 }
