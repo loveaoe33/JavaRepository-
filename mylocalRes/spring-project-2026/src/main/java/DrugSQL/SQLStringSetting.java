@@ -20,7 +20,7 @@ import net.sf.json.JSONObject;
 public class SQLStringSetting extends AbstractSQL {
 
 	public static enum CaseSQL {
-		Prinall, PrintOne, PostDate
+		Prinall, PrintOne, PostDate,DeleteOne
 	}
 	
 	public static Sensory PostData=new Sensory("","","","","");
@@ -73,14 +73,16 @@ public class SQLStringSetting extends AbstractSQL {
 	}
 
 	private ArrayList<Sensory> SQLQueryALL() throws SQLException {
+		
 		int i = 0;
 		DataArray.clear();
 		CallBackData.reSetConstruct();
+		
 		try {
 
 			stat = con.createStatement();
 			rs = stat.executeQuery(SQLString);
-			if (!rs.next()) {
+			if (rs==null) {
 
 				CallBackData.setDataCheck(false);
 				DataArray.add(CallBackData);
@@ -91,6 +93,8 @@ public class SQLStringSetting extends AbstractSQL {
 			{
 
 				while (rs.next()) {
+					//必須產生不同記憶體位置 否則會改到同筆資料
+					Sensory CallBackData=new Sensory("","","","","");
 					CallBackData.setId(rs.getInt("id"));
 					CallBackData.setSensorContext(rs.getString("SensorContext"));
 					CallBackData.setSensorEmp(rs.getString("SensorEmp"));
@@ -98,8 +102,11 @@ public class SQLStringSetting extends AbstractSQL {
 					CallBackData.setSensorKey(rs.getString("SensorKey"));
 					CallBackData.setSensorTitle(rs.getString("SensorTile"));
 					DataArray.add(CallBackData);
+			      
 
 				}
+		
+
 				return DataArray;
 			}
 
@@ -116,7 +123,6 @@ public class SQLStringSetting extends AbstractSQL {
 		DataArray.clear();
 		CallBackData.reSetConstruct();
 		try {
-			int i = 0;
 			stat = con.createStatement();
 			rs = stat.executeQuery(SQLString);
 			ArrayList<Sensory> DataArray = new ArrayList<>();
@@ -128,7 +134,7 @@ public class SQLStringSetting extends AbstractSQL {
 				return DataArray;
 
 			} else {
-				while (rs.next()) {
+		
 					CallBackData.setId(rs.getInt("id"));
 					CallBackData.setSensorContext(rs.getString("SensorContext"));
 					CallBackData.setSensorEmp(rs.getString("SensorEmp"));
@@ -136,7 +142,6 @@ public class SQLStringSetting extends AbstractSQL {
 					CallBackData.setSensorKey(rs.getString("SensorKey"));
 					CallBackData.setSensorTitle(rs.getString("SensorTile"));
 					DataArray.add(CallBackData);
-				}
 				return DataArray;
 			}
 
@@ -190,6 +195,7 @@ public class SQLStringSetting extends AbstractSQL {
 			return SQLQueryOne();
 		case PostDate:
 			return SQLPostData(PostData);
+		case DeleteOne:
 
 		}
 

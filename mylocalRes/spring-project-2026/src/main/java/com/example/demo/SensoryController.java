@@ -23,7 +23,7 @@ public class SensoryController {
 	private AbstractSQL sqlSetting;
     private String PostDateString = "insert into sensorTable(id,SensorKey,SensorTile,SensorContext,SensorDate,SensorEmp) "
 		+ "select ifNULL(max(id),0)+1,?,?,?,?,? FROM sensorTable";
-    private String SensoryString = "select * from sensorTable ";
+    private String SensoryString = "select * from sensorTable ORDER BY SensorDate DESC";
     private String SensoryOneString = "";
     private String SQLConnectingSetting="jdbc:mysql://localhost/drugsql?useUnicode=true&characterEncoding=Big5";
     private String SQLAccount="root";
@@ -62,9 +62,26 @@ public class SensoryController {
 	}
 	
 	@CrossOrigin()
+	@PostMapping()
+	public ArrayList<Sensory> DeleteSesory() throws SQLException, ClassNotFoundException{
+		
+		SensoryAll.clear(); 
+		if(sqlSetting!=null) {
+			sqlSetting.ReSettSQL(SensoryString, SQLConnectingSetting,SQLAccount,SQLPassword);
+			SensoryAll=sqlSetting.SQLCase(CaseSQL.DeleteOne);
+			return SensoryAll;
+		}else
+			
+		{   
+			AbstractSQL sqlSetting=new SQLStringSetting(SensoryString,SQLConnectingSetting,SQLAccount,SQLPassword);
+			SensoryAll=sqlSetting.SQLCase(CaseSQL.DeleteOne);
+			return SensoryAll;
+		}
+	}
+	@CrossOrigin()
 	@PostMapping("Sensory/PrintAllSensory")
 	public ArrayList<Sensory> QuerySensory() throws ClassNotFoundException, SQLException {
-		SensoryAll.clear();
+		SensoryAll.clear(); 
 		if(sqlSetting!=null) {
 			sqlSetting.ReSettSQL(SensoryString, SQLConnectingSetting,SQLAccount,SQLPassword);
 			SensoryAll=sqlSetting.SQLCase(CaseSQL.Prinall);

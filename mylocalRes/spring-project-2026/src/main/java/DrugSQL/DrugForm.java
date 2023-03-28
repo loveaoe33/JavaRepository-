@@ -95,7 +95,7 @@ public class DrugForm {
 			stat = con.createStatement();
 			rs = stat.executeQuery(SelectAllMainDate);
 			int i = 0;
-			while (rs.next()) {
+			while (rs.next()) { 
 				i++;
 
 				CallBackMainData CallDate = new CallBackMainData(rs.getInt("id"), rs.getString("PaName"),
