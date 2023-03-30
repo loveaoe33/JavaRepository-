@@ -21,7 +21,7 @@ public abstract class AbstractSQL {
 	 protected PreparedStatement pst=null;
 	protected abstract void SQLConnection() throws ClassNotFoundException;
 	public abstract ArrayList<Sensory> SQLCase(CaseSQL caseSQL) throws SQLException;
-	public abstract String ReSettSQL(String SQLString,String SQLConnectionString,String Account,String Password);
+	public abstract void ReSettSQL(String SQLString,String SQLConnectionString,String Account,String Password);
 	protected abstract void Close();
 	
 

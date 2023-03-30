@@ -1,4 +1,5 @@
 package com.example.demo;
+
 import DrugSQL.SQLStringSetting.CaseSQL;
 import SensoryModel.Sensory;
 import SensoryModel.SensoryLibra;
@@ -21,104 +22,124 @@ import DrugSQL.SQLStringSetting;
 @RestController
 public class SensoryController {
 	private AbstractSQL sqlSetting;
-    private String PostDateString = "insert into sensorTable(id,SensorKey,SensorTile,SensorContext,SensorDate,SensorEmp) "
-		+ "select ifNULL(max(id),0)+1,?,?,?,?,? FROM sensorTable";
-    private String SensoryString = "select * from sensorTable ORDER BY SensorDate DESC";
-    private String SensoryOneString = "";
-    private String SQLConnectingSetting="jdbc:mysql://localhost/drugsql?useUnicode=true&characterEncoding=Big5";
-    private String SQLAccount="root";
-    private String SQLPassword="love20720";
-    private static ArrayList<Sensory>SensoryAll=new ArrayList<>();
-   
+	private String PostDateString = "insert into sensorTable(id,SensorKey,SensorTile,SensorContext,SensorDate,SensorEmp) "
+			+ "select ifNULL(max(id),0)+1,?,?,?,?,? FROM sensorTable";
+	private String SensoryString = "select * from sensorTable ORDER BY SensorDate DESC";
+	private String SensoryOneString = "";
+	private String DeleteSensory="";
+	private String SQLConnectingSetting = "jdbc:mysql://localhost/drugsql?useUnicode=true&characterEncoding=Big5";
+	private String SQLAccount = "root";
+	private String SQLPassword = "love20720";
+	private static ArrayList<Sensory> SensoryAll = new ArrayList<>();
 
-
-	
 	@CrossOrigin()
 	@PostMapping("Sensory/PostData")
-	public  ArrayList<Sensory> SensoryPostData(@RequestBody JSONObject SensryPOST ) throws SQLException, ClassNotFoundException {
+	public ArrayList<Sensory> SensoryPostData(@RequestBody JSONObject SensryPOST)
+			throws SQLException, ClassNotFoundException {
 		SensoryLibra.TransFun(SensryPOST);
 		SensoryAll.clear();
-		if(sqlSetting!=null) {
-			
-			sqlSetting.ReSettSQL(PostDateString, SQLConnectingSetting,SQLAccount,SQLPassword);
-			SensoryAll=sqlSetting.SQLCase(CaseSQL.PostDate);
+		if (sqlSetting != null) {
+
+			sqlSetting.ReSettSQL(PostDateString, SQLConnectingSetting, SQLAccount, SQLPassword);
+			SensoryAll = sqlSetting.SQLCase(CaseSQL.PostDate);
 			return SensoryAll;
-		}else
-			
+		} else
+
 		{
-			AbstractSQL sqlSetting=new SQLStringSetting(PostDateString,SQLConnectingSetting,SQLAccount,SQLPassword);
-			SensoryAll=sqlSetting.SQLCase(CaseSQL.PostDate);
+			AbstractSQL sqlSetting = new SQLStringSetting(PostDateString, SQLConnectingSetting, SQLAccount,
+					SQLPassword);
+			SensoryAll = sqlSetting.SQLCase(CaseSQL.PostDate);
 			return SensoryAll;
 
 		}
-		
 
 	}
-	
+
 	@CrossOrigin()
 	@PostMapping("Sensory/test")
 	public String test() {
 		return "1234";
 	}
-	
+
 	@CrossOrigin()
 	@PostMapping()
-	public ArrayList<Sensory> DeleteSesory() throws SQLException, ClassNotFoundException{
-		
-		SensoryAll.clear(); 
-		if(sqlSetting!=null) {
-			sqlSetting.ReSettSQL(SensoryString, SQLConnectingSetting,SQLAccount,SQLPassword);
-			SensoryAll=sqlSetting.SQLCase(CaseSQL.DeleteOne);
+	public ArrayList<Sensory> DeleteSesory(int id) throws SQLException, ClassNotFoundException {
+		DeleteSensory="Delete from sensorTable where id="+id;
+		SensoryAll.clear();
+		if (sqlSetting != null) {
+			sqlSetting.ReSettSQL(DeleteSensory, SQLConnectingSetting, SQLAccount, SQLPassword);
+			SensoryAll = sqlSetting.SQLCase(CaseSQL.DeleteOne);
 			return SensoryAll;
-		}else
-			
-		{   
-			AbstractSQL sqlSetting=new SQLStringSetting(SensoryString,SQLConnectingSetting,SQLAccount,SQLPassword);
-			SensoryAll=sqlSetting.SQLCase(CaseSQL.DeleteOne);
+		} else
+
+		{
+			AbstractSQL sqlSetting = new SQLStringSetting(SensoryString, SQLConnectingSetting, SQLAccount, SQLPassword);
+			SensoryAll = sqlSetting.SQLCase(CaseSQL.DeleteOne);
 			return SensoryAll;
 		}
 	}
+
 	@CrossOrigin()
 	@PostMapping("Sensory/PrintAllSensory")
 	public ArrayList<Sensory> QuerySensory() throws ClassNotFoundException, SQLException {
-		SensoryAll.clear(); 
-		if(sqlSetting!=null) {
-			sqlSetting.ReSettSQL(SensoryString, SQLConnectingSetting,SQLAccount,SQLPassword);
-			SensoryAll=sqlSetting.SQLCase(CaseSQL.Prinall);
+		SensoryAll.clear();
+		if (sqlSetting != null) {
+			sqlSetting.ReSettSQL(SensoryString, SQLConnectingSetting, SQLAccount, SQLPassword);
+			SensoryAll = sqlSetting.SQLCase(CaseSQL.Prinall);
 			return SensoryAll;
-		}else
-			
-		{   
-			AbstractSQL sqlSetting=new SQLStringSetting(SensoryString,SQLConnectingSetting,SQLAccount,SQLPassword);
-			SensoryAll=sqlSetting.SQLCase(CaseSQL.Prinall);
+		} else
+
+		{
+			AbstractSQL sqlSetting = new SQLStringSetting(SensoryString, SQLConnectingSetting, SQLAccount, SQLPassword);
+			SensoryAll = sqlSetting.SQLCase(CaseSQL.Prinall);
 			return SensoryAll;
 		}
 	}
-	
+
 	@CrossOrigin()
 	@PostMapping("Sensory/QuerySensoryOne")
 	public ArrayList<Sensory> QuerySensoryOne(int SensorId) throws SQLException, ClassNotFoundException {
-		SensoryOneString = "select * from sensorTable where id="+SensorId;
+		SensoryOneString = "select * from sensorTable where id=" + SensorId;
 		SensoryAll.clear();
-		if(sqlSetting!=null) {
-			sqlSetting.ReSettSQL(SensoryOneString, SQLConnectingSetting,SQLAccount,SQLPassword);
-			SensoryAll=sqlSetting.SQLCase(CaseSQL.PrintOne);
+		if (sqlSetting != null) {
+			sqlSetting.ReSettSQL(SensoryOneString, SQLConnectingSetting, SQLAccount, SQLPassword);
+			SensoryAll = sqlSetting.SQLCase(CaseSQL.PrintOne);
 			return SensoryAll;
-		}else
-			
-		{   
-			AbstractSQL sqlSetting=new SQLStringSetting(SensoryOneString,SQLConnectingSetting,SQLAccount,SQLPassword);
-			SensoryAll=sqlSetting.SQLCase(CaseSQL.PrintOne);
+		} else
+
+		{
+			AbstractSQL sqlSetting = new SQLStringSetting(SensoryOneString, SQLConnectingSetting, SQLAccount,
+					SQLPassword);
+			SensoryAll = sqlSetting.SQLCase(CaseSQL.PrintOne);
 			return SensoryAll;
 		}
+
 	}
+
+	@CrossOrigin()
+	@PostMapping("Sensory/QueryArea")
+	public ArrayList<Sensory> QuerySensoryArea(String Area) throws SQLException, ClassNotFoundException {
+		SensoryOneString="select * from sensorTable where sensorKey LIKE"+Area +"ORDER BY SensorDate DESC";
+		SensoryAll.clear();
+	if(sqlSetting!=null)
+       {
+			sqlSetting.ReSettSQL(SensoryOneString, SQLConnectingSetting,SQLAccount,SQLPassword);
+			SensoryAll=sqlSetting.SQLCase(CaseSQL.PrinClass);
+			return SensoryAll;
+       }else {
+    	AbstractSQL sqlSetting=new SQLStringSetting(SensoryOneString,SQLConnectingSetting,SQLAccount,SQLPassword);
+		SensoryAll=sqlSetting.SQLCase(CaseSQL.PrinClass);
+		return SensoryAll;
+       
 	
-	
-//	public static void main(String[] args) throws ClassNotFoundException {
-//		// TODO Auto-generated method stub
-//		SensoryController Com=new SensoryController();
-//		Com.test();
-//	}
-//	
-	
+	}
+  }
 }
+	
+
+//	public static void main(String[] args) throws ClassNotFoundException {
+//	// TODO Auto-generated method stub
+//	SensoryController Com=new SensoryController();
+//	Com.test();
+//}
+//

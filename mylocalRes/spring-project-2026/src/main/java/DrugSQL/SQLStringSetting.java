@@ -20,15 +20,14 @@ import net.sf.json.JSONObject;
 public class SQLStringSetting extends AbstractSQL {
 
 	public static enum CaseSQL {
-		Prinall, PrintOne, PostDate,DeleteOne
+		Prinall, PrintOne, PostDate,DeleteOne,PrinClass
 	}
-	
 	public static Sensory PostData=new Sensory("","","","","");
 	private  Sensory CallBackData=new Sensory("","","","","");
 	private  ArrayList<Sensory> DataArray=new ArrayList<Sensory>();
 	static JSONObject JsonData = new JSONObject();
 
-	public void Close() {
+	protected void Close() {
 		try {
 			if (stat != null) {
 				stat.close();
@@ -181,11 +180,60 @@ public class SQLStringSetting extends AbstractSQL {
 		}
 
 	}
+	
 
+	private ArrayList<Sensory> SQLQueryCalss() throws SQLException {
+		DataArray.clear();
+		CallBackData.reSetConstruct();
+		try {
+			stat = con.createStatement();
+			rs = stat.executeQuery(SQLString);
+			ArrayList<Sensory> DataArray = new ArrayList<>();
+
+            while(rs.next())
+            {
+				Sensory CallBackData=new Sensory("","","","","");
+				CallBackData.setId(rs.getInt("id"));
+				CallBackData.setSensorContext(rs.getString("SensorContext"));
+				CallBackData.setSensorEmp(rs.getString("SensorEmp"));
+				CallBackData.setSensorDate(rs.getString("SensorDate"));
+				CallBackData.setSensorKey(rs.getString("SensorKey"));
+				CallBackData.setSensorTitle(rs.getString("SensorTile"));
+				DataArray.add(CallBackData);
+            }
+				return DataArray;
+	
+		} catch (Exception e) {
+			System.out.println("資料庫查詢錯誤" + e.getMessage());
+	
+		} finally {
+
+			Close();
+		}
+		return DataArray;
+
+	}
+	
+	private ArrayList<Sensory>DeleteOne(){
+		DataArray.clear();
+		CallBackData.reSetConstruct();
+		try {
+			stat=con.createStatement();
+			stat.executeUpdate(SQLString);
+			
+		}catch(Exception e) {
+			
+			System.out.println("資料庫刪除錯誤" + e.getMessage());
+
+			
+		}
+		return DataArray;
+	}
+	
+	
 	@Override
 	public ArrayList<Sensory> SQLCase(CaseSQL caseSQL) throws SQLException {
 		// TODO Auto-generated method stub
-		System.out.println("SQLString :" + SQLString + "ConnectionString:" + ConnectionString);
 
 		switch (caseSQL) {
 
@@ -196,16 +244,23 @@ public class SQLStringSetting extends AbstractSQL {
 		case PostDate:
 			return SQLPostData(PostData);
 		case DeleteOne:
-
+			return DeleteOne();
+		case PrinClass:
+			return 	SQLQueryCalss();
 		}
 
 		return null;
 	}
 
+
+
 	@Override
-	public String ReSettSQL(String SQLString, String SQLConnectionString,String Account,String Password) {
+	public void ReSettSQL(String SQLString, String SQLConnectionString,String Account,String Password) {
 		// TODO Auto-generated method stub
-		return null;
+	       ConnectionString=SQLConnectionString;
+		   SQLString=SQLString;
+		   Account=Account;
+		   Password=Password;
 	}
 
 }
