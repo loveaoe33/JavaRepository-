@@ -276,33 +276,29 @@ public class SpringBootHelloWorld {
 		PaEnd = (String) JsonData1.getString("DrugEventPainEnd");
 		DrugFormPa Npa = new DrugFormPa(PaName, PaGender, PaNumber, PaClass, PaAge, PaDia, PaFiD, PaStart, PaEnd,
 				PaNumberKey);
-		 DB.InsertPatable(Npa);
-	
+		DB.InsertPatable(Npa);
 
 		// ---------------事件原因
-		 JSONArray AboutOderEvent = JsonData2.getJSONArray("AboutOderEvent");
-		 JSONArray PreScript =  JsonData2.getJSONArray("PrescriptionSignEvent");
-		 JSONArray DeliveryProcessEvent =  JsonData2.getJSONArray("DeliveryProcessEvetn");
-		 JSONArray NursingReEvent =  JsonData2.getJSONArray("NursingRelatedEvent");
-		 JSONArray PharMacyEvent =  JsonData2.getJSONArray("PharmacyEvent");
-		 OtherEvent = (String) JsonData2.getString("OtherEvent");
-		
-		String ReAboutOderEvent=ChangArray.ArrayChange(AboutOderEvent);
-		String RePreScript=ChangArray.ArrayChange(PreScript);
-		String ReDeliveryProcessEvent=ChangArray.ArrayChange(DeliveryProcessEvent);
-		String ReNursingReEvent=ChangArray.ArrayChange(NursingReEvent);
-		String RePharMacyEvent=ChangArray.ArrayChange(PharMacyEvent);
-	
-		
-		
-		DrugFormReassion DFR = new DrugFormReassion(ReAboutOderEvent, RePreScript, ReDeliveryProcessEvent, RePharMacyEvent,
-				ReNursingReEvent, OtherEvent, NursingForErrorKey);
+		JSONArray AboutOderEvent = JsonData2.getJSONArray("AboutOderEvent");
+		JSONArray PreScript = JsonData2.getJSONArray("PrescriptionSignEvent");
+		JSONArray DeliveryProcessEvent = JsonData2.getJSONArray("DeliveryProcessEvetn");
+		JSONArray NursingReEvent = JsonData2.getJSONArray("NursingRelatedEvent");
+		JSONArray PharMacyEvent = JsonData2.getJSONArray("PharmacyEvent");
+		OtherEvent = (String) JsonData2.getString("OtherEvent");
+
+		String ReAboutOderEvent = ChangArray.ArrayChange(AboutOderEvent);
+		String RePreScript = ChangArray.ArrayChange(PreScript);
+		String ReDeliveryProcessEvent = ChangArray.ArrayChange(DeliveryProcessEvent);
+		String ReNursingReEvent = ChangArray.ArrayChange(NursingReEvent);
+		String RePharMacyEvent = ChangArray.ArrayChange(PharMacyEvent);
+
+		DrugFormReassion DFR = new DrugFormReassion(ReAboutOderEvent, RePreScript, ReDeliveryProcessEvent,
+				RePharMacyEvent, ReNursingReEvent, OtherEvent, NursingForErrorKey);
 		System.out.println(AboutOderEvent);
 
 		// -------------事件原因護理相關有無給藥
 		JSONArray items = JsonData2.getJSONArray("NursingForErrorDrugEvent");
-		
-		
+
 		if (items.size() > 0) // 代表有給藥錯誤情形
 		{
 			int i;
@@ -314,48 +310,41 @@ public class SpringBootHelloWorld {
 			DrugFormnursingforerrortable DFNF = new DrugFormnursingforerrortable(NursingForErrorKey, NusForErDrugStr);
 			DB.InsertNursingforerrortable(DFNF);
 
-		
-
 		} else {
 			DrugFormnursingforerrortable DFNF = new DrugFormnursingforerrortable(NursingForErrorKey, "無");
 			DB.InsertNursingforerrortable(DFNF);
 
 //			DFR.setNursingForErrorKey("");
 		}
-        
+
 		// ---------------事件結果
 
 		JSONArray NursionNonFor = JsonData3.getJSONArray("DrugEventResultContext");
 		JSONArray PaForEvent = JsonData3.getJSONArray("DrugEventResultContext2");
 		JSONArray EventForPa = JsonData3.getJSONArray("DrugEventResultContext3");
-		
-		String xX="";
-	
 
-	    PharFor=PharForKey;
-			
-		
+		String xX = "";
+
+		PharFor = PharForKey;
+
 		System.out.println(xX);
 		System.out.println(PharFor);
 		String RecallNursionNonFor = ChangArray.ArrayChange(NursionNonFor);
 		String RecallPaForEvent = ChangArray.ArrayChange(PaForEvent);
 		String RecallEventForPa = ChangArray.ArrayChange(EventForPa);
-		
-		if(RecallPaForEvent==""||RecallPaForEvent==null)
-		{
-			RecallPaForEvent="無";
+
+		if (RecallPaForEvent == "" || RecallPaForEvent == null) {
+			RecallPaForEvent = "無";
 		}
-		if(RecallEventForPa==""||RecallEventForPa==null)
-		{
-			RecallEventForPa="無";
+		if (RecallEventForPa == "" || RecallEventForPa == null) {
+			RecallEventForPa = "無";
 		}
-		
-        if(PharFor!=""||PharFor!=null)
-        {
-        	PharFor ph=new PharFor(PharFor,RecallEventForPa,RecallPaForEvent);
-        	DB.InsertPharfortable(ph);
-        	
-        }
+
+		if (PharFor != "" || PharFor != null) {
+			PharFor ph = new PharFor(PharFor, RecallEventForPa, RecallPaForEvent);
+			DB.InsertPharfortable(ph);
+
+		}
 		DrugFormResult DFRT = new DrugFormResult(RecallNursionNonFor, PharFor);
 		// ---------------事件可能原因
 
@@ -372,17 +361,17 @@ public class SpringBootHelloWorld {
 		String RePhysiologicalStatusProcess = ChangArray.ArrayChange(PhysiologicalStatusProcess);
 		String RePersonStatusProcess = ChangArray.ArrayChange(PersonStatusProcess);
 		String ReCommunicateStatusProcess = ChangArray.ArrayChange(CommunicateStatusProcess);
-		DrugFormMRession DFRM = new DrugFormMRession(ReWorkStatusProcess, ReDrugInfoStatusProcess, ReEnvironmentStatusProcess,
-	    RePhysiologicalStatusProcess, RePersonStatusProcess, ReCommunicateStatusProcess, OtherStatusProcess);
+		DrugFormMRession DFRM = new DrugFormMRession(ReWorkStatusProcess, ReDrugInfoStatusProcess,
+				ReEnvironmentStatusProcess, RePhysiologicalStatusProcess, RePersonStatusProcess,
+				ReCommunicateStatusProcess, OtherStatusProcess);
 
 		// ---------------處理及建議
 
 		JSONArray ProcessMethod = JsonData6.getJSONArray("ProcessingMethod"); // 處理方式
 		Suggest = (String) JsonData6.getString("Prevention");
-		String ReProcessMethod=ChangArray.ArrayChange(ProcessMethod);
+		String ReProcessMethod = ChangArray.ArrayChange(ProcessMethod);
 		EvenetProcessFix EPF = new EvenetProcessFix(ReProcessMethod, Suggest);
 
-		
 		// ---------------藥物明細
 		DrugName = (String) JsonData5.getString("DrugName");
 		DrugDose = (String) JsonData5.getString("DrugDose");
@@ -392,30 +381,27 @@ public class SpringBootHelloWorld {
 		DrugNumber = (String) JsonData5.getString("DrugNumber");
 		FalseDrug = (String) JsonData5.getString("FalseDrug");
 		ErrorName = ErrorDrugKey;
-        int FalseDrugLen=FalseDrug.length();
-		System.out.println("FalseDrug:"+FalseDrugLen);
-        if(FalseDrugLen<1)
-        {
-        	ErrorDrug ED=new ErrorDrug(ErrorName,"無");
-            DB.InsertErrordrugtable(ED);
+		int FalseDrugLen = FalseDrug.length();
+		System.out.println("FalseDrug:" + FalseDrugLen);
+		if (FalseDrugLen < 1) {
+			ErrorDrug ED = new ErrorDrug(ErrorName, "無");
+			DB.InsertErrordrugtable(ED);
 
-    		System.out.println("有進入:");
-     
-        }else { ErrorDrug ED=new ErrorDrug(ErrorName,FalseDrug);
-        DB.InsertErrordrugtable(ED);
-    	System.out.println("沒進入:");}
-        
-        
-        
+			System.out.println("有進入:");
+
+		} else {
+			ErrorDrug ED = new ErrorDrug(ErrorName, FalseDrug);
+			DB.InsertErrordrugtable(ED);
+			System.out.println("沒進入:");
+		}
+
 		DrugDetail DDT = new DrugDetail(DrugName, DrugDose, DrugDosage, DrugRouter, DrugFrequency, DrugNumber,
 				ErrorName);
-		DB.AddDrugEvent(Npa,DFR,DFRT,DFRM,EPF,DDT);
-      
+		DB.AddDrugEvent(Npa, DFR, DFRT, DFRM, EPF, DDT);
+
 		DruDat.put("123", JsonDrugEventData);
 
 		DruDat.put("Sucess", "Sucess");
-
-	
 
 		System.out.println(PharForKey);
 //		System.out.println(var);
@@ -425,98 +411,88 @@ public class SpringBootHelloWorld {
 //		System.out.println(JsonDrugEventDeal);
 		return DruDat;
 	}
+
 	@CrossOrigin()
 	@PostMapping("/PostMainData")
-	public ArrayList<Object> MainData()
-	{
-		DrugForm DB=new DrugForm();
-	 return DB.SelectDrugAll();
+	public ArrayList<Object> MainData() {
+		DrugForm DB = new DrugForm();
+		return DB.SelectDrugAll();
 	}
-	
+
 	@CrossOrigin()
 	@PostMapping("/PostDelData")
-    public HashMap<String, String> DeleteData(@RequestBody Map<String, String> PostID ) 
-    {
-    	DrugForm DB=new DrugForm();
-    	int PaID= Integer.parseInt(PostID.get("PaID"));
-    	HashMap<String,String>DeleAlert=new HashMap();
-    	String Alert=DB.Delete(PostID.get("PaID"));
-    	if(Alert=="此患者刪除成功")
-    	{
-    		DeleAlert.put("Sucess", Alert);
-    	}else
-    	{
-    		DeleAlert.put("Fail", Alert);
-    	}
-    	
-    	System.out.println(Alert);
-    
-    	return DeleAlert;
-    }
-	
+	public HashMap<String, String> DeleteData(@RequestBody Map<String, String> PostID) {
+		DrugForm DB = new DrugForm();
+		int PaID = Integer.parseInt(PostID.get("PaID"));
+		HashMap<String, String> DeleAlert = new HashMap();
+		String Alert = DB.Delete(PostID.get("PaID"));
+		if (Alert == "此患者刪除成功") {
+			DeleAlert.put("Sucess", Alert);
+		} else {
+			DeleAlert.put("Fail", Alert);
+		}
+
+		System.out.println(Alert);
+
+		return DeleAlert;
+	}
+
 	@CrossOrigin()
 	@PostMapping("/DetailMainData")
-    public HashMap<String, String> DetailMainData(@RequestBody Map<String, String> DetailIdS ) 
-    {
-		int SelectId=Integer.parseInt(DetailIdS.get("DetailId"));
-		DrugForm DB=new DrugForm();
+	public HashMap<String, String> DetailMainData(@RequestBody Map<String, String> DetailIdS) {
+		int SelectId = Integer.parseInt(DetailIdS.get("DetailId"));
+		DrugForm DB = new DrugForm();
 		System.out.println(SelectId);
-	
+
 		return DB.DetailMain(SelectId);
-		
-    }
-	
+
+	}
+
 	@CrossOrigin()
 	@PostMapping("/UpdateDetailData")
-    public HashMap<String, String> UpdateDetailData(@RequestBody Map<String, String> UpdateDetail ) 
-    {
-	  DrugForm DB=new DrugForm();
-	  HashMap<String,String>UpdateCulum=new HashMap();
-	  String PaId=(String) UpdateDetail.get("PostPaId");
-	  
-	  String PostPaNumberKey=(String) UpdateDetail.get("PostPaNumberKey");
-      String NursingForKey=(String) UpdateDetail.get("PostNursingForKey");
-      String DrugForKey=(String) UpdateDetail.get("PostDrugForKey");
-      String PharForKey=(String) UpdateDetail.get("PostPharForKey");
-      
-      String TableName=(String) UpdateDetail.get("PostTable");
-      String Cloum=(String) UpdateDetail.get("PostColum");
-      String UpdateData=(String) UpdateDetail.get("PostUpdate");
-		 System.out.println("1:______"+PaId+     "1:_____"+PostPaNumberKey+    "1:_____"+NursingForKey+    "1:_____"+DrugForKey+    "1:_____"+PharForKey+    "1:_____"+TableName+   "1:_____"+Cloum+   "1:_____"+UpdateData);
+	public HashMap<String, String> UpdateDetailData(@RequestBody Map<String, String> UpdateDetail) {
+		DrugForm DB = new DrugForm();
+		HashMap<String, String> UpdateCulum = new HashMap();
+		String PaId = (String) UpdateDetail.get("PostPaId");
 
-      switch(TableName) 
-      {
-      case "Patable":
-    	  UpdateCulum=DB.UpdateColumn(PostPaNumberKey, TableName, Cloum, UpdateData,"Patable");
-    	  break;
-      case "patabledrug":
-    	  UpdateCulum=DB.UpdateColumn(PostPaNumberKey, TableName, Cloum, UpdateData,"patabledrug");
-    	  break;
-    	
-      case"nursingforerrortable":
-    	  UpdateCulum=DB.UpdateColumn(NursingForKey, TableName, Cloum, UpdateData,"nursingforerrortable");
-    	  break;
-    	
-      case "pharfortable":
-    	  UpdateCulum=DB.UpdateColumn(PharForKey, TableName, Cloum, UpdateData,"pharfortable");
-    	  break;
-    	
-      case "errordrugtable":
-    	  UpdateCulum=DB.UpdateColumn(DrugForKey, TableName, Cloum, UpdateData,"errordrugtable");
-    	  break;
-    	
-      }
+		String PostPaNumberKey = (String) UpdateDetail.get("PostPaNumberKey");
+		String NursingForKey = (String) UpdateDetail.get("PostNursingForKey");
+		String DrugForKey = (String) UpdateDetail.get("PostDrugForKey");
+		String PharForKey = (String) UpdateDetail.get("PostPharForKey");
 
-      
-      
-      
-	  return UpdateCulum;
-		
-    }
-	
-	
-    
-	
+		String TableName = (String) UpdateDetail.get("PostTable");
+		String Cloum = (String) UpdateDetail.get("PostColum");
+		String UpdateData = (String) UpdateDetail.get("PostUpdate");
+		System.out.println(
+				"1:______" + PaId + "1:_____" + PostPaNumberKey + "1:_____" + NursingForKey + "1:_____" + DrugForKey
+						+ "1:_____" + PharForKey + "1:_____" + TableName + "1:_____" + Cloum + "1:_____" + UpdateData);
+
+		switch (TableName) {
+		case "Patable":
+			UpdateCulum = DB.UpdateColumn(PostPaNumberKey, TableName, Cloum, UpdateData, "Patable");
+			break;
+		case "patabledrug":
+			UpdateCulum = DB.UpdateColumn(PostPaNumberKey, TableName, Cloum, UpdateData, "patabledrug");
+			break;
+
+		case "nursingforerrortable":
+			UpdateCulum = DB.UpdateColumn(NursingForKey, TableName, Cloum, UpdateData, "nursingforerrortable");
+			break;
+
+		case "pharfortable":
+			UpdateCulum = DB.UpdateColumn(PharForKey, TableName, Cloum, UpdateData, "pharfortable");
+			break;
+
+		case "errordrugtable":
+			UpdateCulum = DB.UpdateColumn(DrugForKey, TableName, Cloum, UpdateData, "errordrugtable");
+			break;
+
+		}
+
+		return UpdateCulum;
+
+	}
+
 	@PostMapping("/post")
 	public String PostData(@RequestParam("test") String test) {
 		return test;

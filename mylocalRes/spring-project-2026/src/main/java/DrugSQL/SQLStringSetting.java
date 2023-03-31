@@ -133,7 +133,6 @@ public class SQLStringSetting extends AbstractSQL {
 				return DataArray;
 
 			} else {
-		
 					CallBackData.setId(rs.getInt("id"));
 					CallBackData.setSensorContext(rs.getString("SensorContext"));
 					CallBackData.setSensorEmp(rs.getString("SensorEmp"));
@@ -154,7 +153,7 @@ public class SQLStringSetting extends AbstractSQL {
 
 	}
 
-	private ArrayList<Sensory> SQLPostData(Sensory PostData) {
+	private ArrayList<Sensory> SQLPostData() {
 		DataArray.clear();
 		CallBackData.reSetConstruct();
 		try {
@@ -220,6 +219,7 @@ public class SQLStringSetting extends AbstractSQL {
 		try {
 			stat=con.createStatement();
 			stat.executeUpdate(SQLString);
+		    CallBackData.setDataCheck(true);
 			
 		}catch(Exception e) {
 			
@@ -242,7 +242,7 @@ public class SQLStringSetting extends AbstractSQL {
 		case PrintOne:
 			return SQLQueryOne();
 		case PostDate:
-			return SQLPostData(PostData);
+			return SQLPostData();
 		case DeleteOne:
 			return DeleteOne();
 		case PrinClass:
