@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +34,7 @@ public class SensoryController {
 	private String SQLConnectingSetting = "jdbc:mysql://localhost/drugsql?useUnicode=true&characterEncoding=Big5";
 	private String SQLAccount = "root";
 	private String SQLPassword = "love20720";
+	private String CheckCode="A0738";
 	private static ArrayList<Sensory> SensoryAll = new ArrayList<>();
 
 	@CrossOrigin()
@@ -56,13 +59,27 @@ public class SensoryController {
 		}
 
 	}
-
+	@CrossOrigin()
+	@PostMapping("Sensory/Code")
+	public String CheckCode( @RequestBody Map<String,String> DeleCode) {
+		String Check= DeleCode.equals(CheckCode)?"OK":"NOK";
+		return Check;
+	}
+	@CrossOrigin()
+	@GetMapping("Sensory/Code/{PassCode}")
+	public Map<String, String> CheckCode( @PathVariable String PassCode) {
+		String Check= PassCode.equals(CheckCode)?"OK":"NOK";
+		Map<String,String> ReTuCheck=new HashMap<>();
+		ReTuCheck.put("ReTuCheck", Check);
+		return ReTuCheck;
+	}
+	
 	@CrossOrigin()
 	@PostMapping("Sensory/test")
 	public String test() {
 		return "1234";
 	}
-	
+	   
 	@CrossOrigin()
 	@PostMapping("Sensory/DeleteSesory")
 	public ArrayList<Sensory> DeleteSesory(@RequestBody Map<String,Integer> SensoryID) throws SQLException, ClassNotFoundException {
