@@ -5,6 +5,7 @@ import net.sf.json.JSONObject;
 
 public class SensoryLibra {
 	public static void TransFun(JSONObject data) {
+		Object TranContextUrl=data.getJSONObject("SensryPOST").get("Url");
 		Object TranContextKey=data.getJSONObject("SensryPOST").get("ContextKey");
 		Object TranContextTitlet=data.getJSONObject("SensryPOST").get("ContextTitle");
 		Object TranContext=data.getJSONObject("SensryPOST").get("Context");
@@ -15,5 +16,6 @@ public class SensoryLibra {
 		SQLStringSetting.PostData.setSensorContext(TranContext.toString());
 		SQLStringSetting.PostData.setSensorDate(TranContextDate.toString());
 		SQLStringSetting.PostData.setSensorEmp(TranContextEmp.toString());
+		SQLStringSetting.PostData.setUrl(TranContextUrl.toString());
 	}
 }

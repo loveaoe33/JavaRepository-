@@ -8,6 +8,9 @@ private String SensorTitle;;
 private String SensorContext;
 private String SensorDate;
 private String SensorEmp;
+private String Url;
+private String QrcodeUrl;
+private String FileUrl;
 private Boolean DataCheck;
 private int id;
 
@@ -85,5 +88,29 @@ public int getId() {
 }
 public void setId(int Id) {
 	id= Id;
+}
+
+public String getFileUrl() {
+	return FileUrl;
+}
+
+public void setFileUrl(String fileUrl) {
+	FileUrl = fileUrl;
+}
+
+public String getQrcodeUrl() {
+	return QrcodeUrl;
+}
+
+public void setQrcodeUrl(String qrcodeUrl) {
+	QrcodeUrl = qrcodeUrl;
+}
+
+public String getUrl() {
+	return Url;
+}
+
+public void setUrl(String url) {
+	Url = url;
 }
 }

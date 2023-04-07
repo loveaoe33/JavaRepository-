@@ -74,7 +74,7 @@ public class DrugForm {
 	public DrugForm() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");// 註冊driver
-			con = DriverManager.getConnection("jdbc:mysql://localhost/drugsql?useUnicode=true&characterEncoding=Big5",
+			con = DriverManager.getConnection("jdbc:mysql://localhost/drugsql?serverTimezone=UTC",
 					"root", "love20720");
 
 		} catch (ClassNotFoundException e) {

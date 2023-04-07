@@ -20,7 +20,7 @@ import net.sf.json.JSONObject;
 public class SQLStringSetting extends AbstractSQL {
 
 	public static enum CaseSQL {
-		Prinall, PrintOne, PostDate,DeleteOne,PrinClass
+		Prinall, PrintOne, PostDate,DeleteOne,PrinClass,UpLoadUrl
 	}
 	public static Sensory PostData=new Sensory("","","","","");
 	private  Sensory CallBackData=new Sensory("","","","","");
@@ -100,6 +100,10 @@ public class SQLStringSetting extends AbstractSQL {
 					CallBackData.setSensorDate(rs.getString("SensorDate"));
 					CallBackData.setSensorKey(rs.getString("SensorKey"));
 					CallBackData.setSensorTitle(rs.getString("SensorTile"));
+					//Url
+					CallBackData.setUrl(rs.getString("Url"));
+					CallBackData.setFileUrl(rs.getString("FileUrl"));
+					CallBackData.setQrcodeUrl(rs.getString("QrcodeUrl"));
 					DataArray.add(CallBackData);
 			      
 
@@ -139,6 +143,10 @@ public class SQLStringSetting extends AbstractSQL {
 					CallBackData.setSensorDate(rs.getString("SensorDate"));
 					CallBackData.setSensorKey(rs.getString("SensorKey"));
 					CallBackData.setSensorTitle(rs.getString("SensorTile"));
+					//Url
+					CallBackData.setUrl(rs.getString("Url"));
+					CallBackData.setFileUrl(rs.getString("FileUrl"));
+					CallBackData.setQrcodeUrl(rs.getString("QrcodeUrl"));
 					DataArray.add(CallBackData);
 				return DataArray;
 			}
@@ -152,6 +160,21 @@ public class SQLStringSetting extends AbstractSQL {
 		}
 
 	}
+	private ArrayList<Sensory> SQLUpLoadeUrl(){
+		DataArray.clear();
+		CallBackData.reSetConstruct();
+		try {
+			stat=con.createStatement();
+			stat.executeUpdate(SQLString);
+		    CallBackData.setDataCheck(true);
+		}catch(Exception e) {
+			System.out.println("資料庫更新錯誤" + e.getMessage());	
+
+		}finally{
+			Close();
+		}
+		return DataArray;
+	}
 
 	private ArrayList<Sensory> SQLPostData() {
 		DataArray.clear();
@@ -164,6 +187,9 @@ public class SQLStringSetting extends AbstractSQL {
 			pst.setString(3, PostData.getSensorContext());
 			pst.setString(4, PostData.getSensorDate());
 			pst.setString(5, PostData.getSensorEmp());
+			pst.setString(6, PostData.getUrl());
+			pst.setString(7, PostData.getFileUrl());
+			pst.setString(8, PostData.getQrcodeUrl());
 			pst.executeUpdate();
 			pst.clearParameters();
 			CallBackData.setDataCheck(true);
@@ -198,6 +224,10 @@ public class SQLStringSetting extends AbstractSQL {
 				CallBackData.setSensorDate(rs.getString("SensorDate"));
 				CallBackData.setSensorKey(rs.getString("SensorKey"));
 				CallBackData.setSensorTitle(rs.getString("SensorTile"));
+				//Url
+				CallBackData.setUrl(rs.getString("Url"));
+				CallBackData.setFileUrl(rs.getString("FileUrl"));
+				CallBackData.setQrcodeUrl(rs.getString("QrcodeUrl"));
 				DataArray.add(CallBackData);
             }
 				return DataArray;
@@ -247,6 +277,9 @@ public class SQLStringSetting extends AbstractSQL {
 			return DeleteOne();
 		case PrinClass:
 			return 	SQLQueryCalss();
+		case UpLoadUrl:
+			return SQLUpLoadeUrl();
+			
 		}
 
 		return null;
@@ -257,10 +290,10 @@ public class SQLStringSetting extends AbstractSQL {
 	@Override
 	public void ReSettSQL(String SQLString, String SQLConnectionString,String Account,String Password) {
 		// TODO Auto-generated method stub
-	       ConnectionString=SQLConnectionString;
-		   SQLString=SQLString;
-		   Account=Account;
-		   Password=Password;
+	       super.ConnectionString=SQLConnectionString;
+	       super.SQLString=SQLString;
+	       super.Account=Account;
+	       super.Password=Password;
 	}
 
 }
