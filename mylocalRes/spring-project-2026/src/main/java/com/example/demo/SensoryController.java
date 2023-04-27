@@ -59,8 +59,8 @@ public class SensoryController {
 	public ArrayList<Sensory> upload_file(MultipartFile file,MultipartFile Qr,String SenSoryId) throws IllegalStateException, IOException, NoSuchAlgorithmException, SQLException, ClassNotFoundException   {
 		    SensoryAll.clear();
 		    String ProcessCode;
-		    String FilePath="C:\\Users\\B\\Desktop\\vue\\newvue\\public\\SensoryFile\\";
-		    String QrPath="C:\\Users\\B\\Desktop\\vue\\newvue\\public\\SensoryQr\\";
+		    String FilePath="C:\\Users\\loveaoe33\\Desktop\\vue\\newvue\\public\\SensoryFile\\";
+		    String QrPath="C:\\Users\\loveaoe33\\Desktop\\vue\\newvue\\public\\SensoryQr\\";
 		    SimpleDateFormat sdFormate=new SimpleDateFormat("hh:mm:ss");
 		    Date date=new Date();
 		    String StrDate=sdFormate.format(date);
