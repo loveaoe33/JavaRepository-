@@ -34,7 +34,8 @@ import org.springframework.web.multipart.MultipartFile;
 import DesignPattern.CompositePattern;
 import DrugSQL.AbstractSQL;
 import DrugSQL.SQLStringSetting;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @RestController
 public class SensoryController {
 	private AbstractSQL sqlSetting;
@@ -50,6 +51,7 @@ public class SensoryController {
 	
 	private String UpdateString="Update sensorTable SET %S= '%S' where id=%S";
 	private static ArrayList<Sensory> SensoryAll = new ArrayList<>();
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());  /*log調用*/
 
 
 	@CrossOrigin
@@ -156,6 +158,8 @@ public class SensoryController {
 	@CrossOrigin()
 	@PostMapping("Sensory/PrintAllSensory")
 	public ArrayList<Sensory> QuerySensory() throws ClassNotFoundException, SQLException {
+		
+
 	    if(SensoryAll.isEmpty()||SensoryAll==null){ }else {SensoryAll.clear(); }
 		if (sqlSetting != null) {
 			sqlSetting.ReSettSQL(SensoryString, SQLConnectingSetting, SQLAccount, SQLPassword);
