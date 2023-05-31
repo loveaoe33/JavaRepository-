@@ -1,8 +1,8 @@
-2023-05-09 14:14:00.692 [main] INFO  c.e.d.SpringProject2026ApplicationTests - Starting SpringProject2026ApplicationTests using Java 1.8.0_321 on MSI with PID 1932 (started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2023-05-09 14:14:00.692 [main] DEBUG c.e.d.SpringProject2026ApplicationTests - Running with Spring Boot v2.7.0, Spring v5.3.20
-2023-05-09 14:14:00.693 [main] INFO  c.e.d.SpringProject2026ApplicationTests - No active profile set, falling back to 1 default profile: "default"
-2023-05-09 14:14:01.808 [main] INFO  c.e.d.SpringProject2026ApplicationTests - Started SpringProject2026ApplicationTests in 1.367 seconds (JVM running for 2.113)
-2023-05-09 14:40:22.705 [main] INFO  c.e.d.SpringProject2026ApplicationTests - Starting SpringProject2026ApplicationTests using Java 1.8.0_321 on MSI with PID 32 (started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2023-05-09 14:40:22.706 [main] DEBUG c.e.d.SpringProject2026ApplicationTests - Running with Spring Boot v2.7.0, Spring v5.3.20
-2023-05-09 14:40:22.707 [main] INFO  c.e.d.SpringProject2026ApplicationTests - No active profile set, falling back to 1 default profile: "default"
-2023-05-09 14:40:23.719 [main] INFO  c.e.d.SpringProject2026ApplicationTests - Started SpringProject2026ApplicationTests in 1.25 seconds (JVM running for 1.937)
+2023-05-12 09:11:04.247 [main] INFO  c.e.d.SpringProject2026ApplicationTests - Starting SpringProject2026ApplicationTests using Java 1.8.0_321 on MSI with PID 17536 (started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-05-12 09:11:04.254 [main] DEBUG c.e.d.SpringProject2026ApplicationTests - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-05-12 09:11:04.255 [main] INFO  c.e.d.SpringProject2026ApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2023-05-12 09:11:05.474 [main] INFO  c.e.d.SpringProject2026ApplicationTests - Started SpringProject2026ApplicationTests in 1.494 seconds (JVM running for 2.515)
+2023-05-12 09:17:37.454 [main] INFO  c.e.d.SpringProject2026ApplicationTests - Starting SpringProject2026ApplicationTests using Java 1.8.0_321 on MSI with PID 12244 (started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-05-12 09:17:37.455 [main] DEBUG c.e.d.SpringProject2026ApplicationTests - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-05-12 09:17:37.456 [main] INFO  c.e.d.SpringProject2026ApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2023-05-12 09:17:38.504 [main] INFO  c.e.d.SpringProject2026ApplicationTests - Started SpringProject2026ApplicationTests in 1.309 seconds (JVM running for 2.034)

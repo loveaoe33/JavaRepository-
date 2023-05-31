@@ -43,7 +43,7 @@ public class SensoryController {
 	private String SensoryString = "select * from sensorTable ORDER BY SensorDate DESC";
 	private String SensoryOneString = "";
 	private String DeleteSensory = "";  
-	private String SQLConnectingSetting = "jdbc:mysql://localhost/drugsql?autoReconnect=true&serverTimezone=UTC";
+	private String SQLConnectingSetting = "jdbc:mysql://localhost/drugsql?autoReconnect=true&connectTimeout=30000&socketTimeout=30000&serverTimezone=UTC";
 	private String SQLAccount = "root";
 	private String SQLPassword = "love20720";
 	private String CheckCode="A0738";
@@ -59,8 +59,8 @@ public class SensoryController {
 		ArrayList<Sensory> SensoryAll = new ArrayList<>();
 		if(SensoryAll.isEmpty()||SensoryAll==null){ }else {SensoryAll.clear(); }
 		    String ProcessCode;
-		    String FilePath="C:\\Users\\B\\Desktop\\vue\\newvue\\public\\SensoryFile\\";
-		    String QrPath="C:\\Users\\B\\Desktop\\vue\\newvue\\public\\SensoryQr\\";
+		    String FilePath="C:\\Users\\SrationServe\\Desktop\\vue\\newvue\\public\\SensoryFile\\";
+		    String QrPath="C:\\Users\\SrationServe\\Desktop\\vue\\newvue\\public\\SensoryQr\\";
 		    SimpleDateFormat sdFormate=new SimpleDateFormat("hh:mm:ss");
 		    Date date=new Date();
 		    String StrDate=sdFormate.format(date);
