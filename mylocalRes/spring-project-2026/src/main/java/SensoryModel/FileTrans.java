@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileTrans {
 	public static enum PathName {
-		FilePath, QrPath
+		FilePath, QrPath, Personnel_Upload
 	};
 
 	private static String PathName = "";
@@ -51,7 +51,17 @@ public class FileTrans {
 			File Qrpath = new File(Path + File.separator + QrName);
 			Qr.transferTo(Qrpath);
             return String.format(UpdateSQL, "QrcodeUrl", QrName,SenSoryId);
-
+		case Personnel_Upload:
+			File File_Personnel = new File(Path); //判斷路徑有無存在
+			if (!File_Personnel.exists()) {
+				File_Personnel.mkdir();
+			}
+			String HashStrgin_Personnel = SenSoryId + NDate;
+			String FileName_Personnel = HashProcess(HashStrgin_Personnel) + file.getOriginalFilename();
+			File Filepath_Personnel = new File(Path + File.separator + FileName_Personnel);
+			file.transferTo(Filepath_Personnel);
+            return String.format(UpdateSQL, "ArticleFileUrl", FileName_Personnel,SenSoryId);
+        
 		}
 		return null;
 	}

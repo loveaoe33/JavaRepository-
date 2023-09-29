@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import DrugSQL.SQLStringSetting.CaseSQL;
 import SensoryModel.Sensory;
-
+import Personnel.T_Class;
 public abstract class AbstractSQL {
 	 protected String ConnectionString="";
 	 protected String SQLString="";
@@ -21,6 +21,8 @@ public abstract class AbstractSQL {
 	 protected PreparedStatement pst=null;
 	protected abstract void SQLConnection() throws ClassNotFoundException;
 	public abstract ArrayList<Sensory> SQLCase(CaseSQL caseSQL) throws SQLException;
+	public abstract ArrayList<T_Class> SQLCase_Personnel(CaseSQL caseSQL) throws SQLException;
+
 	public abstract void ReSettSQL(String SQLString,String SQLConnectionString,String Account,String Password);
 	protected abstract void Close();
 	

@@ -14,17 +14,29 @@ import java.util.Map;
 
 import javax.sql.RowSet;
 
+import Personnel.ArticleModel;
+import Personnel.EmployeeModel;
 import SensoryModel.Sensory;
 import net.sf.json.JSONObject;
+import Personnel.T_Class;
 
 public class SQLStringSetting extends AbstractSQL {
 
 	public static enum CaseSQL {
-		Prinall, PrintOne, PostDate,DeleteOne,PrinClass,UpLoadUrl
+		Prinall, PrintOne, PostDate,DeleteOne,PrinClass,UpLoadUrl,Personnel_Upload,Insert_Employee,Insert_Article,Print_Article,Quick_Search,Update_Vilew
 	}
 	public static Sensory PostData=new Sensory("","","","","");
+	public static ArticleModel Personnel_Article=new ArticleModel();
+	public static EmployeeModel Personnel_Employee=new EmployeeModel();
 	private  Sensory CallBackData=new Sensory("","","","","");
 	private  ArrayList<Sensory> DataArray=new ArrayList<Sensory>();
+	
+	private  static ArrayList<T_Class> DataArray_Pesonnel=new ArrayList<T_Class>();   //Personnel的回傳陣列
+	private  static  T_Class Article_Class =new ArticleModel(); //確認有無成功用的回傳物件的回傳物件
+	private  static  T_Class Employee_Class =new EmployeeModel(); //確認有無成功用的回傳物件的回傳物件
+
+
+	
 	static JSONObject JsonData = new JSONObject();
 
 	protected void Close() {
@@ -261,6 +273,165 @@ public class SQLStringSetting extends AbstractSQL {
 	}
 	
 	
+	
+
+	
+	private ArrayList<T_Class>Personnel_Upload(){    //Pessonel_檔案處理上傳
+		
+		DataArray_Pesonnel.clear();
+		Article_Class.reSerConstruct();
+   		try {
+			stat=con.createStatement();
+			stat.executeUpdate(SQLString);
+			Article_Class.Upload_Check="ok";  //確認檔案有成功上傳與更新資料庫
+			DataArray_Pesonnel.add(Article_Class);
+		}catch(Exception e) {
+			System.out.println("資料庫Personnel_Upload錯誤" + e.getMessage());	
+
+		}finally{
+			Close();
+		}
+		return DataArray_Pesonnel;
+		
+	}
+	private ArrayList<T_Class>Insert_Article(){
+		try {
+			pst = con.prepareStatement(SQLString);
+			pst.setString(1, Personnel_Article.getEmpClass());
+			pst.setString(2, Personnel_Article.getArticleClass());
+			pst.setString(3, Personnel_Article.getArticleTitle());
+			pst.setString(4, Personnel_Article.getArticleContext());
+			pst.setString(5, Personnel_Article.getArticleEmpl());
+			pst.setString(6, Personnel_Article.getArticleUrl());
+			pst.setString(7, Personnel_Article.getArticleFileUrl());
+			pst.setString(8, Personnel_Article.getArticleView());
+			pst.setString(9, Personnel_Article.getArticleLv());
+			pst.setString(10, Personnel_Article.getArticleCreate());
+			pst.setString(11, Personnel_Article.getArticleLock());
+			pst.executeUpdate();
+			pst.clearParameters();
+//		    ArrayList<T_Class> DataArray=new ArrayList<String>();
+//		    DataArray.add("Success");
+            return null;
+		} catch (Exception e) {
+    
+			System.out.println("資料庫Insert_Article_錯誤" + e.getMessage());	
+			return null;
+		
+		}finally{
+			Close();
+		}
+		
+
+	}
+	private ArrayList<T_Class> Insert_Employee(){
+		try {
+			pst = con.prepareStatement(SQLString);
+			pst.setString(1, Personnel_Employee.getAccount());
+			pst.setString(2, Personnel_Employee.getPassword());
+			pst.setString(3, Personnel_Employee.getArticleClass());
+			pst.setString(4, Personnel_Employee.getAccountLevel());
+			pst.setString(5, Personnel_Employee.getDepartment());
+			pst.setString(6, Personnel_Employee.getCreateDate());
+			pst.executeUpdate();
+			pst.clearParameters();
+		    ArrayList<String> DataArray=new ArrayList<String>();
+		    DataArray.add("Success");
+//            return DataArray;
+			return null;
+
+		} catch (Exception e) {
+    
+			System.out.println("資料庫Insert_Employee錯誤" + e.getMessage());	
+			return null;
+		
+		}finally{
+			Close();
+		}
+		
+	}
+	private ArrayList<T_Class>Print_Article_(){
+		try {
+			stat = con.createStatement();
+			rs = stat.executeQuery(SQLString);
+			while(rs.next()) {
+			Personnel_Article.setArticleClass(rs.getString("EmpClass")).setArticleContext(rs.getString("ArticleClass")).setArticleCreate(rs.getString("ArticleTitle")).setArticleEmpl(rs.getString("ArticleContext")).
+			setArticleFileUrl(rs.getString("ArticleEmpl")).setArticleLock(rs.getString("ArticleUrl")).setArticleLv(rs.getString("ArticleFileUrl")).setArticleTitle(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv")).
+			setArticleView(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));				
+			}
+		    ArrayList<ArticleModel> DataArray=new ArrayList<ArticleModel>();
+		    DataArray.add(Personnel_Article);
+//            return DataArray;
+			return null;
+
+		}catch(Exception e) {
+			System.out.println("資料庫Power_Print_Article_錯誤" + e.getMessage());	
+			return null;
+		}finally{
+			Close();
+		}
+		
+	}
+	
+
+//	private ArrayList<ArticleModel>Print_Article_(){
+//		try {
+//			stat = con.createStatement();
+//			rs = stat.executeQuery(SQLString);
+//			while(rs.next()) {
+//			Personnel_Article.setArticleClass(rs.getString("EmpClass")).setArticleContext(rs.getString("ArticleClass")).setArticleCreate(rs.getString("ArticleTitle")).setArticleEmpl(rs.getString("ArticleContext")).
+//			setArticleFileUrl(rs.getString("ArticleEmpl")).setArticleLock(rs.getString("ArticleUrl")).setArticleLv(rs.getString("ArticleFileUrl")).setArticleTitle(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv")).
+//			setArticleView(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));				
+//			}
+//		    ArrayList<ArticleModel> DataArray=new ArrayList<ArticleModel>();
+//		    DataArray.add(Personnel_Article);
+//            return DataArray;
+//		}catch(Exception e) {
+//			System.out.println("資料庫Print_Article_錯誤" + e.getMessage());	
+//			return null;
+//		}finally{
+//			Close();
+//		}
+//		
+//	}
+//	private ArrayList<Sensory>Print_Article_Class(){
+//		try {
+//			stat = con.createStatement();
+//			rs = stat.executeQuery(SQLString);
+//			while(rs.next()) {
+//			Personnel_Article.setArticleClass(rs.getString("EmpClass")).setArticleContext(rs.getString("ArticleClass")).setArticleCreate(rs.getString("ArticleTitle")).setArticleEmpl(rs.getString("ArticleContext")).
+//			setArticleFileUrl(rs.getString("ArticleEmpl")).setArticleLock(rs.getString("ArticleUrl")).setArticleLv(rs.getString("ArticleFileUrl")).setArticleTitle(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv")).
+//			setArticleView(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));				
+//			}
+//		    ArrayList<ArticleModel> DataArray=new ArrayList<ArticleModel>();
+//		    DataArray.add(Personnel_Article);
+//            return DataArray;
+//		}catch(Exception e) {
+//			System.out.println("資料庫Print_Article_錯誤" + e.getMessage());	
+//			return null;
+//		}finally{
+//			Close();
+//		}
+//		
+//	}
+//	private ArrayList<Sensory>Quick_Search(){
+//		try {
+//			
+//		}catch(Exception e) {
+//			
+//		}
+//		return DataArray;
+//		
+//	}
+	private ArrayList<Sensory>Update_Vilew(){
+		try {
+			
+		}catch(Exception e) {
+			
+		}
+		return DataArray;
+		
+	}
 	@Override
 	public ArrayList<Sensory> SQLCase(CaseSQL caseSQL) throws SQLException {
 		// TODO Auto-generated method stub
@@ -279,14 +450,35 @@ public class SQLStringSetting extends AbstractSQL {
 			return 	SQLQueryCalss();
 		case UpLoadUrl:
 			return SQLUpLoadeUrl();
-			
 		}
 
 		return null;
 	}
 
+	@Override
+	public ArrayList<T_Class> SQLCase_Personnel(CaseSQL caseSQL) throws SQLException {
+		// TODO Auto-generated method stub
 
+		switch (caseSQL) {
+		case Insert_Employee:
+			return Insert_Employee();
+		case Insert_Article:
+			return Insert_Article();
+		case Personnel_Upload:
+			return null;
+		case Print_Article:
+			return null;
+		case Update_Vilew:
+			return null;
+		}
 
+		return null;
+	}
+	
+	
+
+	
+	
 	@Override
 	public void ReSettSQL(String SQLString, String SQLConnectionString,String Account,String Password) {
 		// TODO Auto-generated method stub

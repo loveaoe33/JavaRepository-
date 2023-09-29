@@ -1,8 +1,7 @@
 package SensoryModel;
-
 import java.util.List;
 
-public class Sensory {
+public class Sensory  {
 private String SensorKey;
 private String SensorTitle;;
 private String SensorContext;

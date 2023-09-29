@@ -51,6 +51,8 @@ public class SensoryController {
 	
 	private String UpdateString="Update sensorTable SET %S= '%S' where id=%S";
 	private static ArrayList<Sensory> SensoryAll = new ArrayList<>();
+	
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());  /*log調用*/
 
 
