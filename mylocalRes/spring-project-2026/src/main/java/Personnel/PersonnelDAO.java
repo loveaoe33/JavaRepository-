@@ -37,6 +37,7 @@ public class PersonnelDAO {
 	private String Quick_Search = "select * from Article where ArticleTitle=? AND (ArticleLock=? or ArticleLock=='') ";
 	private String Update_Vilew = "Update Article SET ArticleView=? where id=?";
 	private String UpdateString = "Update Article SET %S= '%S' where id=%S";
+	private String Employee_Login="select * from Employee where Account=? AND Password=?";
 	private static ArrayList<T_Class> File_Upload_Personnel = new ArrayList<>();
 
 	public static PersonnelDAO getInstance_SingleSQL() {

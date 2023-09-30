@@ -23,20 +23,22 @@ import Personnel.T_Class;
 public class SQLStringSetting extends AbstractSQL {
 
 	public static enum CaseSQL {
-		Prinall, PrintOne, PostDate,DeleteOne,PrinClass,UpLoadUrl,Personnel_Upload,Insert_Employee,Insert_Article,Print_Article,Quick_Search,Update_Vilew
+		Prinall, PrintOne, PostDate, DeleteOne, PrinClass, UpLoadUrl, Personnel_Upload, Insert_Employee, Insert_Article,
+		Print_Article, Quick_Search, Update_Vilew
 	}
-	public static Sensory PostData=new Sensory("","","","","");
-	public static ArticleModel Personnel_Article=new ArticleModel();
-	public static EmployeeModel Personnel_Employee=new EmployeeModel();
-	private  Sensory CallBackData=new Sensory("","","","","");
-	private  ArrayList<Sensory> DataArray=new ArrayList<Sensory>();
-	
-	private  static ArrayList<T_Class> DataArray_Pesonnel=new ArrayList<T_Class>();   //Personnel的回傳陣列
-	private  static  T_Class Article_Class =new ArticleModel(); //確認有無成功用的回傳物件的回傳物件
-	private  static  T_Class Employee_Class =new EmployeeModel(); //確認有無成功用的回傳物件的回傳物件
 
-
+	public static Sensory PostData = new Sensory("", "", "", "", "");
+	public static ArticleModel Personnel_Article = new ArticleModel();  //前面塞入物件
+	public static EmployeeModel Personnel_Employee = new EmployeeModel();//前面塞入物件
 	
+	
+	private Sensory CallBackData = new Sensory("", "", "", "", "");
+	private ArrayList<Sensory> DataArray = new ArrayList<Sensory>();
+
+	private static ArrayList<T_Class> DataArray_Pesonnel = new ArrayList<T_Class>(); // Personnel的回傳陣列
+	private static T_Class Article_Class = new ArticleModel(); // 確認有無成功用的回傳物件的回傳物件
+	private static T_Class Employee_Class = new EmployeeModel(); // 確認有無成功用的回傳物件的回傳物件
+
 	static JSONObject JsonData = new JSONObject();
 
 	protected void Close() {
@@ -60,11 +62,12 @@ public class SQLStringSetting extends AbstractSQL {
 		}
 	}
 
-	public SQLStringSetting(String SQLString, String SQLConnectionString,String Account,String Password) throws ClassNotFoundException {
+	public SQLStringSetting(String SQLString, String SQLConnectionString, String Account, String Password)
+			throws ClassNotFoundException {
 		super.SQLString = SQLString;
 		super.ConnectionString = SQLConnectionString;
-		super.Account=Account;
-		super.Password=Password;
+		super.Account = Account;
+		super.Password = Password;
 		SQLConnection();
 	}
 
@@ -73,7 +76,7 @@ public class SQLStringSetting extends AbstractSQL {
 		// TODO Auto-generated method stub
 		try {
 			Class.forName("com.mysql.jdbc.Driver");// 註冊driver
-			con = DriverManager.getConnection(ConnectionString,Account,Password);
+			con = DriverManager.getConnection(ConnectionString, Account, Password);
 		} catch (SQLException e) {
 			System.out.println("資料庫設置錯誤" + e.toString());
 		} catch (ClassNotFoundException x) {
@@ -84,16 +87,16 @@ public class SQLStringSetting extends AbstractSQL {
 	}
 
 	private ArrayList<Sensory> SQLQueryALL() throws SQLException {
-		
+
 		int i = 0;
 		DataArray.clear();
 		CallBackData.reSetConstruct();
-		
+
 		try {
 
 			stat = con.createStatement();
 			rs = stat.executeQuery(SQLString);
-			if (rs==null) {
+			if (rs == null) {
 
 				CallBackData.setDataCheck(false);
 				DataArray.add(CallBackData);
@@ -104,23 +107,21 @@ public class SQLStringSetting extends AbstractSQL {
 			{
 
 				while (rs.next()) {
-					//必須產生不同記憶體位置 否則會改到同筆資料
-					Sensory CallBackData=new Sensory("","","","","");
+					// 必須產生不同記憶體位置 否則會改到同筆資料
+					Sensory CallBackData = new Sensory("", "", "", "", "");
 					CallBackData.setId(rs.getInt("id"));
 					CallBackData.setSensorContext(rs.getString("SensorContext"));
 					CallBackData.setSensorEmp(rs.getString("SensorEmp"));
 					CallBackData.setSensorDate(rs.getString("SensorDate"));
 					CallBackData.setSensorKey(rs.getString("SensorKey"));
 					CallBackData.setSensorTitle(rs.getString("SensorTile"));
-					//Url
+					// Url
 					CallBackData.setUrl(rs.getString("Url"));
 					CallBackData.setFileUrl(rs.getString("FileUrl"));
 					CallBackData.setQrcodeUrl(rs.getString("QrcodeUrl"));
 					DataArray.add(CallBackData);
-			      
 
 				}
-		
 
 				return DataArray;
 			}
@@ -149,17 +150,17 @@ public class SQLStringSetting extends AbstractSQL {
 				return DataArray;
 
 			} else {
-					CallBackData.setId(rs.getInt("id"));
-					CallBackData.setSensorContext(rs.getString("SensorContext"));
-					CallBackData.setSensorEmp(rs.getString("SensorEmp"));
-					CallBackData.setSensorDate(rs.getString("SensorDate"));
-					CallBackData.setSensorKey(rs.getString("SensorKey"));
-					CallBackData.setSensorTitle(rs.getString("SensorTile"));
-					//Url
-					CallBackData.setUrl(rs.getString("Url"));
-					CallBackData.setFileUrl(rs.getString("FileUrl"));
-					CallBackData.setQrcodeUrl(rs.getString("QrcodeUrl"));
-					DataArray.add(CallBackData);
+				CallBackData.setId(rs.getInt("id"));
+				CallBackData.setSensorContext(rs.getString("SensorContext"));
+				CallBackData.setSensorEmp(rs.getString("SensorEmp"));
+				CallBackData.setSensorDate(rs.getString("SensorDate"));
+				CallBackData.setSensorKey(rs.getString("SensorKey"));
+				CallBackData.setSensorTitle(rs.getString("SensorTile"));
+				// Url
+				CallBackData.setUrl(rs.getString("Url"));
+				CallBackData.setFileUrl(rs.getString("FileUrl"));
+				CallBackData.setQrcodeUrl(rs.getString("QrcodeUrl"));
+				DataArray.add(CallBackData);
 				return DataArray;
 			}
 
@@ -172,17 +173,18 @@ public class SQLStringSetting extends AbstractSQL {
 		}
 
 	}
-	private ArrayList<Sensory> SQLUpLoadeUrl(){
+
+	private ArrayList<Sensory> SQLUpLoadeUrl() {
 		DataArray.clear();
 		CallBackData.reSetConstruct();
 		try {
-			stat=con.createStatement();
+			stat = con.createStatement();
 			stat.executeUpdate(SQLString);
-		    CallBackData.setDataCheck(true);
-		}catch(Exception e) {
-			System.out.println("資料庫更新錯誤" + e.getMessage());	
+			CallBackData.setDataCheck(true);
+		} catch (Exception e) {
+			System.out.println("資料庫更新錯誤" + e.getMessage());
 
-		}finally{
+		} finally {
 			Close();
 		}
 		return DataArray;
@@ -206,18 +208,17 @@ public class SQLStringSetting extends AbstractSQL {
 			pst.clearParameters();
 			CallBackData.setDataCheck(true);
 			DataArray.add(CallBackData);
-            return DataArray;
+			return DataArray;
 		} catch (Exception e) {
 
-			System.out.println("資料庫新增錯誤" + e.getMessage());	
+			System.out.println("資料庫新增錯誤" + e.getMessage());
 			return null;
-		
-		}finally{
+
+		} finally {
 			Close();
 		}
 
 	}
-	
 
 	private ArrayList<Sensory> SQLQueryCalss() throws SQLException {
 		DataArray.clear();
@@ -227,26 +228,25 @@ public class SQLStringSetting extends AbstractSQL {
 			rs = stat.executeQuery(SQLString);
 			ArrayList<Sensory> DataArray = new ArrayList<>();
 
-            while(rs.next())
-            {
-				Sensory CallBackData=new Sensory("","","","","");
+			while (rs.next()) {
+				Sensory CallBackData = new Sensory("", "", "", "", "");
 				CallBackData.setId(rs.getInt("id"));
 				CallBackData.setSensorContext(rs.getString("SensorContext"));
 				CallBackData.setSensorEmp(rs.getString("SensorEmp"));
 				CallBackData.setSensorDate(rs.getString("SensorDate"));
 				CallBackData.setSensorKey(rs.getString("SensorKey"));
 				CallBackData.setSensorTitle(rs.getString("SensorTile"));
-				//Url
+				// Url
 				CallBackData.setUrl(rs.getString("Url"));
 				CallBackData.setFileUrl(rs.getString("FileUrl"));
 				CallBackData.setQrcodeUrl(rs.getString("QrcodeUrl"));
 				DataArray.add(CallBackData);
-            }
-				return DataArray;
-	
+			}
+			return DataArray;
+
 		} catch (Exception e) {
 			System.out.println("資料庫查詢錯誤" + e.getMessage());
-	
+
 		} finally {
 
 			Close();
@@ -254,47 +254,46 @@ public class SQLStringSetting extends AbstractSQL {
 		return DataArray;
 
 	}
-	
-	private ArrayList<Sensory>DeleteOne(){
+
+	private ArrayList<Sensory> DeleteOne() {
 		DataArray.clear();
 		CallBackData.reSetConstruct();
 		try {
-			stat=con.createStatement();
+			stat = con.createStatement();
 			stat.executeUpdate(SQLString);
-		    CallBackData.setDataCheck(true);
-			
-		}catch(Exception e) {
-			
+			CallBackData.setDataCheck(true);
+
+		} catch (Exception e) {
+
 			System.out.println("資料庫刪除錯誤" + e.getMessage());
 
-			
 		}
 		return DataArray;
 	}
-	
-	
-	
 
-	
-	private ArrayList<T_Class>Personnel_Upload(){    //Pessonel_檔案處理上傳
-		
+	private ArrayList<T_Class> Personnel_Upload() { // Pessonel_檔案處理上傳
+
 		DataArray_Pesonnel.clear();
 		Article_Class.reSerConstruct();
-   		try {
-			stat=con.createStatement();
+		try {
+			stat = con.createStatement();
 			stat.executeUpdate(SQLString);
-			Article_Class.Upload_Check="ok";  //確認檔案有成功上傳與更新資料庫
+			Article_Class.Upload_Check = "OK"; // 確認檔案有成功上傳與更新資料庫
 			DataArray_Pesonnel.add(Article_Class);
-		}catch(Exception e) {
-			System.out.println("資料庫Personnel_Upload錯誤" + e.getMessage());	
+		} catch (Exception e) {
+			System.out.println("資料庫Personnel_Upload錯誤" + e.getMessage());
 
-		}finally{
+		} finally {
 			Close();
 		}
 		return DataArray_Pesonnel;
-		
+
 	}
-	private ArrayList<T_Class>Insert_Article(){
+   
+	private ArrayList<T_Class> Insert_Article() {
+		DataArray_Pesonnel.clear();
+		Article_Class.reSerConstruct();
+
 		try {
 			pst = con.prepareStatement(SQLString);
 			pst.setString(1, Personnel_Article.getEmpClass());
@@ -310,21 +309,23 @@ public class SQLStringSetting extends AbstractSQL {
 			pst.setString(11, Personnel_Article.getArticleLock());
 			pst.executeUpdate();
 			pst.clearParameters();
-//		    ArrayList<T_Class> DataArray=new ArrayList<String>();
-//		    DataArray.add("Success");
-            return null;
+			Article_Class.Upload_Check = "OK";
+			DataArray_Pesonnel.add(Article_Class);
+			return DataArray_Pesonnel;
 		} catch (Exception e) {
-    
-			System.out.println("資料庫Insert_Article_錯誤" + e.getMessage());	
+
+			System.out.println("資料庫Insert_Article_錯誤" + e.getMessage());
 			return null;
-		
-		}finally{
+
+		} finally {
 			Close();
 		}
-		
 
 	}
-	private ArrayList<T_Class> Insert_Employee(){
+
+	private ArrayList<T_Class> Insert_Employee() {
+		DataArray_Pesonnel.clear();
+		Employee_Class.reSerConstruct();
 		try {
 			pst = con.prepareStatement(SQLString);
 			pst.setString(1, Personnel_Employee.getAccount());
@@ -335,44 +336,74 @@ public class SQLStringSetting extends AbstractSQL {
 			pst.setString(6, Personnel_Employee.getCreateDate());
 			pst.executeUpdate();
 			pst.clearParameters();
-		    ArrayList<String> DataArray=new ArrayList<String>();
-		    DataArray.add("Success");
-//            return DataArray;
-			return null;
+			ArrayList<String> DataArray = new ArrayList<String>();
+			Employee_Class.Upload_Check = "OK";
+			DataArray_Pesonnel.add(Employee_Class);
+			return DataArray_Pesonnel;
 
 		} catch (Exception e) {
-    
-			System.out.println("資料庫Insert_Employee錯誤" + e.getMessage());	
+
+			System.out.println("資料庫Insert_Employee錯誤" + e.getMessage());
 			return null;
-		
-		}finally{
+
+		} finally {
 			Close();
 		}
-		
+
 	}
-	private ArrayList<T_Class>Print_Article_(){
+    private ArrayList<T_Class> Employee_Login(String Account,String Password) {
+    	DataArray_Pesonnel.clear();
+		Employee_Class.reSerConstruct();
 		try {
 			stat = con.createStatement();
 			rs = stat.executeQuery(SQLString);
-			while(rs.next()) {
-			Personnel_Article.setArticleClass(rs.getString("EmpClass")).setArticleContext(rs.getString("ArticleClass")).setArticleCreate(rs.getString("ArticleTitle")).setArticleEmpl(rs.getString("ArticleContext")).
-			setArticleFileUrl(rs.getString("ArticleEmpl")).setArticleLock(rs.getString("ArticleUrl")).setArticleLv(rs.getString("ArticleFileUrl")).setArticleTitle(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv")).
-			setArticleView(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));				
-			}
-		    ArrayList<ArticleModel> DataArray=new ArrayList<ArticleModel>();
-		    DataArray.add(Personnel_Article);
-//            return DataArray;
-			return null;
+            if(!rs.next()) {
+    			Employee_Class.Upload_Check="NOK";
+                
+            }else {
+        		((EmployeeModel) Employee_Class).setId(rs.getInt("id")).setId(rs.getInt("id")).setAccount(rs.getString("Account")).setPassword("").setArticleClass(rs.getString("ArticleClass")).
+    			setAccountLevel(rs.getString("AccountLevel")).setDepartment(rs.getString("Department")).setCreateDate(rs.getString("CreateDate"));
+        		Employee_Class.Upload_Check="OK";
+    			DataArray_Pesonnel.add(Employee_Class);
+            }
+    		return DataArray_Pesonnel;
 
-		}catch(Exception e) {
-			System.out.println("資料庫Power_Print_Article_錯誤" + e.getMessage());	
+		} catch (Exception e) {
+			System.out.println("資料庫Power_Print_Article_錯誤" + e.getMessage());
 			return null;
-		}finally{
+		} finally {
 			Close();
 		}
-		
+    	
+    }
+	private ArrayList<T_Class> Print_Article_() {
+		DataArray_Pesonnel.clear();
+		Article_Class.reSerConstruct();
+		Personnel_Article.reSerConstruct();
+		try {
+			stat = con.createStatement();
+			rs = stat.executeQuery(SQLString);
+			while (rs.next()) {
+				((ArticleModel) Article_Class).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
+						.setArticleClass(rs.getString("ArticleClass")).setArticleTitle(rs.getString("ArticleTitle"))
+						.setArticleContext(rs.getString("AritcleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
+						.setArticleUrl(rs.getString("ArticleUrl")).setArticleFileUrl(rs.getString("ArticleFileUrl"))
+						.setArticleTitle(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
+						.setArticleView(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
+
+			}
+			Article_Class.Upload_Check = "OK";
+			DataArray_Pesonnel.add(Article_Class);
+			return DataArray_Pesonnel;
+
+		} catch (Exception e) {
+			System.out.println("資料庫Power_Print_Article_錯誤" + e.getMessage());
+			return null;
+		} finally {
+			Close();
+		}
+
 	}
-	
 
 //	private ArrayList<ArticleModel>Print_Article_(){
 //		try {
@@ -423,15 +454,49 @@ public class SQLStringSetting extends AbstractSQL {
 //		return DataArray;
 //		
 //	}
-	private ArrayList<Sensory>Update_Vilew(){
+	private void Update_View_Number(String Employee, String Viewer, int Article_Id) throws SQLException {
+		stat = con.createStatement();
 		try {
-			
-		}catch(Exception e) {
-			
+			if (Viewer.contains(Employee)) {
+
+			} else {
+				Viewer = (Viewer == null || Viewer.equals("")) ? Viewer + Employee + ","
+						: Viewer + "," + Employee + ",";
+				String Update_String = "Update Article SET ArticleView=" + Viewer + "where id=" + Article_Id;
+				stat.executeUpdate(Update_String);
+			}
+		} catch (Exception e) {
+			System.out.println("資料庫Update_View_Number錯誤" + e.getMessage());
+
+		} finally {
+			Close();
+
 		}
-		return DataArray;
-		
 	}
+
+	private void Update_Vilew(String Employee_Name, int id) {
+
+		String Article_Viewer = "";
+		String Article_EmployeeName = "";
+		int Article_Id = 0;
+		try {
+			stat = con.createStatement();
+			rs = stat.executeQuery(SQLString);
+			while (rs.next()) {
+				Article_Viewer = rs.getString("ArticleView");
+				Article_Id = rs.getInt("id");
+			}
+			String Update_String = "Update Article SET ArticleView=" + Article_Viewer + "where id=" + Article_Id;
+			Update_View_Number(Article_EmployeeName, Article_Viewer, Article_Id);
+
+		} catch (Exception e) {
+			System.out.println("資料庫Power_Print_Article_錯誤" + e.getMessage());
+		} finally {
+			Close();
+		}
+
+	}
+
 	@Override
 	public ArrayList<Sensory> SQLCase(CaseSQL caseSQL) throws SQLException {
 		// TODO Auto-generated method stub
@@ -447,7 +512,7 @@ public class SQLStringSetting extends AbstractSQL {
 		case DeleteOne:
 			return DeleteOne();
 		case PrinClass:
-			return 	SQLQueryCalss();
+			return SQLQueryCalss();
 		case UpLoadUrl:
 			return SQLUpLoadeUrl();
 		}
@@ -474,18 +539,14 @@ public class SQLStringSetting extends AbstractSQL {
 
 		return null;
 	}
-	
-	
 
-	
-	
 	@Override
-	public void ReSettSQL(String SQLString, String SQLConnectionString,String Account,String Password) {
+	public void ReSettSQL(String SQLString, String SQLConnectionString, String Account, String Password) {
 		// TODO Auto-generated method stub
-	       super.ConnectionString=SQLConnectionString;
-	       super.SQLString=SQLString;
-	       super.Account=Account;
-	       super.Password=Password;
+		super.ConnectionString = SQLConnectionString;
+		super.SQLString = SQLString;
+		super.Account = Account;
+		super.Password = Password;
 	}
 
 }

@@ -2,6 +2,8 @@ package Personnel;
 
 public class ArticleModel extends T_Class{
 	public ArticleModel() {};
+	
+	private int id;
 	private String  EmpClass;
 	private String  ArticleClass;
 	private String  ArticleTitle;
@@ -16,6 +18,7 @@ public class ArticleModel extends T_Class{
 	
 	public void reSerConstruct() {
 		super.Upload_Check="";
+		this.id=0;
 		this.EmpClass="";
 		this.ArticleClass="";
 		this.ArticleTitle="";
@@ -113,6 +116,14 @@ public class ArticleModel extends T_Class{
 	}
 	public ArticleModel setArticleUrl(String articleUrl) {
 		ArticleUrl = articleUrl;
+		return this;
+
+	}
+	public int getId() {
+		return id;
+	}
+	public ArticleModel setId(int id) {
+		this.id = id;
 		return this;
 
 	}

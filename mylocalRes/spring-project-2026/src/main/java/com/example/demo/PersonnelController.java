@@ -39,6 +39,8 @@ import DrugSQL.AbstractSQL;
 import DrugSQL.SQLStringSetting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import Personnel.T_Class;
+
 @RestController
 public class PersonnelController {
 
@@ -46,8 +48,27 @@ public class PersonnelController {
 	
 	
 	@CrossOrigin
-	@PostMapping("Personnel/InsertEmployee")
-	public ArrayList<EmployeeModel> InsertEmployee(@RequestBody JSONObject EmployeePOST)  {
+	@PostMapping("Personnel/UpLoad")
+	public ArrayList<T_Class> UpLoad(MultipartFile file, MultipartFile Qr, String ArticleId)  {
+		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
+		
+		return null;
+	
+	}
+	
+	@CrossOrigin
+	@PostMapping("Personnel/Employee_Login")
+	public ArrayList<T_Class> Employee_Login(@RequestBody JSONObject Update_Vilew_POST)  {
+		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
+
+		return null;
+	}
+	
+		
+	
+	@CrossOrigin
+	@PostMapping("Personnel/Insert_Employee")
+	public ArrayList<T_Class> Insert_Employee(@RequestBody JSONObject EmployeePOST)  {
 		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
 
 		return null;
@@ -55,8 +76,8 @@ public class PersonnelController {
 	}
 	
 	@CrossOrigin
-	@PostMapping("Personnel/InsertArticle")
-	public ArrayList<ArticleModel> InsertArticle(@RequestBody JSONObject ArticlePOST)  {
+	@PostMapping("Personnel/Insert_Article")
+	public ArrayList<T_Class> Insert_Article(@RequestBody JSONObject ArticlePOST)  {
 		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
 
 		return null;
@@ -65,7 +86,9 @@ public class PersonnelController {
 	
 	@CrossOrigin
 	@PostMapping("Personnel/Quick_Search")
-	public ArrayList<ArticleModel> Quick_Search(@RequestBody JSONObject Quick_text_POST)  {
+	public ArrayList<T_Class> Quick_Search(@RequestBody JSONObject Quick_text_POST)  {
+		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
+
 		return null;
 	
 	}
@@ -73,7 +96,9 @@ public class PersonnelController {
 	
 	@CrossOrigin
 	@PostMapping("Personnel/Print_Article_Class")
-	public ArrayList<ArticleModel> Print_Article_Class(@RequestBody JSONObject Print_Article_Class_POST)  {
+	public ArrayList<T_Class> Print_Article_Class(@RequestBody JSONObject Print_Article_Class_POST)  {
+		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
+
 		return null;
 	
 	}
@@ -81,7 +106,9 @@ public class PersonnelController {
 	
 	@CrossOrigin
 	@PostMapping("Personnel/Print_Article")
-	public ArrayList<ArticleModel> Print_Article(@RequestBody JSONObject Print_Article_POST)  {
+	public ArrayList<T_Class> Print_Article(@RequestBody JSONObject Print_Article_POST)  {
+		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
+
 		return null;
 	
 	}
@@ -89,7 +116,9 @@ public class PersonnelController {
 	
 	@CrossOrigin
 	@PostMapping("Personnel/Update_Vilew")
-	public ArrayList<ArticleModel> Update_Vilew(@RequestBody JSONObject Update_Vilew_POST)  {
+	public ArrayList<T_Class> Update_Vilew(@RequestBody JSONObject Update_Vilew_POST)  {
+		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
+
 		return null;
 	
 	}

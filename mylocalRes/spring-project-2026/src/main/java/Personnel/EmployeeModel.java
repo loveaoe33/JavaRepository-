@@ -1,7 +1,8 @@
 package Personnel;
 
 public class EmployeeModel extends T_Class {
-
+    
+	private int id;
 	private String Account;
 	private String Password;
 	private String ArticleClass;
@@ -14,6 +15,7 @@ public class EmployeeModel extends T_Class {
 
 	public void reSerConstruct() {
 		super.Upload_Check = "";
+		this.id=0;
 		this.Account = "";
 		this.Password = "";
 		this.ArticleClass = "";
@@ -74,5 +76,15 @@ public class EmployeeModel extends T_Class {
 	public EmployeeModel setAccount(String account) {
 		Account = account;
 		return this;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public EmployeeModel setId(int id) {
+		this.id = id;
+		return this;
+
 	}
 }
