@@ -24,14 +24,14 @@ public class SQLStringSetting extends AbstractSQL {
 
 	public static enum CaseSQL {
 		Prinall, PrintOne, PostDate, DeleteOne, PrinClass, UpLoadUrl, Personnel_Upload, Insert_Employee, Insert_Article,
-		Print_Article, Quick_Search, Update_Vilew
+		Print_Article, Quick_Search, Update_Vilew, Print_Article_Power, Print_Article_Class, Print_Article_Class_Power,
+		Delete_Article
 	}
 
 	public static Sensory PostData = new Sensory("", "", "", "", "");
-	public static ArticleModel Personnel_Article = new ArticleModel();  //前面塞入物件
-	public static EmployeeModel Personnel_Employee = new EmployeeModel();//前面塞入物件
-	
-	
+	public static ArticleModel Personnel_Article = new ArticleModel(); // 前面塞入物件
+	public static EmployeeModel Personnel_Employee = new EmployeeModel();// 前面塞入物件
+
 	private Sensory CallBackData = new Sensory("", "", "", "", "");
 	private ArrayList<Sensory> DataArray = new ArrayList<Sensory>();
 
@@ -289,7 +289,7 @@ public class SQLStringSetting extends AbstractSQL {
 		return DataArray_Pesonnel;
 
 	}
-   
+
 	private ArrayList<T_Class> Insert_Article() {
 		DataArray_Pesonnel.clear();
 		Article_Class.reSerConstruct();
@@ -318,6 +318,7 @@ public class SQLStringSetting extends AbstractSQL {
 			return null;
 
 		} finally {
+			Personnel_Article.reSerConstruct(); // 新增完需清空
 			Close();
 		}
 
@@ -330,7 +331,7 @@ public class SQLStringSetting extends AbstractSQL {
 			pst = con.prepareStatement(SQLString);
 			pst.setString(1, Personnel_Employee.getAccount());
 			pst.setString(2, Personnel_Employee.getPassword());
-			pst.setString(3, Personnel_Employee.getArticleClass());
+			pst.setString(3, Personnel_Employee.getArticleClass());  //特定編碼做Foreign Key
 			pst.setString(4, Personnel_Employee.getAccountLevel());
 			pst.setString(5, Personnel_Employee.getDepartment());
 			pst.setString(6, Personnel_Employee.getCreateDate());
@@ -347,39 +348,79 @@ public class SQLStringSetting extends AbstractSQL {
 			return null;
 
 		} finally {
+			Personnel_Employee.reSerConstruct(); // 新增完需清空
 			Close();
 		}
 
 	}
-    private ArrayList<T_Class> Employee_Login(String Account,String Password) {
-    	DataArray_Pesonnel.clear();
+
+	private ArrayList<T_Class> Employee_Login() {
+		DataArray_Pesonnel.clear();
 		Employee_Class.reSerConstruct();
 		try {
-			stat = con.createStatement();
-			rs = stat.executeQuery(SQLString);
-            if(!rs.next()) {
-    			Employee_Class.Upload_Check="NOK";
-                
-            }else {
-        		((EmployeeModel) Employee_Class).setId(rs.getInt("id")).setId(rs.getInt("id")).setAccount(rs.getString("Account")).setPassword("").setArticleClass(rs.getString("ArticleClass")).
-    			setAccountLevel(rs.getString("AccountLevel")).setDepartment(rs.getString("Department")).setCreateDate(rs.getString("CreateDate"));
-        		Employee_Class.Upload_Check="OK";
-    			DataArray_Pesonnel.add(Employee_Class);
-            }
-    		return DataArray_Pesonnel;
+			pst = con.prepareStatement(SQLString);
+			String Account_Process = (Personnel_Employee.getAccount()).replace("--", "");
+			pst.setString(1, Account_Process);
+			pst.setString(2, Personnel_Employee.getPassword());
+			;
+			rs = pst.executeQuery();
+			if (!rs.next()) {
+				Employee_Class.Upload_Check = "NOK";
+
+			} else {
+				((EmployeeModel) Employee_Class).setId(rs.getInt("id")).setId(rs.getInt("id"))
+						.setAccount(rs.getString("Account")).setPassword("")
+						.setArticleClass(rs.getString("ArticleClass")).setAccountLevel(rs.getString("AccountLevel"))
+						.setDepartment(rs.getString("Department")).setCreateDate(rs.getString("CreateDate"));
+				Employee_Class.Upload_Check = "OK";
+			}
+			DataArray_Pesonnel.add(Employee_Class);
+			return DataArray_Pesonnel;
 
 		} catch (Exception e) {
-			System.out.println("資料庫Power_Print_Article_錯誤" + e.getMessage());
+			System.out.println("資料庫Employee_Login錯誤" + e.getMessage());
 			return null;
 		} finally {
+			Personnel_Employee.reSerConstruct();
 			Close();
 		}
-    	
-    }
-	private ArrayList<T_Class> Print_Article_() {
+
+	}
+
+	private ArrayList<T_Class> Print_Article() {
 		DataArray_Pesonnel.clear();
 		Article_Class.reSerConstruct();
-		Personnel_Article.reSerConstruct();
+		try {
+			pst = con.prepareStatement(SQLString);
+			pst.setString(1, Personnel_Employee.getDepartment());
+			pst.setString(2, Personnel_Employee.getAccountLevel());
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				((ArticleModel) Article_Class).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
+						.setArticleClass(rs.getString("ArticleClass")).setArticleTitle(rs.getString("ArticleTitle"))
+						.setArticleContext(rs.getString("AritcleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
+						.setArticleUrl(rs.getString("ArticleUrl")).setArticleFileUrl(rs.getString("ArticleFileUrl"))
+						.setArticleTitle(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
+						.setArticleView(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
+
+			}
+			Article_Class.Upload_Check = "OK";
+			DataArray_Pesonnel.add(Article_Class);
+			return DataArray_Pesonnel;
+		} catch (Exception e) {
+			System.out.println("資料庫Print_Article錯誤" + e.getMessage());
+			return null;
+		} finally {
+			Personnel_Employee.reSerConstruct();
+			Close();
+		}
+
+	}
+
+	private ArrayList<T_Class> Print_Article_Power() {
+
+		DataArray_Pesonnel.clear();
+		Article_Class.reSerConstruct();
 		try {
 			stat = con.createStatement();
 			rs = stat.executeQuery(SQLString);
@@ -397,7 +438,7 @@ public class SQLStringSetting extends AbstractSQL {
 			return DataArray_Pesonnel;
 
 		} catch (Exception e) {
-			System.out.println("資料庫Power_Print_Article_錯誤" + e.getMessage());
+			System.out.println("資料庫Print_Article_Power錯誤" + e.getMessage());
 			return null;
 		} finally {
 			Close();
@@ -405,55 +446,72 @@ public class SQLStringSetting extends AbstractSQL {
 
 	}
 
-//	private ArrayList<ArticleModel>Print_Article_(){
-//		try {
-//			stat = con.createStatement();
-//			rs = stat.executeQuery(SQLString);
-//			while(rs.next()) {
-//			Personnel_Article.setArticleClass(rs.getString("EmpClass")).setArticleContext(rs.getString("ArticleClass")).setArticleCreate(rs.getString("ArticleTitle")).setArticleEmpl(rs.getString("ArticleContext")).
-//			setArticleFileUrl(rs.getString("ArticleEmpl")).setArticleLock(rs.getString("ArticleUrl")).setArticleLv(rs.getString("ArticleFileUrl")).setArticleTitle(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv")).
-//			setArticleView(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));				
-//			}
-//		    ArrayList<ArticleModel> DataArray=new ArrayList<ArticleModel>();
-//		    DataArray.add(Personnel_Article);
-//            return DataArray;
-//		}catch(Exception e) {
-//			System.out.println("資料庫Print_Article_錯誤" + e.getMessage());	
-//			return null;
-//		}finally{
-//			Close();
-//		}
-//		
-//	}
-//	private ArrayList<Sensory>Print_Article_Class(){
-//		try {
-//			stat = con.createStatement();
-//			rs = stat.executeQuery(SQLString);
-//			while(rs.next()) {
-//			Personnel_Article.setArticleClass(rs.getString("EmpClass")).setArticleContext(rs.getString("ArticleClass")).setArticleCreate(rs.getString("ArticleTitle")).setArticleEmpl(rs.getString("ArticleContext")).
-//			setArticleFileUrl(rs.getString("ArticleEmpl")).setArticleLock(rs.getString("ArticleUrl")).setArticleLv(rs.getString("ArticleFileUrl")).setArticleTitle(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv")).
-//			setArticleView(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));				
-//			}
-//		    ArrayList<ArticleModel> DataArray=new ArrayList<ArticleModel>();
-//		    DataArray.add(Personnel_Article);
-//            return DataArray;
-//		}catch(Exception e) {
-//			System.out.println("資料庫Print_Article_錯誤" + e.getMessage());	
-//			return null;
-//		}finally{
-//			Close();
-//		}
-//		
-//	}
-//	private ArrayList<Sensory>Quick_Search(){
-//		try {
-//			
-//		}catch(Exception e) {
-//			
-//		}
-//		return DataArray;
-//		
-//	}
+	private ArrayList<T_Class> Print_Article_Class() {
+
+		DataArray_Pesonnel.clear();
+		Article_Class.reSerConstruct();
+		try {
+
+			pst = con.prepareStatement(SQLString);
+			pst.setString(1, Personnel_Employee.getArticleClass());
+			pst.setString(2, Personnel_Employee.getDepartment());
+			pst.setString(3, Personnel_Employee.getAccountLevel());
+
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				((ArticleModel) Article_Class).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
+						.setArticleClass(rs.getString("ArticleClass")).setArticleTitle(rs.getString("ArticleTitle"))
+						.setArticleContext(rs.getString("AritcleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
+						.setArticleUrl(rs.getString("ArticleUrl")).setArticleFileUrl(rs.getString("ArticleFileUrl"))
+						.setArticleTitle(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
+						.setArticleView(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
+
+			}
+			Article_Class.Upload_Check = "OK";
+			DataArray_Pesonnel.add(Article_Class);
+			return DataArray_Pesonnel;
+
+		} catch (Exception e) {
+			System.out.println("資料庫Print_Article_Class錯誤" + e.getMessage());
+			return null;
+		} finally {
+			Personnel_Employee.reSerConstruct();
+			Close();
+		}
+
+	}
+
+	private ArrayList<T_Class> Print_Article_Class_Power() {
+
+		DataArray_Pesonnel.clear();
+		Article_Class.reSerConstruct();
+		try {
+			pst = con.prepareStatement(SQLString);
+			pst.setString(1, Personnel_Employee.getArticleClass());
+
+			while (rs.next()) {
+				((ArticleModel) Article_Class).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
+						.setArticleClass(rs.getString("ArticleClass")).setArticleTitle(rs.getString("ArticleTitle"))
+						.setArticleContext(rs.getString("AritcleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
+						.setArticleUrl(rs.getString("ArticleUrl")).setArticleFileUrl(rs.getString("ArticleFileUrl"))
+						.setArticleTitle(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
+						.setArticleView(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
+
+			}
+			Article_Class.Upload_Check = "OK";
+			DataArray_Pesonnel.add(Article_Class);
+			return DataArray_Pesonnel;
+
+		} catch (Exception e) {
+			System.out.println("資料庫Print_Article_Class_Power錯誤" + e.getMessage());
+			return null;
+		} finally {
+			Personnel_Employee.reSerConstruct();
+			Close();
+		}
+
+	}
+
 	private void Update_View_Number(String Employee, String Viewer, int Article_Id) throws SQLException {
 		stat = con.createStatement();
 		try {
@@ -474,10 +532,13 @@ public class SQLStringSetting extends AbstractSQL {
 		}
 	}
 
-	private void Update_Vilew(String Employee_Name, int id) {
-
+	private ArrayList<T_Class> Update_Vilew() {
+//		ArrayList<T_Class> View_Class=new ArrayList<T_Class>();
+//		T_Class View_Result=new ArticleModel();
 		String Article_Viewer = "";
 		String Article_EmployeeName = "";
+		String[] Split_String = SQLString.split(",");
+		Article_EmployeeName = Split_String[1];
 		int Article_Id = 0;
 		try {
 			stat = con.createStatement();
@@ -486,11 +547,62 @@ public class SQLStringSetting extends AbstractSQL {
 				Article_Viewer = rs.getString("ArticleView");
 				Article_Id = rs.getInt("id");
 			}
-			String Update_String = "Update Article SET ArticleView=" + Article_Viewer + "where id=" + Article_Id;
 			Update_View_Number(Article_EmployeeName, Article_Viewer, Article_Id);
+//			View_Result.Upload_Check="OK";
+//			View_Class.add(View_Result);
+			return null;
 
 		} catch (Exception e) {
-			System.out.println("資料庫Power_Print_Article_錯誤" + e.getMessage());
+			System.out.println("資料庫Update_Vilew錯誤" + e.getMessage());
+		} finally {
+			Close();
+		}
+		return null;
+
+	}
+
+	public int Employee_LvCheck(int id) {
+		String Employee_LvCheck = "select * from Employee where Account=" + id; // 權限檢查
+		DataArray_Pesonnel.clear();
+		Employee_Class.reSerConstruct();
+		int Employee_id = 0;
+		try {
+			stat = con.createStatement();
+			rs = stat.executeQuery(Employee_LvCheck);
+			if (!rs.next()) {
+				return 99;// 找無權限id
+
+			} else {
+				Employee_id = Integer.parseInt(rs.getString("AccountLevel"));
+				return Employee_id;
+			}
+
+		} catch (Exception e) {
+			System.out.println("資料庫Employee_LvCheck錯誤" + e.getMessage());
+			return 99;// 找無權限id
+		} finally {
+			Close();
+		}
+
+	}
+
+	private ArrayList<T_Class> Delete_Article() {
+
+		DataArray_Pesonnel.clear();
+		Article_Class.reSerConstruct();
+
+		try {
+			pst = con.prepareStatement(SQLString);
+			pst.setLong(1, Personnel_Article.getId());
+			pst.executeUpdate();
+			Article_Class.Upload_Check = "OK";
+			DataArray_Pesonnel.add(Article_Class);
+			Personnel_Article.reSerConstruct();
+			return DataArray_Pesonnel;
+
+		} catch (Exception e) {
+			System.out.println("資料庫Delete_Article錯誤" + e.getMessage());
+			return null;
 		} finally {
 			Close();
 		}
@@ -530,11 +642,22 @@ public class SQLStringSetting extends AbstractSQL {
 		case Insert_Article:
 			return Insert_Article();
 		case Personnel_Upload:
-			return null;
+			return Personnel_Upload();
 		case Print_Article:
-			return null;
+			return Print_Article();
 		case Update_Vilew:
-			return null;
+			return Update_Vilew();
+		case Quick_Search:
+			return Print_Article();
+		case Print_Article_Power:
+			return Print_Article_Power();
+		case Print_Article_Class:
+			return Print_Article_Class();
+		case Print_Article_Class_Power:
+			return Print_Article_Class_Power();
+		case Delete_Article:
+			return Delete_Article();
+
 		}
 
 		return null;

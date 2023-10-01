@@ -27,18 +27,20 @@ public class PersonnelDAO {
 	private String SQLConnectingSetting = "jdbc:mysql://localhost/personnel?serverTimezone=UTC";
 	private String SQLAccount = "root";
 	private String SQLPassword = "love20720";
-	private String Insert_Employee_String = "insert into Employee(id,Account,Password,ArticleClass,AccountLevel,AccountLevel,CreateDate) "
-			+ "select ifNULL(max(id),0)+1,?,?,?,?,?,? FROM Employee";
-	private String Insert_Article_String = "insert into Article(id,EmpClass,ArticleClass,ArticleTitle,ArticleContext,ArticleEmpl,ArticleFileUrl,ArticleView,ArticleLv,ArticleCreate,ArticleLock) "
-			+ "select ifNULL(max(id),0)+1,?,?,?,?,?,?,?,?,?,? FROM Article";
-	private String Power_Print_Article = "select * from Article";
-	private String Print_Article_ = "select * from Article where ArticleLock=? or ArticleLock='' ";
-	private String Print_Article_Class = "select * from Article where ArticleClass=? AND (ArticleLock=? or ArticleLock=='') ";
-	private String Quick_Search = "select * from Article where ArticleTitle=? AND (ArticleLock=? or ArticleLock=='') ";
-	private String Update_Vilew = "Update Article SET ArticleView=? where id=?";
-	private String UpdateString = "Update Article SET %S= '%S' where id=%S";
-	private String Employee_Login="select * from Employee where Account=? AND Password=?";
-	private static ArrayList<T_Class> File_Upload_Personnel = new ArrayList<>();
+//	private String Insert_Employee_String = "insert into Employee(id,Account,Password,ArticleClass,AccountLevel,AccountLevel,CreateDate) "
+//			+ "select ifNULL(max(id),0)+1,?,?,?,?,?,? FROM Employee"; // 員工新增
+//	private String Insert_Article_String = "insert into Article(id,EmpClass,ArticleClass,ArticleTitle,ArticleContext,ArticleEmpl,ArticleFileUrl,ArticleView,ArticleLv,ArticleCreate,ArticleLock) "
+//			+ "select ifNULL(max(id),0)+1,?,?,?,?,?,?,?,?,?,? FROM Article"; // 文章新增
+
+//	private String Power_Print_Article = "select * from Article";  //最高權限搜尋文章
+//	private String Print_Article_ = "select * from Article where (ArticleLock=? or ArticleLock='') AND (ArticleLv=0 or ArticleLv<?)";  //依造LV搜尋文章
+//	private String Print_Article_Class = "select * from Article where ArticleClass=? AND (ArticleLock=? or ArticleLock=='') AND (ArticleLv=0 or ArticleLv<?)"; //依造類別與LV搜尋文章
+//	private String Quick_Search = "select * from Article where ArticleTitle=? AND (ArticleLock=? or ArticleLock=='') ";  //快搜
+//	private String Update_Vilew = "Update Article SET ArticleView=? where id=?";  //更新觀看紀錄
+	private String UpdateString = "Update Article SET %S= '%S' where id=%S"; // 更新文章
+//	private String Employee_Login="select * from Employee where Account=? AND Password=?";  //登入檢查
+//	private String Employee_LvCheck="select * from Employee where id=?";   //權限檢查
+	private static ArrayList<T_Class> File_Upload_Personnel = new ArrayList<>(); // 上傳
 
 	public static PersonnelDAO getInstance_SingleSQL() {
 		return SingleClass;
@@ -67,38 +69,6 @@ public class PersonnelDAO {
 		return null;
 	}
 
-//		
-//		public ArrayList<Sensory> upload_file(MultipartFile file,MultipartFile Qr,String SenSoryId) throws IllegalStateException, IOException, NoSuchAlgorithmException, SQLException, ClassNotFoundException   {
-//		    if(SensoryAll.isEmpty()||SensoryAll==null){ }else {SensoryAll.clear(); }
-//			    String ProcessCode;
-//			    String FilePath="C:\\Users\\loveaoe33\\Desktop\\vue\\newvue\\public\\SensoryFile\\";
-//			    String QrPath="C:\\Users\\loveaoe33\\Desktop\\vue\\newvue\\public\\SensoryQr\\";
-//			    SimpleDateFormat sdFormate=new SimpleDateFormat("hh:mm:ss");
-//			    Date date=new Date();
-//			    String StrDate=sdFormate.format(date);
-//			    if(sqlSetting==null)
-//			    {
-//					   sqlSetting = new SQLStringSetting(PostDateString, SQLConnectingSetting, SQLAccount,
-//							SQLPassword);
-//			    }	    
-//			    		    
-//
-//		        if(file!=null) {
-//				      ProcessCode=FileTrans.FileProcess(file,Qr, SenSoryId, FilePath, UpdateString, PathName.FilePath,StrDate);
-//					  sqlSetting.ReSettSQL(ProcessCode, SQLConnectingSetting, SQLAccount, SQLPassword);
-//					  SensoryAll=sqlSetting.SQLCase(CaseSQL.UpLoadUrl);
-//		        }
-//		        if(Qr!=null)
-//		        {
-//				     ProcessCode=FileTrans.FileProcess(file,Qr, SenSoryId, QrPath, UpdateString, PathName.QrPath,StrDate);
-//					 sqlSetting.ReSettSQL(ProcessCode, SQLConnectingSetting, SQLAccount, SQLPassword);
-//					 SensoryAll=sqlSetting.SQLCase(CaseSQL.UpLoadUrl);
-//		        }
-//		        
-//		        return SensoryAll;
-//		
-//		}
-
 	private void SQL_Process(String ResetString) throws ClassNotFoundException {
 		if (sqlSetting == null) {
 			sqlSetting = new SQLStringSetting(ResetString, SQLConnectingSetting, SQLAccount, SQLPassword);
@@ -107,35 +77,100 @@ public class PersonnelDAO {
 		}
 	}
 
-	public String Insert_Employee(EmployeeModel employeeModel) throws ClassNotFoundException, SQLException {
-//	   sqlSetting=(sqlSetting==null)? new SQLStringSetting(Insert_Employee_String, SQLConnectingSetting, SQLAccount,SQLPassword):sqlSetting;
+	public ArrayList<T_Class> Employee_Login() throws ClassNotFoundException, SQLException {
+
+		return null;
+	}
+
+	public ArrayList<T_Class> Insert_Employee() throws ClassNotFoundException, SQLException {
+		String Insert_Employee_String = "insert into Employee(id,Account,Password,ArticleClass,AccountLevel,AccountLevel,CreateDate) "
+				+ "select ifNULL(max(id),0)+1,?,?,?,?,?,? FROM Employee"; // 員工新增
 		SQL_Process(Insert_Employee_String);
 		ArrayList Response = sqlSetting.SQLCase(CaseSQL.Insert_Employee);
-		return "";
-	}
-
-	public String Insert_Article(ArticleModel articleModel) {
-		return "";
-	}
-
-	public ArrayList<ArticleModel> Power_Print_Article_() {
 		return null;
 	}
 
-	public ArrayList<ArticleModel> Print_Article_() {
+	public ArrayList<T_Class> Insert_Article() throws ClassNotFoundException, SQLException {
+	    String Insert_Article_String = "insert into Article(id,EmpClass,ArticleClass,ArticleTitle,ArticleContext,ArticleEmpl,ArticleFileUrl,ArticleView,ArticleLv,ArticleCreate,ArticleLock) "
+				+ "select ifNULL(max(id),0)+1,?,?,?,?,?,?,?,?,?,? FROM Article"; // 文章新增
+		SQL_Process(Insert_Article_String);
+		ArrayList Response = sqlSetting.SQLCase(CaseSQL.Insert_Article);
+
 		return null;
 	}
+	
+	
+	
+	
+	
 
-	public ArrayList<ArticleModel> Print_Article_Class() {
-		return null;
+	public ArrayList<T_Class> Print_Article_(int EmployeId, String Department)
+			throws ClassNotFoundException, SQLException {
+		int Employee_Check = ((SQLStringSetting) sqlSetting).Employee_LvCheck(EmployeId); // 如抽象無定義抽象方法，要找到定義的方法要轉型使用Account搜尋。
+		SQLStringSetting.Personnel_Employee.setId(EmployeId).setDepartment(Department);
+		if (Employee_Check == 0) {
+			String Power_Print_Article = "select * from Article";
+			SQL_Process(Power_Print_Article);
+			return sqlSetting.SQLCase_Personnel(CaseSQL.Print_Article_Power);
+
+		} else {
+//        	String Print_Article_ = "select * from Article where (ArticleLv=0 or ArticleLv<="+EmployeId+")";  //依造LV搜尋文章
+			String Print_Article_ = "select * from Article where (ArticleLock=? or ArticleLock=='') AND (ArticleLv=0 or ArticleLv<=?)"; // 依造LV搜尋文章
+
+			SQL_Process(Print_Article_);
+			return sqlSetting.SQLCase_Personnel(CaseSQL.Print_Article);
+
+		}
+
 	}
 
-	public ArrayList<ArticleModel> Quick_Search() {
-		return null;
+	public ArrayList<T_Class> Print_Article_Class(int EmployeId, String Article_Class, String Department)
+			throws ClassNotFoundException, SQLException {
+		int Employee_Check = ((SQLStringSetting) sqlSetting).Employee_LvCheck(EmployeId); // 如抽象無定義抽象方法，要找到定義的方法要轉型使用Account搜尋。
+		SQLStringSetting.Personnel_Employee.setId(EmployeId).setDepartment(Department).setArticleClass(Article_Class);
+
+		if (Employee_Check == 0) {
+
+			String Power_Print_Article = "select * from Article where ArticleClass=?"; // 依造類別搜尋文章
+			SQL_Process(Power_Print_Article);
+			return sqlSetting.SQLCase_Personnel(CaseSQL.Print_Article_Class_Power);
+
+		} else {
+			String Print_Article_Class = "select * from Article where ArticleClass=? AND (ArticleLock=? or ArticleLock=='') AND (ArticleLv=0 or ArticleLv<=?)"; // 依造類別與LV搜尋文章
+//            String Print_Article_Class = "select * from Article where ArticleClass="+Article_Class+"AND (ArticleLock="+Department+ "or ArticleLock=='') AND (ArticleLv=0 or ArticleLv<"+EmployeId+")"; //依造類別與LV搜尋文章
+			SQL_Process(Print_Article_Class);
+			return sqlSetting.SQLCase_Personnel(CaseSQL.Print_Article_Class);
+
+		}
+
 	}
 
-	public String Update_Vilew() {
-		return "";
+	public ArrayList<T_Class> Quick_Search(int EmployeId, String Key) throws ClassNotFoundException, SQLException {
+		int Employee_Check = ((SQLStringSetting) sqlSetting).Employee_LvCheck(EmployeId); // 如抽象無定義抽象方法，要找到定義的方法要轉型使用Account搜尋。
+
+		if (Employee_Check == 0) {
+			String Quick_Search = "select * from Article where ArticleTitle LIKE" + Key + "%";
+			SQL_Process(Quick_Search);
+			return sqlSetting.SQLCase_Personnel(CaseSQL.Quick_Search);
+		} else {
+			String Quick_Search = "select * from Article where ArticleTitle LIKE" + Key
+					+ "% AND (ArticleLv=0 or ArticleLv<" + EmployeId + ")";
+			SQL_Process(Quick_Search);
+			return sqlSetting.SQLCase_Personnel(CaseSQL.Quick_Search);
+		}
+
+	}
+
+	public ArrayList<T_Class> Update_Vilew(int id, String Employee_Name) throws SQLException, ClassNotFoundException {
+		String Update_Vilew = "Update Article SET ArticleView=? where id=" + id + "," + Employee_Name; // 更新觀看紀錄
+		SQL_Process(Update_Vilew);
+		return sqlSetting.SQLCase_Personnel(CaseSQL.Update_Vilew);
+	}
+
+	public ArrayList<T_Class> Delete_Article(int id) throws SQLException, ClassNotFoundException {
+		SQLStringSetting.Personnel_Article.setId(id);
+		String DeleteSensory = "Delete from sensorTable where id=?";
+		return sqlSetting.SQLCase_Personnel(CaseSQL.Delete_Article);
 	}
 
 }
