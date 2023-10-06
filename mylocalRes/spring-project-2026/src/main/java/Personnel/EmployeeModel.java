@@ -9,6 +9,7 @@ public class EmployeeModel extends T_Class {
 	private String AccountLevel;
 	private String Department;
 	private String CreateDate;
+	private String Name;
 
 	public EmployeeModel() {
 	};
@@ -16,6 +17,7 @@ public class EmployeeModel extends T_Class {
 	public void reSerConstruct() {
 		super.Upload_Check = "";
 		this.id=0;
+		this.setName("");
 		this.Account = "";
 		this.Password = "";
 		this.ArticleClass = "";
@@ -86,5 +88,14 @@ public class EmployeeModel extends T_Class {
 		this.id = id;
 		return this;
 
+	}
+
+	public String getName() {
+		return Name;
+	}
+
+	public EmployeeModel setName(String name) {
+		Name = name;
+		return this;
 	}
 }

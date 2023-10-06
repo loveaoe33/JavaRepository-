@@ -86,15 +86,15 @@ public class PersonnelDAO {
 	}
 
 	public ArrayList<T_Class> Insert_Employee() throws ClassNotFoundException, SQLException {
-		String Insert_Employee_String = "insert into Employee(id,Account,Password,ArticleClass,AccountLevel,AccountLevel,CreateDate) "
-				+ "select ifNULL(max(id),0)+1,?,?,?,?,?,? FROM Employee"; // 員工新增
+		String Insert_Employee_String = "insert into Employee(id,Employee_Name,Account,Password,ArticleClass,AccountLevel,Department,CreateDate) "
+				+ "select ifNULL(max(id),0)+1,?,?,?,?,?,?,? FROM Employee"; // 員工新增
 		SQL_Process(Insert_Employee_String);
 		return sqlSetting.SQLCase_Personnel(CaseSQL.Insert_Employee);
 	}
 
 	public ArrayList<T_Class> Insert_Article() throws ClassNotFoundException, SQLException {
-	    String Insert_Article_String = "insert into Article(id,EmpClass,ArticleClass,ArticleTitle,ArticleContext,ArticleEmpl,ArticleFileUrl,ArticleView,ArticleLv,ArticleCreate,ArticleLock) "
-				+ "select ifNULL(max(id),0)+1,?,?,?,?,?,?,?,?,?,? FROM Article"; // 文章新增
+	    String Insert_Article_String = "insert into Article(id,EmpClass,ArticleClass,ArticleTitle,ArticleContext,ArticleEmpl,ArticleUrl,ArticleFileUrl,ArticleView,ArticleLv,ArticleCreate,ArticleLock) "
+				+ "select ifNULL(max(id),0)+1,?,?,?,?,?,?,?,?,?,?,? FROM Article"; // 文章新增
 		SQL_Process(Insert_Article_String);
 
 		return sqlSetting.SQLCase_Personnel(CaseSQL.Insert_Article);
@@ -107,6 +107,7 @@ public class PersonnelDAO {
 
 	public ArrayList<T_Class> Print_Article_(int EmployeId, String Department)
 			throws ClassNotFoundException, SQLException {
+		SQL_Process("select * from Article");   //後面要拿掉
 		int Employee_Check = ((SQLStringSetting) sqlSetting).Employee_LvCheck(EmployeId); // 如抽象無定義抽象方法，要找到定義的方法要轉型使用Account搜尋。
 		SQLStringSetting.Personnel_Employee.setId(EmployeId).setDepartment(Department);
 		if (Employee_Check == 0) {
@@ -147,15 +148,16 @@ public class PersonnelDAO {
 	}
 
 	public ArrayList<T_Class> Quick_Search(int EmployeId, String Key) throws ClassNotFoundException, SQLException {
+		SQL_Process("select * from Article");
 		int Employee_Check = ((SQLStringSetting) sqlSetting).Employee_LvCheck(EmployeId); // 如抽象無定義抽象方法，要找到定義的方法要轉型使用Account搜尋。
 
 		if (Employee_Check == 0) {
-			String Quick_Search = "select * from Article where ArticleTitle LIKE" + Key + "%";
+			String Quick_Search = "select * from Article where ArticleTitle LIKE '"+ Key + "%'";
 			SQL_Process(Quick_Search);
 			return sqlSetting.SQLCase_Personnel(CaseSQL.Quick_Search);
 		} else {
 			String Quick_Search = "select * from Article where ArticleTitle LIKE" + Key
-					+ "% AND (ArticleLv=0 or ArticleLv<" + Employee_Check + ")";
+					+ "% AND (ArticleLv=0 or ArticleLv<=" + Employee_Check + ")";
 			SQL_Process(Quick_Search);
 			return sqlSetting.SQLCase_Personnel(CaseSQL.Quick_Search);
 		}
@@ -163,16 +165,15 @@ public class PersonnelDAO {
 	}
 
 	public ArrayList<T_Class> Update_Vilew(int id, String Employee_Name) throws SQLException, ClassNotFoundException {
-		String Update_Vilew = "Update Article SET ArticleView=? where id=" + id + "," + Employee_Name; // 更新觀看紀錄
 		String Select = "select * from Article where id=" + id + "," + Employee_Name; // 更新觀看紀錄
-
 		SQL_Process(Select);
 		return sqlSetting.SQLCase_Personnel(CaseSQL.Update_Vilew);
 	}
 
 	public ArrayList<T_Class> Delete_Article(int id) throws SQLException, ClassNotFoundException {
 		SQLStringSetting.Personnel_Article.setId(id);
-		String DeleteSensory = "Delete from sensorTable where id=?";
+		String Delete_Article = "Delete from Article where id=?";
+		SQL_Process(Delete_Article);
 		return sqlSetting.SQLCase_Personnel(CaseSQL.Delete_Article);
 	}
 

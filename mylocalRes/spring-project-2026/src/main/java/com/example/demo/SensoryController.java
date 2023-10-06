@@ -134,6 +134,7 @@ public class SensoryController {
 	public String test() {
 		return "1234";
 	}
+	
 	   
 	@CrossOrigin()
 	@PostMapping("Sensory/DeleteSesory")

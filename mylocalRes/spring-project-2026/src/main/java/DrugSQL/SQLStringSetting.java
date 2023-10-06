@@ -34,7 +34,7 @@ public class SQLStringSetting extends AbstractSQL {
 
 	private Sensory CallBackData = new Sensory("", "", "", "", "");
 	private ArrayList<Sensory> DataArray = new ArrayList<Sensory>();
-
+    public  static String Pass_Code="";
 	private static ArrayList<T_Class> DataArray_Pesonnel = new ArrayList<T_Class>(); // Personnel的回傳陣列
 	private static T_Class Article_Class = new ArticleModel(); // 確認有無成功用的回傳物件的回傳物件
 	private static T_Class Employee_Class = new EmployeeModel(); // 確認有無成功用的回傳物件的回傳物件
@@ -296,6 +296,7 @@ public class SQLStringSetting extends AbstractSQL {
 
 		try {
 			pst = con.prepareStatement(SQLString);
+
 			pst.setString(1, Personnel_Article.getEmpClass());
 			pst.setString(2, Personnel_Article.getArticleClass());
 			pst.setString(3, Personnel_Article.getArticleTitle());
@@ -328,17 +329,32 @@ public class SQLStringSetting extends AbstractSQL {
 		DataArray_Pesonnel.clear();
 		Employee_Class.reSerConstruct();
 		try {
-			pst = con.prepareStatement(SQLString);
-			pst.setString(1, Personnel_Employee.getAccount());
-			pst.setString(2, Personnel_Employee.getPassword());
-			pst.setString(3, Personnel_Employee.getArticleClass());  //特定編碼做Foreign Key
-			pst.setString(4, Personnel_Employee.getAccountLevel());
-			pst.setString(5, Personnel_Employee.getDepartment());
-			pst.setString(6, Personnel_Employee.getCreateDate());
-			pst.executeUpdate();
-			pst.clearParameters();
-			ArrayList<String> DataArray = new ArrayList<String>();
-			Employee_Class.Upload_Check = "OK";
+			String Employee_Account_Check = "select * from Employee where Account=?"; // 註冊檢查
+
+			pst = con.prepareStatement(Employee_Account_Check);
+			String Account_Process = (Personnel_Employee.getAccount()).replace("--", "");
+			pst.setString(1, Account_Process);
+
+			rs = pst.executeQuery();
+			if (rs.next()) {
+				Employee_Class.Upload_Check = "NOK";
+
+			} else {
+
+				pst = con.prepareStatement(SQLString);
+				pst.setString(1, Personnel_Employee.getName());
+				pst.setString(2, Personnel_Employee.getAccount());
+				pst.setString(3, Personnel_Employee.getPassword());
+				pst.setString(4, Personnel_Employee.getArticleClass()); // 特定編碼做Foreign Key
+				pst.setString(5, Personnel_Employee.getAccountLevel());
+				pst.setString(6, Personnel_Employee.getDepartment());
+				pst.setString(7, Personnel_Employee.getCreateDate());
+				pst.executeUpdate();
+				pst.clearParameters();
+				ArrayList<String> DataArray = new ArrayList<String>();
+				Employee_Class.Upload_Check = "OK";
+
+			}
 			DataArray_Pesonnel.add(Employee_Class);
 			return DataArray_Pesonnel;
 
@@ -362,17 +378,17 @@ public class SQLStringSetting extends AbstractSQL {
 			String Account_Process = (Personnel_Employee.getAccount()).replace("--", "");
 			pst.setString(1, Account_Process);
 			pst.setString(2, Personnel_Employee.getPassword());
-			;
 			rs = pst.executeQuery();
-			if (!rs.next()) {
-				Employee_Class.Upload_Check = "NOK";
-
-			} else {
-				((EmployeeModel) Employee_Class).setId(rs.getInt("id")).setId(rs.getInt("id"))
+			if (rs.next()) {
+				((EmployeeModel) Employee_Class).setId(rs.getInt("id")).setName(rs.getString("Employee_Name"))
 						.setAccount(rs.getString("Account")).setPassword("")
 						.setArticleClass(rs.getString("ArticleClass")).setAccountLevel(rs.getString("AccountLevel"))
 						.setDepartment(rs.getString("Department")).setCreateDate(rs.getString("CreateDate"));
 				Employee_Class.Upload_Check = "OK";
+
+			} else {
+				Employee_Class.Upload_Check = "NOK";
+
 			}
 			DataArray_Pesonnel.add(Employee_Class);
 			return DataArray_Pesonnel;
@@ -387,6 +403,35 @@ public class SQLStringSetting extends AbstractSQL {
 
 	}
 
+	private ArrayList<T_Class> Quick_Searh() {
+		DataArray_Pesonnel.clear();
+		Article_Class.reSerConstruct();
+		try {
+			pst = con.prepareStatement(SQLString);
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				((ArticleModel) Article_Class).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
+						.setArticleClass(rs.getString("ArticleClass")).setArticleTitle(rs.getString("ArticleTitle"))
+						.setArticleContext(rs.getString("ArticleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
+						.setArticleUrl(rs.getString("ArticleUrl")).setArticleFileUrl(rs.getString("ArticleFileUrl"))
+						.setArticleView(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
+						.setArticleCreate(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
+
+			}
+			Article_Class.Upload_Check = "OK";
+			DataArray_Pesonnel.add(Article_Class);
+			return DataArray_Pesonnel;
+		} catch (Exception e) {
+			System.out.println("資料庫Print_Article錯誤" + e.getMessage());
+			return null;
+		} finally {
+			Personnel_Employee.reSerConstruct();
+			Close();
+		}
+
+	}
+	
+	
 	private ArrayList<T_Class> Print_Article() {
 		DataArray_Pesonnel.clear();
 		Article_Class.reSerConstruct();
@@ -398,10 +443,10 @@ public class SQLStringSetting extends AbstractSQL {
 			while (rs.next()) {
 				((ArticleModel) Article_Class).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
 						.setArticleClass(rs.getString("ArticleClass")).setArticleTitle(rs.getString("ArticleTitle"))
-						.setArticleContext(rs.getString("AritcleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
+						.setArticleContext(rs.getString("ArticleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
 						.setArticleUrl(rs.getString("ArticleUrl")).setArticleFileUrl(rs.getString("ArticleFileUrl"))
-						.setArticleTitle(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
-						.setArticleView(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
+						.setArticleView(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
+						.setArticleCreate(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
 
 			}
 			Article_Class.Upload_Check = "OK";
@@ -427,10 +472,10 @@ public class SQLStringSetting extends AbstractSQL {
 			while (rs.next()) {
 				((ArticleModel) Article_Class).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
 						.setArticleClass(rs.getString("ArticleClass")).setArticleTitle(rs.getString("ArticleTitle"))
-						.setArticleContext(rs.getString("AritcleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
+						.setArticleContext(rs.getString("ArticleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
 						.setArticleUrl(rs.getString("ArticleUrl")).setArticleFileUrl(rs.getString("ArticleFileUrl"))
-						.setArticleTitle(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
-						.setArticleView(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
+						.setArticleView(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
+						.setArticleCreate(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
 
 			}
 			Article_Class.Upload_Check = "OK";
@@ -461,10 +506,10 @@ public class SQLStringSetting extends AbstractSQL {
 			while (rs.next()) {
 				((ArticleModel) Article_Class).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
 						.setArticleClass(rs.getString("ArticleClass")).setArticleTitle(rs.getString("ArticleTitle"))
-						.setArticleContext(rs.getString("AritcleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
+						.setArticleContext(rs.getString("ArticleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
 						.setArticleUrl(rs.getString("ArticleUrl")).setArticleFileUrl(rs.getString("ArticleFileUrl"))
-						.setArticleTitle(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
-						.setArticleView(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
+						.setArticleView(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
+						.setArticleCreate(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
 
 			}
 			Article_Class.Upload_Check = "OK";
@@ -492,10 +537,10 @@ public class SQLStringSetting extends AbstractSQL {
 			while (rs.next()) {
 				((ArticleModel) Article_Class).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
 						.setArticleClass(rs.getString("ArticleClass")).setArticleTitle(rs.getString("ArticleTitle"))
-						.setArticleContext(rs.getString("AritcleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
+						.setArticleContext(rs.getString("ArticleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
 						.setArticleUrl(rs.getString("ArticleUrl")).setArticleFileUrl(rs.getString("ArticleFileUrl"))
-						.setArticleTitle(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
-						.setArticleView(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
+						.setArticleView(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
+						.setArticleCreate(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
 
 			}
 			Article_Class.Upload_Check = "OK";
@@ -518,9 +563,11 @@ public class SQLStringSetting extends AbstractSQL {
 			if (Viewer.contains(Employee)) {
 
 			} else {
-				Viewer = (Viewer == null || Viewer.equals("")) ? Viewer + Employee + ","
-						: Viewer + "," + Employee + ",";
-				String Update_String = "Update Article SET ArticleView=" + Viewer + "where id=" + Article_Id;
+//				Viewer = (Viewer == null || Viewer.equals("")) ? Viewer + Employee + ","
+//						: Viewer + "," + Employee + ",";
+				Viewer=Viewer+Employee;
+				
+				String Update_String = "Update Article SET ArticleView='" + Viewer +"'  where id=" + Article_Id;
 				stat.executeUpdate(Update_String);
 			}
 		} catch (Exception e) {
@@ -539,10 +586,11 @@ public class SQLStringSetting extends AbstractSQL {
 		String Article_EmployeeName = "";
 		String[] Split_String = SQLString.split(",");
 		Article_EmployeeName = Split_String[1];
+
 		int Article_Id = 0;
 		try {
 			stat = con.createStatement();
-			rs = stat.executeQuery(SQLString);
+			rs = stat.executeQuery(Split_String[0]);
 			while (rs.next()) {
 				Article_Viewer = rs.getString("ArticleView");
 				Article_Id = rs.getInt("id");
@@ -562,7 +610,7 @@ public class SQLStringSetting extends AbstractSQL {
 	}
 
 	public int Employee_LvCheck(int id) {
-		String Employee_LvCheck = "select * from Employee where Account=" + id; // 權限檢查
+		String Employee_LvCheck = "select * from Employee where id=" + id; // 權限檢查
 		DataArray_Pesonnel.clear();
 		Employee_Class.reSerConstruct();
 		int Employee_id = 0;
@@ -590,12 +638,17 @@ public class SQLStringSetting extends AbstractSQL {
 
 		DataArray_Pesonnel.clear();
 		Article_Class.reSerConstruct();
-
 		try {
-			pst = con.prepareStatement(SQLString);
-			pst.setLong(1, Personnel_Article.getId());
-			pst.executeUpdate();
-			Article_Class.Upload_Check = "OK";
+			if(Pass_Code.equals("A078")) {
+				pst = con.prepareStatement(SQLString);
+				pst.setLong(1, Personnel_Article.getId());
+				pst.executeUpdate();
+				Article_Class.Upload_Check = "OK";
+			}else
+			{
+				Article_Class.Upload_Check = "NOK";
+
+			}
 			DataArray_Pesonnel.add(Article_Class);
 			return DataArray_Pesonnel;
 
@@ -648,7 +701,7 @@ public class SQLStringSetting extends AbstractSQL {
 		case Update_Vilew:
 			return Update_Vilew();
 		case Quick_Search:
-			return Print_Article();
+			return Quick_Searh();
 		case Print_Article_Power:
 			return Print_Article_Power();
 		case Print_Article_Class:
