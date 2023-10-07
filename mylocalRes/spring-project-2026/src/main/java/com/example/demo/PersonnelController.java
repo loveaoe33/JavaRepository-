@@ -108,11 +108,11 @@ public class PersonnelController {
 	
 	
 	@CrossOrigin
-	@PostMapping("Personnel/Print_Article_Class")
-	public ArrayList<T_Class> Print_Article_Class(@RequestBody JSONObject Print_Article_Class_POST) throws ClassNotFoundException, SQLException  {
+	@PostMapping("Personnel/Print_Article_Class")  //完成
+	public ArrayList<T_Class> Print_Article_Class(String Account_Id,String Article_Class ,String Department) throws ClassNotFoundException, SQLException  {
 		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
 
-		return PersonSQL.Print_Article_Class(0, null, null);   //給id，類別，部門
+		return PersonSQL.Print_Article_Class(Integer.parseInt(Account_Id), Article_Class, Department);   //給id，類別，部門
 	
 	}
 	

@@ -117,7 +117,7 @@ public class PersonnelDAO {
 
 		} else {
 //        	String Print_Article_ = "select * from Article where (ArticleLv=0 or ArticleLv<="+EmployeId+")";  //依造LV搜尋文章
-			String Print_Article_ = "select * from Article where (ArticleLock=? or ArticleLock=='') AND (ArticleLv=0 or ArticleLv<=?)"; // 依造LV搜尋文章
+			String Print_Article_ = "select * from Article where (ArticleLock=? or ArticleLock='') AND (ArticleLv=0 or ArticleLv<=?)"; // 依造LV搜尋文章
 
 			SQL_Process(Print_Article_);
 			return sqlSetting.SQLCase_Personnel(CaseSQL.Print_Article);
@@ -128,6 +128,7 @@ public class PersonnelDAO {
 
 	public ArrayList<T_Class> Print_Article_Class(int EmployeId, String Article_Class, String Department)
 			throws ClassNotFoundException, SQLException {
+		SQL_Process("select * from Article"); //後面要刪除
 		int Employee_Check = ((SQLStringSetting) sqlSetting).Employee_LvCheck(EmployeId); // 如抽象無定義抽象方法，要找到定義的方法要轉型使用Account搜尋。
 		SQLStringSetting.Personnel_Employee.setId(EmployeId).setDepartment(Department).setArticleClass(Article_Class).setAccountLevel(Integer.toString(Employee_Check));
 
@@ -138,7 +139,7 @@ public class PersonnelDAO {
 			return sqlSetting.SQLCase_Personnel(CaseSQL.Print_Article_Class_Power);
 
 		} else {
-			String Print_Article_Class = "select * from Article where ArticleClass=? AND (ArticleLock=? or ArticleLock=='') AND (ArticleLv=0 or ArticleLv<=?)"; // 依造類別與LV搜尋文章
+			String Print_Article_Class = "select * from Article where ArticleClass=? AND (ArticleLock=? or ArticleLock='') AND (ArticleLv=0 or ArticleLv<=?)"; // 依造類別與LV搜尋文章
 //            String Print_Article_Class = "select * from Article where ArticleClass="+Article_Class+"AND (ArticleLock="+Department+ "or ArticleLock=='') AND (ArticleLv=0 or ArticleLv<"+EmployeId+")"; //依造類別與LV搜尋文章
 			SQL_Process(Print_Article_Class);
 			return sqlSetting.SQLCase_Personnel(CaseSQL.Print_Article_Class);
@@ -148,7 +149,7 @@ public class PersonnelDAO {
 	}
 
 	public ArrayList<T_Class> Quick_Search(int EmployeId, String Key) throws ClassNotFoundException, SQLException {
-		SQL_Process("select * from Article");
+		SQL_Process("select * from Article"); //後面要刪除
 		int Employee_Check = ((SQLStringSetting) sqlSetting).Employee_LvCheck(EmployeId); // 如抽象無定義抽象方法，要找到定義的方法要轉型使用Account搜尋。
 
 		if (Employee_Check == 0) {
