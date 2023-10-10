@@ -1,4 +1,5 @@
 package com.example.demo;
+
 import DrugSQL.SQLStringSetting.CaseSQL;
 import Personnel.ArticleModel;
 import Personnel.EmployeeModel;
@@ -18,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -44,106 +46,129 @@ import Personnel.T_Class;
 @RestController
 public class PersonnelController {
 
-	
-	
-	
 	@CrossOrigin
 	@GetMapping("Personnel/test")
-	public String test() throws IllegalStateException, NoSuchAlgorithmException, ClassNotFoundException, IOException, SQLException  {
+	public String test()
+			throws IllegalStateException, NoSuchAlgorithmException, ClassNotFoundException, IOException, SQLException {
 		return "123";
-	
+
 	}
-	
+
 	@CrossOrigin
 	@PostMapping("Personnel/UpLoad")
-	public ArrayList<T_Class> UpLoad(MultipartFile file, MultipartFile Qr, String ArticleId) throws IllegalStateException, NoSuchAlgorithmException, ClassNotFoundException, IOException, SQLException  {
-		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
+	public ArrayList<T_Class> UpLoad(MultipartFile file, MultipartFile Qr, String ArticleId)
+			throws IllegalStateException, NoSuchAlgorithmException, ClassNotFoundException, IOException, SQLException {
+		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
 		return PersonSQL.upload_file(file, Qr, ArticleId);
-	
+
 	}
-	
+
 	@CrossOrigin
-	@PostMapping("Personnel/Employee_Login")  //完成
-	public ArrayList<T_Class> Employee_Login(String Account,String Password) throws ClassNotFoundException, SQLException  {
-		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
-		
-		return PersonSQL.Employee_Login(Account, Password);//輸入帳號密碼
+	@PostMapping("Personnel/Employee_Login") // 完成
+	public ArrayList<T_Class> Employee_Login(String Account, String Password)
+			throws ClassNotFoundException, SQLException {
+		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
+
+		return PersonSQL.Employee_Login(Account, Password);// 輸入帳號密碼
 	}
-	
-		
-	
+
 	@CrossOrigin
-	@PostMapping("Personnel/Insert_Employee")  //完成
-	public ArrayList<T_Class> Insert_Employee(String Name,String Account,String Password,String AccountLevel, String Department,String CreateDate ) throws ClassNotFoundException, SQLException  {
+	@PostMapping("Personnel/Insert_Employee") // 完成
+	public ArrayList<T_Class> Insert_Employee(@RequestBody JSONObject Employee_Post)
+			throws ClassNotFoundException, SQLException {
 //		@RequestBody Map<String,Integer> EmployeePOST
-		SQLStringSetting.Personnel_Employee.setName(Name).setAccountLevel(AccountLevel).setArticleClass(Account+"_"+"Chunejen").setAccount(Account).setPassword(Password).setDepartment(Department).setCreateDate(CreateDate);
-		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
+
+		Object Name = Employee_Post.getJSONObject("Employee_Post").get("Name");
+		Object Account = Employee_Post.getJSONObject("Employee_Post").get("Account");
+		Object Password = Employee_Post.getJSONObject("Employee_Post").get("Password");
+		Object AccountLevel = Employee_Post.getJSONObject("Employee_Post").get("AccountLevel");
+		Object Department = Employee_Post.getJSONObject("Employee_Post").get("Department");
+		Object CreateDate = Employee_Post.getJSONObject("Employee_Post").get("CreateDate");
+
+		SQLStringSetting.Personnel_Employee.setName(Name.toString()).setAccountLevel(AccountLevel.toString())
+				.setArticleClass(Account + "_" + "Chunejen").setAccount(Account.toString()).setPassword(Password.toString())
+				.setDepartment(Department.toString()).setCreateDate(CreateDate.toString());
+		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
 		return PersonSQL.Insert_Employee();
-	
+
 	}
-	
+
 	@CrossOrigin
-	@PostMapping("Personnel/Insert_Article") //完成
-	public ArrayList<T_Class> Insert_Article(String EmpClass,String ArticleClass,String ArticleTitle,String ArticleContext,String ArticleEmpl,String ArticleUrl,String ArticleFileUrl,String ArticleView,String ArticleLv,String ArticleCreate,String ArticleLock) throws ClassNotFoundException, SQLException  {
-		SQLStringSetting.Personnel_Article.setId(0).setEmpClass(EmpClass)
-		.setArticleClass(ArticleClass).setArticleTitle(ArticleTitle)
-		.setArticleContext(ArticleContext).setArticleEmpl(ArticleEmpl)
-		.setArticleUrl(ArticleUrl).setArticleFileUrl("")
-		.setArticleView("").setArticleLv(ArticleLv).setArticleCreate(ArticleCreate).setArticleLock(ArticleLock);
-		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
+	@PostMapping("Personnel/Insert_Article") // 完成  
+	public ArrayList<T_Class> Insert_Article(@RequestBody JSONObject  Article_Post) throws ClassNotFoundException, SQLException {
+		Object EmpClass = Article_Post.getJSONObject("Article_Post").get("Article_Session_Account");
+		Object ArticleClass = Article_Post.getJSONObject("Article_Post").get("ArticleClass");
+		Object ArticleTitle = Article_Post.getJSONObject("Article_Post").get("ArticleTitle");
+		Object ArticleContext = Article_Post.getJSONObject("Article_Post").get("ArticleContext");
+		Object ArticleEmpl = Article_Post.getJSONObject("Article_Post").get("Article_Session_Name");
+		Object ArticleUrl = Article_Post.getJSONObject("Article_Post").get("ArticleUrl");
+		Object ArticleLv = Article_Post.getJSONObject("Article_Post").get("ArticleLv");
+		Object ArticleCreate =Article_Post.getJSONObject("Article_Post").get("ArticleCreate");
+		Object ArticleLock = Article_Post.getJSONObject("Article_Post").get("ArticleLock");
+
+		
+		
+		SQLStringSetting.Personnel_Article.setId(0).setEmpClass(EmpClass.toString()+"_" + "Chunejen").setArticleClass(ArticleClass.toString())
+				.setArticleTitle(ArticleTitle.toString()).setArticleContext(ArticleContext.toString()).setArticleEmpl(ArticleEmpl.toString())
+				.setArticleUrl(ArticleUrl.toString()).setArticleLv(ArticleLv.toString())
+				.setArticleCreate(ArticleCreate.toString()).setArticleLock(ArticleLock.toString());
+		
+		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
 
 		return PersonSQL.Insert_Article();
-	
-	}
-	
-	@CrossOrigin
-	@PostMapping("Personnel/Quick_Search")  //完成
-	public ArrayList<T_Class> Quick_Search(String Account_Id,String Quick_Searck) throws ClassNotFoundException, SQLException  {
-		
-		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
 
-		return PersonSQL.Quick_Search(Integer.parseInt(Account_Id), Quick_Searck);  //員工的ID找權限與快搜字串
-	
 	}
-	
-	
-	@CrossOrigin
-	@PostMapping("Personnel/Print_Article_Class")  //完成
-	public ArrayList<T_Class> Print_Article_Class(String Account_Id,String Article_Class ,String Department) throws ClassNotFoundException, SQLException  {
-		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
 
-		return PersonSQL.Print_Article_Class(Integer.parseInt(Account_Id), Article_Class, Department);   //給id，類別，部門
-	
-	}
-	
-	
 	@CrossOrigin
-	@PostMapping("Personnel/Print_Article")   //完成
-	public ArrayList<T_Class> Print_Article(String Account_Id,String Department) throws ClassNotFoundException, SQLException  {
-		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
+	@PostMapping("Personnel/Quick_Search") // 完成
+	public ArrayList<T_Class> Quick_Search(String Account_Id, String Quick_Searck)
+			throws ClassNotFoundException, SQLException {
 
-		return PersonSQL.Print_Article_(Integer.parseInt(Account_Id), Department);  //給員工id，部門
-	
+		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
+
+		return PersonSQL.Quick_Search(Integer.parseInt(Account_Id), Quick_Searck); // 員工的ID找權限與快搜字串
+
 	}
-	
-	
+
 	@CrossOrigin
-	@PostMapping("Personnel/Update_Vilew")   //完成
-	public ArrayList<T_Class> Update_Vilew(String Article_Id,String Employee_Aaccount,String Employee_Name) throws ClassNotFoundException, SQLException  {
-		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
-        String FormatString=String.format("%s_%s",Employee_Aaccount,Employee_Name);
-		return PersonSQL.Update_Vilew(Integer.parseInt(Article_Id), FormatString); //給文章編號與員工姓名  
-	}
-	
-	@PostMapping("Personnel/Delete_Article")  //完成
-	public ArrayList<T_Class> Delete_Article(String Article_ID,String PassCode) throws ClassNotFoundException, SQLException  {
-		PersonnelDAO PersonSQL= PersonnelDAO.getInstance_SingleSQL();
-		SQLStringSetting.Pass_Code=PassCode;
-		return PersonSQL.Delete_Article(Integer.parseInt(Article_ID)); //給文章編號
-	
-	}
-	
-	
+	@PostMapping("Personnel/Print_Article_Class") // 完成
+	public ArrayList<T_Class> Print_Article_Class(String Account_Id, String Article_Class, String Department)
+			throws ClassNotFoundException, SQLException {
+		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
 
-	
+		return PersonSQL.Print_Article_Class(Integer.parseInt(Account_Id), Article_Class, Department); // 給id，類別，部門
+
+	}
+
+	@CrossOrigin
+	@PostMapping("Personnel/Print_Article") // 完成
+	public ArrayList<T_Class> Print_Article(@RequestBody JSONObject EmployeeObject)
+			throws ClassNotFoundException, SQLException {
+		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
+		Object Object_String = EmployeeObject.get("EmployeeObject");
+		String[] Split_String = ((String) Object_String).split(",");
+		String Employee_Id = Split_String[0];
+		String Employee_Department = Split_String[1];
+		return PersonSQL.Print_Article_(Integer.parseInt(Employee_Id), Employee_Department); // 給員工id，部門
+
+	}
+
+	@CrossOrigin
+	@PostMapping("Personnel/Update_Vilew") // 完成
+	public ArrayList<T_Class> Update_Vilew(String Article_Id, String Employee_Aaccount, String Employee_Name)
+			throws ClassNotFoundException, SQLException {
+		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
+		String FormatString = String.format("%s_%s", Employee_Aaccount, Employee_Name);
+		return PersonSQL.Update_Vilew(Integer.parseInt(Article_Id), FormatString); // 給文章編號與員工姓名
+	}
+
+	@PostMapping("Personnel/Delete_Article") // 完成
+	public ArrayList<T_Class> Delete_Article(String Article_ID, String PassCode)
+			throws ClassNotFoundException, SQLException {
+		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
+		SQLStringSetting.Pass_Code = PassCode;
+		return PersonSQL.Delete_Article(Integer.parseInt(Article_ID)); // 給文章編號
+
+	}
+
 }
