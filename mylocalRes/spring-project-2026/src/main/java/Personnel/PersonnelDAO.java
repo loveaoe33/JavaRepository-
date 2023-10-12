@@ -165,6 +165,12 @@ public class PersonnelDAO {
 
 	}
 
+	public ArrayList<T_Class> One_Article(int Article_id) throws SQLException, ClassNotFoundException {
+		String Select = "select * from Article where id=" + Article_id ;
+		SQL_Process(Select);
+		return sqlSetting.SQLCase_Personnel(CaseSQL.One_Article);
+	}
+	
 	public ArrayList<T_Class> Update_Vilew(int id, String Employee_Name) throws SQLException, ClassNotFoundException {
 		String Select = "select * from Article where id=" + id + "," + Employee_Name; // 更新觀看紀錄
 		SQL_Process(Select);

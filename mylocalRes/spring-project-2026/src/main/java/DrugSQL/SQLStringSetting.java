@@ -25,7 +25,7 @@ public class SQLStringSetting extends AbstractSQL {
 	public static enum CaseSQL {
 		Prinall, PrintOne, PostDate, DeleteOne, PrinClass, UpLoadUrl, Personnel_Upload, Insert_Employee, Insert_Article,
 		Print_Article, Quick_Search, Update_Vilew, Print_Article_Power, Print_Article_Class, Print_Article_Class_Power,
-		Delete_Article, Employee_Login
+		Delete_Article, Employee_Login,One_Article
 	}
 
 	public static Sensory PostData = new Sensory("", "", "", "", "");
@@ -643,7 +643,51 @@ public class SQLStringSetting extends AbstractSQL {
 		}
 
 	}
+	
+	private ArrayList<T_Class> One_Article() {
+		try {
+			stat = con.createStatement();
+			rs = stat.executeQuery(SQLString);
+			DataArray_Pesonnel.clear();
+			
+			ArrayList<ArticleModel> DataArray = new ArrayList<>();
 
+			if (!rs.next()) {
+
+				Article_Class.Upload_Check="NOK";
+				DataArray_Pesonnel.add(Article_Class);
+				return DataArray_Pesonnel;
+
+			} else {
+				T_Class One_Article = new ArticleModel();
+
+				((ArticleModel) One_Article).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
+						.setArticleClass(rs.getString("ArticleClass")).setArticleTitle(rs.getString("ArticleTitle"))
+						.setArticleContext(rs.getString("ArticleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
+						.setArticleUrl(rs.getString("ArticleUrl")).setArticleFileUrl(rs.getString("ArticleFileUrl"))
+						.setArticleView(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
+						.setArticleCreate(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
+				One_Article.Upload_Check = "OK";
+				DataArray_Pesonnel.add(One_Article);
+				return DataArray_Pesonnel;
+				
+			}
+
+		} catch (Exception e) {
+			System.out.println("資料庫One_Article錯誤" + e.getMessage());
+			return null;
+		} finally {
+
+			Close();
+		}
+		
+		
+	}
+
+
+	
+	
+	
 	private ArrayList<T_Class> Delete_Article() {
 
 		DataArray_Pesonnel.clear();
@@ -721,6 +765,8 @@ public class SQLStringSetting extends AbstractSQL {
 			return Delete_Article();
 		case Employee_Login:
 			return Employee_Login();
+		case One_Article:
+			return One_Article();
 
 		}
 
