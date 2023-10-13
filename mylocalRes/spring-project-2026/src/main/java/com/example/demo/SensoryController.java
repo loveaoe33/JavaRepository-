@@ -58,8 +58,10 @@ public class SensoryController {
 	public ArrayList<Sensory> upload_file(MultipartFile file,MultipartFile Qr,String SenSoryId) throws IllegalStateException, IOException, NoSuchAlgorithmException, SQLException, ClassNotFoundException   {
 	    if(SensoryAll.isEmpty()||SensoryAll==null){ }else {SensoryAll.clear(); }
 		    String ProcessCode;
-		    String FilePath="C:\\Users\\loveaoe33\\Desktop\\vue\\newvue\\public\\SensoryFile\\";
-		    String QrPath="C:\\Users\\loveaoe33\\Desktop\\vue\\newvue\\public\\SensoryQr\\";
+			String userName=System.getProperty("user.name");
+
+		    String FilePath="C:\\Users\\"+ userName+"\\Desktop\\vue\\newvue\\public\\SensoryFile\\";
+		    String QrPath="C:\\Users\\"+ userName+"\\Desktop\\vue\\newvue\\public\\SensoryQr\\";
 		    SimpleDateFormat sdFormate=new SimpleDateFormat("hh:mm:ss");
 		    Date date=new Date();
 		    String StrDate=sdFormate.format(date);
@@ -113,13 +115,14 @@ public class SensoryController {
 	}
 	
 	
+//	
+//	@CrossOrigin()
+//	@PostMapping("Sensory/Code")
+//	public String CheckCode( @RequestBody Map<String,String> DeleCode) {
+//		String Check= DeleCode.equals(CheckCode)?"OK":"NOK";
+//		return Check;
+//	}
 	
-	@CrossOrigin()
-	@PostMapping("Sensory/Code")
-	public String CheckCode( @RequestBody Map<String,String> DeleCode) {
-		String Check= DeleCode.equals(CheckCode)?"OK":"NOK";
-		return Check;
-	}
 	@CrossOrigin()
 	@GetMapping("Sensory/Code/{PassCode}")
 	public Map<String, String> CheckCode( @PathVariable String PassCode) {

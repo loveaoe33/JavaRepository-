@@ -50,7 +50,8 @@ public class PersonnelController {
 	@GetMapping("Personnel/test")
 	public String test()
 			throws IllegalStateException, NoSuchAlgorithmException, ClassNotFoundException, IOException, SQLException {
-		return "123";
+		String userName=System.getProperty("user.name");
+		return userName;
 
 	}
 
@@ -97,7 +98,14 @@ public class PersonnelController {
 	@PostMapping("Personnel/One_Article") // 完成
 	public ArrayList<T_Class> One_Article(@RequestBody JSONObject  Article_Post) throws NumberFormatException, ClassNotFoundException, SQLException{
 		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
+		
 		String ArticleId=(Article_Post.get("Article_ID")).toString();
+		String[] Split_String = ArticleId.split(",");
+		ArticleId=Split_String[0];
+		String Employee_Aaccount=Split_String[1];
+		String Employee_Name=Split_String[2];
+		String FormatString = String.format("%s_%s", Employee_Aaccount, Employee_Name);		
+		PersonSQL.Update_Vilew(Integer.parseInt(ArticleId), FormatString); // 給文章編號與員工姓名
 		return PersonSQL.One_Article(Integer.parseInt(ArticleId));
 	}
 	@CrossOrigin
@@ -180,14 +188,28 @@ public class PersonnelController {
 		String FormatString = String.format("%s_%s", Employee_Aaccount, Employee_Name);
 		return PersonSQL.Update_Vilew(Integer.parseInt(Article_Id), FormatString); // 給文章編號與員工姓名
 	}
-
+	@CrossOrigin
 	@PostMapping("Personnel/Delete_Article") // 完成
-	public ArrayList<T_Class> Delete_Article(String Article_ID, String PassCode)
+	public ArrayList<T_Class> Delete_Article(@RequestBody JSONObject ArtilceObject)
 			throws ClassNotFoundException, SQLException {
 		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
-		SQLStringSetting.Pass_Code = PassCode;
-		return PersonSQL.Delete_Article(Integer.parseInt(Article_ID)); // 給文章編號
+		Object Object_String = ArtilceObject.get("Article_ID");
+		String[] Split_String = ((String) Object_String).split(",");
+		SQLStringSetting.Pass_Code = Split_String[1];
+		return PersonSQL.Delete_Article(Integer.parseInt(Split_String[0])); // 給文章編號
 
 	}
+	
+	
+	@CrossOrigin()
+	@GetMapping("Personnel/Code/{PassCode}")
+	public Map<String, String> CheckCode( @PathVariable String PassCode) {
+		String CheckCode="A078";
+		String Check= PassCode.equals(CheckCode)?"OK":"NOK";
+		Map<String,String> ReTuCheck=new HashMap<>();
+		ReTuCheck.put("ReTuCheck", Check);
+		return ReTuCheck;
+	}
+	
 
 }

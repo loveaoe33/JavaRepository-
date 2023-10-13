@@ -48,6 +48,7 @@ public class PersonnelDAO {
 
 	public ArrayList<T_Class> upload_file(MultipartFile file, MultipartFile Qr, String ArticleId)
 			throws IllegalStateException, IOException, NoSuchAlgorithmException, SQLException, ClassNotFoundException {
+		String userName=System.getProperty("user.name");
 		String UpdateString = "Update Article SET %S= '%S' where id=%S"; // 更新文章
 		if (File_Upload_Personnel.isEmpty() || File_Upload_Personnel == null) {
 		} else {
@@ -55,7 +56,7 @@ public class PersonnelDAO {
 		}
 
 		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
-		String FilePath = "C:\\Users\\loveaoe33\\Desktop\\vue\\newvue\\public\\PersonnelFile\\";
+		String FilePath = "C:\\Users\\"+ userName +"\\Desktop\\vue\\newvue\\public\\PersonnelFile\\";
 		SimpleDateFormat sdFormate = new SimpleDateFormat("hh:mm:ss");
 		Date date = new Date();
 		String StrDate = sdFormate.format(date);
@@ -108,8 +109,11 @@ public class PersonnelDAO {
 	public ArrayList<T_Class> Print_Article_(int EmployeId, String Department)
 			throws ClassNotFoundException, SQLException {
 		SQL_Process("select * from Article");   //後面要拿掉
-		int Employee_Check = ((SQLStringSetting) sqlSetting).Employee_LvCheck(EmployeId); // 如抽象無定義抽象方法，要找到定義的方法要轉型使用Account搜尋。
-		SQLStringSetting.Personnel_Employee.setId(EmployeId).setDepartment(Department);
+		
+		
+		int Employee_Check = ((SQLStringSetting) sqlSetting).Employee_LvCheck(EmployeId); 
+		     // 如抽象無定義抽象方法，要找到定義的方法要轉型使用Account搜尋。
+		SQLStringSetting.Personnel_Employee.setId(EmployeId).setDepartment(Department).setAccountLevel(Integer.toString(Employee_Check));
 		if (Employee_Check == 0) {
 			String Power_Print_Article = "select * from Article";
 			SQL_Process(Power_Print_Article);
@@ -129,7 +133,8 @@ public class PersonnelDAO {
 	public ArrayList<T_Class> Print_Article_Class(int EmployeId, String Article_Class, String Department)
 			throws ClassNotFoundException, SQLException {
 		SQL_Process("select * from Article"); //後面要刪除
-		int Employee_Check = ((SQLStringSetting) sqlSetting).Employee_LvCheck(EmployeId); // 如抽象無定義抽象方法，要找到定義的方法要轉型使用Account搜尋。
+		int Employee_Check = ((SQLStringSetting) sqlSetting).Employee_LvCheck(EmployeId);
+	 // 如抽象無定義抽象方法，要找到定義的方法要轉型使用Account搜尋。
 		SQLStringSetting.Personnel_Employee.setId(EmployeId).setDepartment(Department).setArticleClass(Article_Class).setAccountLevel(Integer.toString(Employee_Check));
 
 		if (Employee_Check == 0) {
@@ -174,6 +179,7 @@ public class PersonnelDAO {
 	public ArrayList<T_Class> Update_Vilew(int id, String Employee_Name) throws SQLException, ClassNotFoundException {
 		String Select = "select * from Article where id=" + id + "," + Employee_Name; // 更新觀看紀錄
 		SQL_Process(Select);
+
 		return sqlSetting.SQLCase_Personnel(CaseSQL.Update_Vilew);
 	}
 
@@ -183,5 +189,8 @@ public class PersonnelDAO {
 		SQL_Process(Delete_Article);
 		return sqlSetting.SQLCase_Personnel(CaseSQL.Delete_Article);
 	}
+	
+	
+	
 
 }

@@ -578,9 +578,13 @@ public class SQLStringSetting extends AbstractSQL {
 				Viewer = Viewer + Employee;
 
 				String Update_String = "Update Article SET ArticleView='" + Viewer + "'  where id=" + Article_Id;
+				System.out.println(Update_String);
+
 				stat.executeUpdate(Update_String);
+				
 			}
 		} catch (Exception e) {
+			
 			System.out.println("資料庫Update_View_Number錯誤" + e.getMessage());
 
 		} finally {
@@ -605,6 +609,9 @@ public class SQLStringSetting extends AbstractSQL {
 				Article_Viewer = rs.getString("ArticleView");
 				Article_Id = rs.getInt("id");
 			}
+			Article_Viewer=(Article_Viewer==null)?"":Article_Viewer;
+			System.out.println(Article_EmployeeName+ Article_Viewer+ Article_Id);
+
 			Update_View_Number(Article_EmployeeName, Article_Viewer, Article_Id);
 //			View_Result.Upload_Check="OK";
 //			View_Class.add(View_Result);
