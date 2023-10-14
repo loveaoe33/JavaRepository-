@@ -280,6 +280,8 @@ public class SQLStringSetting extends AbstractSQL {
 			stat.executeUpdate(SQLString);
 			Article_Class.Upload_Check = "OK"; // 確認檔案有成功上傳與更新資料庫
 			DataArray_Pesonnel.add(Article_Class);
+			System.out.println("OK");
+
 		} catch (Exception e) {
 			System.out.println("資料庫Personnel_Upload錯誤" + e.getMessage());
 
@@ -610,8 +612,6 @@ public class SQLStringSetting extends AbstractSQL {
 				Article_Id = rs.getInt("id");
 			}
 			Article_Viewer=(Article_Viewer==null)?"":Article_Viewer;
-			System.out.println(Article_EmployeeName+ Article_Viewer+ Article_Id);
-
 			Update_View_Number(Article_EmployeeName, Article_Viewer, Article_Id);
 //			View_Result.Upload_Check="OK";
 //			View_Class.add(View_Result);

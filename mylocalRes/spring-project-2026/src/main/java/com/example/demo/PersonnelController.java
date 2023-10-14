@@ -57,10 +57,10 @@ public class PersonnelController {
 
 	@CrossOrigin
 	@PostMapping("Personnel/UpLoad")
-	public ArrayList<T_Class> UpLoad(MultipartFile file, MultipartFile Qr, String ArticleId)
+	public ArrayList<T_Class> UpLoad(MultipartFile file, MultipartFile Qr, String Article_Id)
 			throws IllegalStateException, NoSuchAlgorithmException, ClassNotFoundException, IOException, SQLException {
 		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
-		return PersonSQL.upload_file(file, Qr, ArticleId);
+		return PersonSQL.upload_file(file, Qr, Article_Id);
 
 	}
 

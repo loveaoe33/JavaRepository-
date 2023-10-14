@@ -51,9 +51,13 @@ public class PersonnelDAO {
 		String userName=System.getProperty("user.name");
 		String UpdateString = "Update Article SET %S= '%S' where id=%S"; // 更新文章
 		if (File_Upload_Personnel.isEmpty() || File_Upload_Personnel == null) {
+			
+			
 		} else {
 			File_Upload_Personnel.clear();
 		}
+		
+		
 
 		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
 		String FilePath = "C:\\Users\\"+ userName +"\\Desktop\\vue\\newvue\\public\\PersonnelFile\\";
@@ -64,7 +68,7 @@ public class PersonnelDAO {
 			String ProcessCode = FileTrans.FileProcess(file, Qr, ArticleId, FilePath, UpdateString, PathName.Personnel_Upload,
 					StrDate);
 			SQL_Process(ProcessCode);
-			File_Upload_Personnel = sqlSetting.SQLCase_Personnel(CaseSQL.Personnel_Upload);
+//			File_Upload_Personnel = sqlSetting.SQLCase_Personnel(CaseSQL.Personnel_Upload);
 		}
 
 		return 	File_Upload_Personnel = sqlSetting.SQLCase_Personnel(CaseSQL.Personnel_Upload);
