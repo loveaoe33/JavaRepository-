@@ -66,11 +66,15 @@ public class PersonnelController {
 
 	@CrossOrigin
 	@PostMapping("Personnel/Employee_Login") // 完成
-	public ArrayList<T_Class> Employee_Login(String Account, String Password)
+	public ArrayList<T_Class> Employee_Login(@RequestBody JSONObject Login_Post)
 			throws ClassNotFoundException, SQLException {
-		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
+//		System.out.print(Login_Post);
 
-		return PersonSQL.Employee_Login(Account, Password);// 輸入帳號密碼
+		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
+		Object Account = Login_Post.getJSONObject("Login_Post").get("Account");
+		Object Password = Login_Post.getJSONObject("Login_Post").get("Password");
+
+		return PersonSQL.Employee_Login((Account).toString(), (Password).toString());// 輸入帳號密碼
 	}
 
 	@CrossOrigin
