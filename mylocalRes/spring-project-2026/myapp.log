@@ -1,150 +1,420 @@
-2023-10-18 09:04:02.604 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 22880 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2023-10-18 09:04:02.618 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2023-10-18 09:04:02.621 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2023-10-18 09:04:02.725 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-10-18 09:04:02.726 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-10-18 09:04:05.016 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2023-10-18 09:04:05.126 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2399 ms
-2023-10-18 09:04:05.806 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2023-10-18 09:04:05.849 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-18 09:04:05.857 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 3.959 seconds (JVM running for 5.238)
-2023-10-18 09:31:34.386 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 22880 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2023-10-18 09:31:34.386 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2023-10-18 09:31:34.387 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2023-10-18 09:31:34.756 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2023-10-18 09:31:34.772 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 380 ms
-2023-10-18 09:31:34.865 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2023-10-18 09:31:34.882 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-18 09:31:34.889 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.554 seconds (JVM running for 1654.27)
-2023-10-18 09:31:34.892 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2023-10-18 09:31:38.773 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 22880 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2023-10-18 09:31:38.773 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2023-10-18 09:31:38.773 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2023-10-18 09:31:38.957 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2023-10-18 09:31:38.972 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 197 ms
-2023-10-18 09:31:39.039 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2023-10-18 09:31:39.049 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-18 09:31:39.052 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.301 seconds (JVM running for 1658.433)
-2023-10-18 09:31:39.054 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2023-10-18 09:32:03.738 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 22880 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2023-10-18 09:32:03.738 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2023-10-18 09:32:03.738 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2023-10-18 09:32:03.930 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2023-10-18 09:32:03.944 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 203 ms
-2023-10-18 09:32:04.012 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2023-10-18 09:32:04.024 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-18 09:32:04.026 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.312 seconds (JVM running for 1683.407)
-2023-10-18 09:32:04.027 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2023-10-18 09:34:20.812 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2023-10-18 09:34:20.814 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2023-10-18 09:42:54.493 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 22880 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2023-10-18 09:42:54.493 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2023-10-18 09:42:54.493 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2023-10-18 09:42:54.758 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2023-10-18 09:42:54.771 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 276 ms
-2023-10-18 09:42:54.842 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2023-10-18 09:42:54.853 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-18 09:42:54.858 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.389 seconds (JVM running for 2334.238)
-2023-10-18 09:42:54.859 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2023-10-18 09:42:58.315 [RMI TCP Connection(42)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
-2023-10-18 15:06:12.107 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 6440 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2023-10-18 15:06:12.109 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2023-10-18 15:06:12.109 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2023-10-18 15:06:12.170 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-10-18 15:06:12.170 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-10-18 15:06:13.187 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2023-10-18 15:06:13.279 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1108 ms
-2023-10-18 15:06:13.782 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2023-10-18 15:06:13.820 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-18 15:06:13.828 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 2.136 seconds (JVM running for 2.941)
-2023-10-18 15:06:46.152 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2023-10-18 15:06:46.153 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2023-10-18 15:07:43.140 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 6440 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2023-10-18 15:07:43.141 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2023-10-18 15:07:43.141 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2023-10-18 15:07:43.385 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2023-10-18 15:07:43.398 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 254 ms
-2023-10-18 15:07:43.482 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2023-10-18 15:07:43.491 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-18 15:07:43.495 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.387 seconds (JVM running for 92.608)
-2023-10-18 15:07:43.496 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2023-10-18 15:07:46.848 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2023-10-18 15:07:46.850 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2023-10-18 15:07:47.365 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 6440 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2023-10-18 15:07:47.365 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2023-10-18 15:07:47.365 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2023-10-18 15:07:47.519 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2023-10-18 15:07:47.532 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 165 ms
-2023-10-18 15:07:47.595 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2023-10-18 15:07:47.603 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-18 15:07:47.607 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.264 seconds (JVM running for 96.719)
-2023-10-18 15:07:47.608 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2023-10-18 15:08:19.807 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2023-10-18 15:08:19.808 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
-2023-10-18 15:11:56.888 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 6440 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2023-10-18 15:11:56.888 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2023-10-18 15:11:56.888 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2023-10-18 15:11:57.072 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2023-10-18 15:11:57.084 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 194 ms
-2023-10-18 15:11:57.163 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2023-10-18 15:11:57.170 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-18 15:11:57.173 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.305 seconds (JVM running for 346.286)
-2023-10-18 15:11:57.174 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2023-10-18 15:12:07.854 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 6440 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2023-10-18 15:12:07.855 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2023-10-18 15:12:07.855 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2023-10-18 15:12:08.009 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2023-10-18 15:12:08.026 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 167 ms
-2023-10-18 15:12:08.107 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2023-10-18 15:12:08.113 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-18 15:12:08.116 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.282 seconds (JVM running for 357.229)
-2023-10-18 15:12:08.117 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2023-10-18 15:12:14.031 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2023-10-18 15:12:14.032 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
-2023-10-18 15:12:40.877 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 6440 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2023-10-18 15:12:40.877 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2023-10-18 15:12:40.878 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2023-10-18 15:12:41.063 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2023-10-18 15:12:41.078 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 199 ms
-2023-10-18 15:12:41.179 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2023-10-18 15:12:41.188 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-18 15:12:41.191 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.333 seconds (JVM running for 390.303)
-2023-10-18 15:12:41.192 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2023-10-18 15:12:56.007 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2023-10-18 15:12:56.008 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
-2023-10-18 15:13:19.596 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 6440 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2023-10-18 15:13:19.596 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2023-10-18 15:13:19.596 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2023-10-18 15:13:19.759 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2023-10-18 15:13:19.771 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 173 ms
-2023-10-18 15:13:19.831 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2023-10-18 15:13:19.837 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-18 15:13:19.840 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.264 seconds (JVM running for 428.953)
-2023-10-18 15:13:19.841 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2023-10-18 15:13:24.399 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2023-10-18 15:13:24.400 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
-2023-10-18 15:14:58.283 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 6440 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2023-10-18 15:14:58.283 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2023-10-18 15:14:58.283 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2023-10-18 15:14:58.453 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2023-10-18 15:14:58.473 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 188 ms
-2023-10-18 15:14:58.535 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2023-10-18 15:14:58.541 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-18 15:14:58.543 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.279 seconds (JVM running for 527.656)
-2023-10-18 15:14:58.544 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2023-10-18 15:15:11.400 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2023-10-18 15:15:11.401 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2023-10-18 17:29:51.220 [RMI TCP Connection(19)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
-2023-10-18 17:54:47.137 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 4620 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2023-10-18 17:54:47.138 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2023-10-18 17:54:47.139 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2023-10-18 17:54:47.192 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023-10-18 17:54:47.192 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023-10-18 17:54:48.111 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2023-10-18 17:54:48.211 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1018 ms
-2023-10-18 17:54:48.652 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2023-10-18 17:54:48.686 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2023-10-18 17:54:48.694 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 1.972 seconds (JVM running for 2.762)
-2023-10-18 17:55:28.012 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2023-10-18 17:55:28.013 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2023-10-18 18:31:11.176 [RMI TCP Connection(40)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2023-10-20 09:17:21.246 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 22196 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 09:17:21.251 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 09:17:21.252 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 09:17:21.354 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-10-20 09:17:21.354 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-10-20 09:17:22.489 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 09:17:22.574 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1219 ms
+2023-10-20 09:17:23.320 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 09:17:23.373 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 09:17:23.388 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 2.585 seconds (JVM running for 3.414)
+2023-10-20 09:18:29.865 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 09:18:29.867 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-10-20 09:19:54.148 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 22196 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 09:19:54.148 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 09:19:54.148 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 09:19:54.446 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 09:19:54.462 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 310 ms
+2023-10-20 09:19:54.574 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 09:19:54.583 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 09:19:54.587 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.468 seconds (JVM running for 154.613)
+2023-10-20 09:19:54.589 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 09:19:58.492 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 22196 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 09:19:58.493 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 09:19:58.493 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 09:19:58.692 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 09:19:58.707 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 212 ms
+2023-10-20 09:19:58.821 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 09:19:58.837 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 09:19:58.841 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.372 seconds (JVM running for 158.867)
+2023-10-20 09:19:58.843 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 09:20:03.507 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 09:20:03.508 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-10-20 09:20:58.346 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 22196 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 09:20:58.346 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 09:20:58.346 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 09:20:58.599 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 09:20:58.614 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 265 ms
+2023-10-20 09:20:58.695 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 09:20:58.702 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 09:20:58.704 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.396 seconds (JVM running for 218.73)
+2023-10-20 09:20:58.705 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 09:21:07.663 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 09:21:07.664 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-10-20 09:21:27.902 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 22196 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 09:21:27.903 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 09:21:27.903 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 09:21:28.067 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 09:21:28.084 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 179 ms
+2023-10-20 09:21:28.149 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 09:21:28.157 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 09:21:28.161 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.277 seconds (JVM running for 248.187)
+2023-10-20 09:21:28.162 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 09:21:36.728 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 09:21:36.729 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2023-10-20 09:33:16.065 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 22196 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 09:33:16.065 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 09:33:16.065 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 09:33:16.251 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 09:33:16.264 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 196 ms
+2023-10-20 09:33:16.326 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 09:33:16.333 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 09:33:16.337 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.294 seconds (JVM running for 956.363)
+2023-10-20 09:33:16.337 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 09:45:21.206 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 22196 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 09:45:21.206 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 09:45:21.207 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 09:45:21.397 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 09:45:21.410 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 201 ms
+2023-10-20 09:45:21.478 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 09:45:21.485 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 09:45:21.488 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.306 seconds (JVM running for 1681.514)
+2023-10-20 09:45:21.489 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 09:48:36.507 [RMI TCP Connection(36)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2023-10-20 11:28:34.601 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 26736 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 11:28:34.603 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 11:28:34.604 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 11:28:34.693 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-10-20 11:28:34.694 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-10-20 11:28:36.336 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 11:28:36.596 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1902 ms
+2023-10-20 11:28:37.549 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 11:28:37.608 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 11:28:37.620 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 4.149 seconds (JVM running for 5.669)
+2023-10-20 11:28:43.243 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 11:28:43.246 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2023-10-20 11:29:30.663 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 26736 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 11:29:30.663 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 11:29:30.664 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 11:29:30.874 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 11:29:30.886 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 220 ms
+2023-10-20 11:29:30.960 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 11:29:30.967 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 11:29:30.969 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.345 seconds (JVM running for 59.018)
+2023-10-20 11:29:30.970 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 11:30:07.370 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 26736 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 11:30:07.371 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 11:30:07.371 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 11:30:07.565 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 11:30:07.639 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 266 ms
+2023-10-20 11:30:07.718 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 11:30:07.725 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 11:30:07.728 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.378 seconds (JVM running for 95.777)
+2023-10-20 11:30:07.729 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 11:30:17.694 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 11:30:17.695 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-10-20 11:30:57.414 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 26736 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 11:30:57.414 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 11:30:57.414 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 11:30:57.611 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 11:30:57.623 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 207 ms
+2023-10-20 11:30:57.699 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 11:30:57.706 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 11:30:57.710 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.316 seconds (JVM running for 145.758)
+2023-10-20 11:30:57.710 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 11:30:59.444 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 26736 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 11:30:59.445 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 11:30:59.445 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 11:30:59.591 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 11:30:59.604 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 158 ms
+2023-10-20 11:30:59.659 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 11:30:59.666 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 11:30:59.668 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.245 seconds (JVM running for 147.718)
+2023-10-20 11:30:59.669 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 11:31:05.902 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 11:31:05.903 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2023-10-20 11:33:08.040 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 26736 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 11:33:08.041 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 11:33:08.041 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 11:33:08.231 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 11:33:08.245 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 202 ms
+2023-10-20 11:33:08.308 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 11:33:08.314 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 11:33:08.317 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.297 seconds (JVM running for 276.366)
+2023-10-20 11:33:08.317 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 11:33:22.588 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 11:33:22.589 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2023-10-20 11:35:53.920 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 26736 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 11:35:53.920 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 11:35:53.920 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 11:35:54.106 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 11:35:54.125 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 201 ms
+2023-10-20 11:35:54.188 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 11:35:54.195 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 11:35:54.198 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.299 seconds (JVM running for 442.247)
+2023-10-20 11:35:54.199 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 11:36:04.532 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 11:36:04.533 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-10-20 11:36:25.879 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 26736 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 11:36:25.879 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 11:36:25.880 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 11:36:26.062 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 11:36:26.076 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 194 ms
+2023-10-20 11:36:26.140 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 11:36:26.146 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 11:36:26.150 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.296 seconds (JVM running for 474.198)
+2023-10-20 11:36:26.151 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 11:36:37.036 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 11:36:37.037 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2023-10-20 11:37:17.096 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 26736 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 11:37:17.096 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 11:37:17.096 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 11:37:17.310 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 11:37:17.322 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 223 ms
+2023-10-20 11:37:17.402 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 11:37:17.410 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 11:37:17.413 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.339 seconds (JVM running for 525.462)
+2023-10-20 11:37:17.414 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 11:37:26.094 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 11:37:26.096 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2023-10-20 11:39:19.920 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 26736 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 11:39:19.920 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 11:39:19.920 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 11:39:20.113 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 11:39:20.127 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 205 ms
+2023-10-20 11:39:20.197 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 11:39:20.203 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 11:39:20.207 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.308 seconds (JVM running for 648.256)
+2023-10-20 11:39:20.208 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 11:39:35.825 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 26736 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 11:39:35.825 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 11:39:35.826 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 11:39:35.985 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 11:39:35.999 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 172 ms
+2023-10-20 11:39:36.050 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 11:39:36.056 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 11:39:36.059 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.253 seconds (JVM running for 664.109)
+2023-10-20 11:39:36.060 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 11:40:49.725 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 26736 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 11:40:49.725 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 11:40:49.725 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 11:40:49.893 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 11:40:49.913 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 186 ms
+2023-10-20 11:40:49.983 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 11:40:49.990 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 11:40:49.993 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.289 seconds (JVM running for 738.043)
+2023-10-20 11:40:49.994 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 11:45:52.402 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 26736 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 11:45:52.403 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 11:45:52.403 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 11:45:52.575 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 11:45:52.592 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 187 ms
+2023-10-20 11:45:52.657 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 11:45:52.663 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 11:45:52.667 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.284 seconds (JVM running for 1040.716)
+2023-10-20 11:45:52.668 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 11:45:55.449 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 26736 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 11:45:55.450 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 11:45:55.450 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 11:45:55.564 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 11:45:55.575 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 124 ms
+2023-10-20 11:45:55.637 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 11:45:55.647 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 11:45:55.650 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.216 seconds (JVM running for 1043.699)
+2023-10-20 11:45:55.652 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 11:46:03.267 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 11:46:03.269 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-10-20 11:49:11.644 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 26736 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 11:49:11.644 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 11:49:11.644 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 11:49:11.828 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 11:49:11.846 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 200 ms
+2023-10-20 11:49:11.920 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 11:49:11.927 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 11:49:11.929 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.305 seconds (JVM running for 1239.978)
+2023-10-20 11:49:11.930 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 11:49:16.183 [RMI TCP Connection(25)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2023-10-20 11:57:32.836 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 11:57:32.837 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 11:57:32.837 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 11:57:32.880 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-10-20 11:57:32.880 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-10-20 11:57:33.628 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 11:57:33.719 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 839 ms
+2023-10-20 11:57:34.035 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 11:57:34.068 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 11:57:34.074 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 1.666 seconds (JVM running for 2.321)
+2023-10-20 11:57:47.678 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 11:57:47.679 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-10-20 12:01:55.468 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 12:01:55.468 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 12:01:55.468 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 12:01:55.666 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 12:01:55.680 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 209 ms
+2023-10-20 12:01:55.756 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 12:01:55.764 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 12:01:55.766 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.324 seconds (JVM running for 264.013)
+2023-10-20 12:01:55.767 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 12:02:03.264 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 12:02:03.265 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 12:02:03.265 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 12:02:03.404 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 12:02:03.424 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 157 ms
+2023-10-20 12:02:03.487 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 12:02:03.492 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 12:02:03.495 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.25 seconds (JVM running for 271.741)
+2023-10-20 12:02:03.496 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 12:03:03.138 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 12:03:03.138 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 12:03:03.139 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 12:03:03.307 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 12:03:03.327 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 187 ms
+2023-10-20 12:03:03.397 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 12:03:03.404 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 12:03:03.406 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.288 seconds (JVM running for 331.653)
+2023-10-20 12:03:03.407 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 12:03:41.269 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 12:03:41.269 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 12:03:41.269 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 12:03:41.437 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 12:03:41.449 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 178 ms
+2023-10-20 12:03:41.514 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 12:03:41.521 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 12:03:41.524 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.275 seconds (JVM running for 369.771)
+2023-10-20 12:03:41.525 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 12:04:04.499 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 12:04:04.500 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 12:04:04.500 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 12:04:04.654 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 12:04:04.668 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 166 ms
+2023-10-20 12:04:04.730 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 12:04:04.737 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 12:04:04.739 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.26 seconds (JVM running for 392.986)
+2023-10-20 12:04:04.740 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 12:05:25.373 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 12:05:25.373 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 12:05:25.373 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 12:05:25.543 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 12:05:25.555 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 180 ms
+2023-10-20 12:05:25.615 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 12:05:25.621 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 12:05:25.624 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.269 seconds (JVM running for 473.87)
+2023-10-20 12:05:25.624 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 12:05:41.183 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 12:05:41.184 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 12:05:41.184 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 12:05:41.315 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 12:05:41.329 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 144 ms
+2023-10-20 12:05:41.386 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 12:05:41.394 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 12:05:41.397 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.232 seconds (JVM running for 489.644)
+2023-10-20 12:05:41.398 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 12:06:57.059 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 12:06:57.059 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 12:06:57.059 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 12:06:57.240 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 12:06:57.253 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 192 ms
+2023-10-20 12:06:57.312 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 12:06:57.318 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 12:06:57.321 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.282 seconds (JVM running for 565.567)
+2023-10-20 12:06:57.321 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 12:07:26.789 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 12:07:26.789 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 12:07:26.789 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 12:07:26.921 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 12:07:26.941 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 150 ms
+2023-10-20 12:07:27.016 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 12:07:27.022 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 12:07:27.025 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.255 seconds (JVM running for 595.271)
+2023-10-20 12:07:27.026 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 12:07:46.854 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 12:07:46.854 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 12:07:46.854 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 12:07:47.009 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 12:07:47.028 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 173 ms
+2023-10-20 12:07:47.075 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 12:07:47.081 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 12:07:47.083 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.246 seconds (JVM running for 615.329)
+2023-10-20 12:07:47.084 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 12:07:54.729 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 12:07:54.730 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-10-20 12:09:02.884 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 12:09:02.884 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 12:09:02.884 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 12:09:03.038 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 12:09:03.051 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 165 ms
+2023-10-20 12:09:03.120 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 12:09:03.126 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 12:09:03.128 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.263 seconds (JVM running for 691.375)
+2023-10-20 12:09:03.129 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 12:09:38.009 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 12:09:38.009 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 12:09:38.009 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 12:09:38.178 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 12:09:38.191 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 180 ms
+2023-10-20 12:09:38.262 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 12:09:38.269 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 12:09:38.271 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.28 seconds (JVM running for 726.518)
+2023-10-20 12:09:38.272 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 12:09:39.997 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 12:09:39.997 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 12:09:39.998 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 12:09:40.132 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 12:09:40.147 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 147 ms
+2023-10-20 12:09:40.211 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 12:09:40.218 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 12:09:40.221 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.242 seconds (JVM running for 728.467)
+2023-10-20 12:09:40.223 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 12:09:46.305 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 12:09:46.306 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2023-10-20 12:10:39.704 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 12:10:39.704 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 12:10:39.704 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 12:10:39.878 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 12:10:39.891 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 185 ms
+2023-10-20 12:10:39.959 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 12:10:39.966 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 12:10:39.969 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.286 seconds (JVM running for 788.216)
+2023-10-20 12:10:39.969 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 12:10:46.434 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 12:10:46.434 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 12:10:46.434 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 12:10:46.564 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 12:10:46.575 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 139 ms
+2023-10-20 12:10:46.631 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 12:10:46.636 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 12:10:46.639 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.225 seconds (JVM running for 794.886)
+2023-10-20 12:10:46.640 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 12:10:53.042 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 12:10:53.043 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2023-10-20 12:17:32.622 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 12:17:32.622 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 12:17:32.622 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 12:17:32.800 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 12:17:32.814 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 190 ms
+2023-10-20 12:17:32.882 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 12:17:32.889 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 12:17:32.892 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.288 seconds (JVM running for 1201.139)
+2023-10-20 12:17:32.893 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 12:18:14.229 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 12:18:14.229 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 12:18:14.229 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 12:18:14.399 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 12:18:14.413 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 182 ms
+2023-10-20 12:18:14.504 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 12:18:14.513 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 12:18:14.515 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.306 seconds (JVM running for 1242.762)
+2023-10-20 12:18:14.516 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 12:18:59.699 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 12:18:59.700 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2023-10-20 14:18:05.443 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 14:18:05.444 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 14:18:05.444 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 14:18:05.666 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 14:18:05.679 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 232 ms
+2023-10-20 14:18:05.747 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 14:18:05.754 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 14:18:05.757 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.339 seconds (JVM running for 8436.249)
+2023-10-20 14:18:05.758 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 14:18:07.456 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 1.8.0_321 on MSI with PID 27000 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2023-10-20 14:18:07.457 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2023-10-20 14:18:07.457 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2023-10-20 14:18:07.664 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-10-20 14:18:07.687 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 227 ms
+2023-10-20 14:18:07.809 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2023-10-20 14:18:07.815 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-20 14:18:07.818 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.384 seconds (JVM running for 8438.31)
+2023-10-20 14:18:07.819 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2023-10-20 14:18:14.561 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-10-20 14:18:14.562 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2023-10-20 15:23:10.210 [RMI TCP Connection(97)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.

@@ -140,7 +140,7 @@ public class PersonnelController {
 
 	@CrossOrigin
 	@PostMapping("Personnel/Quick_Search") // 完成
-	public ArrayList<T_Class> Quick_Search(@RequestBody JSONObject EmployeeObject)
+	public ArrayList<String> Quick_Search(@RequestBody JSONObject EmployeeObject)
 			throws ClassNotFoundException, SQLException {
 
 		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
@@ -151,13 +151,13 @@ public class PersonnelController {
 		}
 		String Employee_Id = Split_String[0];
 		String Quick_Search = Split_String[1];
-		return PersonSQL.Quick_Search(Integer.parseInt(Employee_Id), Quick_Search); // 員工的ID找權限與快搜字串
+		return PersonSQL.Quick_Search(Integer.parseInt(Employee_Id), Quick_Search).get(0).Return_List(); // 員工的ID找權限與快搜字串
 
 	}
 
 	@CrossOrigin
 	@PostMapping("Personnel/Print_Article_Class") // 完成
-	public ArrayList<T_Class> Print_Article_Class(@RequestBody JSONObject EmployeeObject)
+	public ArrayList<String> Print_Article_Class(@RequestBody JSONObject EmployeeObject)
 			throws ClassNotFoundException, SQLException {
 		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
 		Object Object_String = EmployeeObject.get("EmployeeObject");
@@ -167,20 +167,21 @@ public class PersonnelController {
 		String Employee_Class = Split_String[2];
 
 
-		return PersonSQL.Print_Article_Class(Integer.parseInt(Employee_Id), Employee_Class, Employee_Department); // 給id，類別，部門
+		return PersonSQL.Print_Article_Class(Integer.parseInt(Employee_Id), Employee_Class, Employee_Department).get(0).Return_List(); // 給id，類別，部門
 
 	}
 
 	@CrossOrigin
 	@PostMapping("Personnel/Print_Article") // 完成
-	public ArrayList<T_Class> Print_Article(@RequestBody JSONObject EmployeeObject)
+	public ArrayList<String> Print_Article(@RequestBody JSONObject EmployeeObject)
 			throws ClassNotFoundException, SQLException {
 		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
 		Object Object_String = EmployeeObject.get("EmployeeObject");
 		String[] Split_String = ((String) Object_String).split(",");
 		String Employee_Id = Split_String[0];
 		String Employee_Department = Split_String[1];
-		return PersonSQL.Print_Article_(Integer.parseInt(Employee_Id), Employee_Department); // 給員工id，部門
+      
+		return PersonSQL.Print_Article_(Integer.parseInt(Employee_Id), Employee_Department).get(0).Return_List(); // 給員工id，部門
 
 	}
 

@@ -1,5 +1,7 @@
 package Personnel;
 
+import java.util.ArrayList;
+
 public class EmployeeModel extends T_Class {
     
 	private int id;
@@ -97,5 +99,23 @@ public class EmployeeModel extends T_Class {
 	public EmployeeModel setName(String name) {
 		Name = name;
 		return this;
+	}
+
+	@Override
+	public ArrayList<String> Return_List() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void Set_List(String t_Class) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void ReStruct() {
+		// TODO Auto-generated method stub
+		
 	}
 }

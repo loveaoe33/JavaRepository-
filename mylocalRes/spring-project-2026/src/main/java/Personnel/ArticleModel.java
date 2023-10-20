@@ -1,6 +1,14 @@
 package Personnel;
 
-public class ArticleModel extends T_Class{
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class ArticleModel extends T_Class implements  Serializable  {
+	private  ObjectMapper objectMapper = new ObjectMapper();
 	public ArticleModel() {};
 	
 	private int id;
@@ -127,6 +135,32 @@ public class ArticleModel extends T_Class{
 		return this;
 
 	}
+    @Override
+    public String toString() {
+        try {
+            return objectMapper.writeValueAsString(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+	@Override
+	public ArrayList<String> Return_List() {
+		// TODO Auto-generated method stub
+		return Article_List;
+	}
+	
+	@Override
+    public void ReStruct() {
+    	Article_List.clear();
+    }
 
+
+	@Override
+	public void Set_List(String t_Class) {
+		Article_List.add(t_Class)		;
+	}
+    
+    
 	
 }

@@ -27,6 +27,8 @@ public class PersonnelDAO {
 	private String SQLConnectingSetting = "jdbc:mysql://localhost/personnel?serverTimezone=UTC";
 	private String SQLAccount = "root";
 	private String SQLPassword = "love20720";
+	SimpleDateFormat sdFormate = new SimpleDateFormat("hh:mm:ss");
+	Date date = new Date();
 //	private String Insert_Employee_String = "insert into Employee(id,Account,Password,ArticleClass,AccountLevel,AccountLevel,CreateDate) "
 //			+ "select ifNULL(max(id),0)+1,?,?,?,?,?,? FROM Employee"; // 員工新增
 //	private String Insert_Article_String = "insert into Article(id,EmpClass,ArticleClass,ArticleTitle,ArticleContext,ArticleEmpl,ArticleFileUrl,ArticleView,ArticleLv,ArticleCreate,ArticleLock) "
@@ -61,8 +63,7 @@ public class PersonnelDAO {
 
 		PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
 		String FilePath = "C:\\Users\\"+ userName +"\\Desktop\\vue\\newvue\\public\\PersonnelFile\\";
-		SimpleDateFormat sdFormate = new SimpleDateFormat("hh:mm:ss");
-		Date date = new Date();
+	
 		String StrDate = sdFormate.format(date);
 		if (file != null) {
 			String ProcessCode = FileTrans.FileProcess(file, Qr, ArticleId, FilePath, UpdateString, PathName.Personnel_Upload,

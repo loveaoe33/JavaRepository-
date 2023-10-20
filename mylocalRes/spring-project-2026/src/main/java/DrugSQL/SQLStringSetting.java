@@ -16,9 +16,13 @@ import javax.sql.RowSet;
 
 import Personnel.ArticleModel;
 import Personnel.EmployeeModel;
+import Personnel.Single_Personnel_List;
 import SensoryModel.Sensory;
 import net.sf.json.JSONObject;
+import net.sf.json.groovy.GJson;
 import Personnel.T_Class;
+
+
 
 public class SQLStringSetting extends AbstractSQL {
 
@@ -36,8 +40,12 @@ public class SQLStringSetting extends AbstractSQL {
 	private ArrayList<Sensory> DataArray = new ArrayList<Sensory>();
 	public static String Pass_Code = "";
 	private static ArrayList<T_Class> DataArray_Pesonnel = new ArrayList<T_Class>(); // Personnel的回傳陣列
+
 	private static T_Class Article_Class = new ArticleModel(); // 確認有無成功用的回傳物件的回傳物件
 	private static T_Class Employee_Class = new EmployeeModel(); // 確認有無成功用的回傳物件的回傳物件
+	
+	private Single_Personnel_List  Single_List=new Single_Personnel_List();
+
 
 	static JSONObject JsonData = new JSONObject();
 
@@ -353,7 +361,7 @@ public class SQLStringSetting extends AbstractSQL {
 				pst.setString(7, Personnel_Employee.getCreateDate());
 				pst.executeUpdate();
 				pst.clearParameters();
-				ArrayList<String> DataArray = new ArrayList<String>();
+//				DataArray_Article=(DataArray_Article==null)?DataArray_Article:new ArrayList<String>();				
 				Employee_Class.Upload_Check = "OK";
 
 			}
@@ -408,23 +416,22 @@ public class SQLStringSetting extends AbstractSQL {
 	private ArrayList<T_Class> Quick_Searh() {
 		DataArray_Pesonnel.clear();
 		Article_Class.reSerConstruct();
+		Single_List.ReStruct();
 		try {
 			pst = con.prepareStatement(SQLString);
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				T_Class Article_Quick_New = new ArticleModel();
-
-				((ArticleModel) Article_Quick_New).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
+//				T_Class Article_Quick_New = new ArticleModel();
+				((ArticleModel) Article_Class).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
 						.setArticleClass(rs.getString("ArticleClass")).setArticleTitle(rs.getString("ArticleTitle"))
 						.setArticleContext(rs.getString("ArticleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
 						.setArticleUrl(rs.getString("ArticleUrl")).setArticleFileUrl(rs.getString("ArticleFileUrl"))
 						.setArticleView(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
 						.setArticleCreate(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
-				Article_Quick_New.Upload_Check = "OK";
-				DataArray_Pesonnel.add(Article_Quick_New);
-
+				Article_Class.Upload_Check = "OK";
+				Single_List.Set_List(Article_Class.toString());
 			}
-			
+			DataArray_Pesonnel.add(Single_List);
 			return DataArray_Pesonnel;
 		} catch (Exception e) {
 			System.out.println("資料庫Print_Article錯誤" + e.getMessage());
@@ -439,6 +446,8 @@ public class SQLStringSetting extends AbstractSQL {
 	private ArrayList<T_Class> Print_Article() {
 		DataArray_Pesonnel.clear();
 		Article_Class.reSerConstruct();   //此處不用因為不能使用相同記憶體
+		Single_List.ReStruct();
+
 		try {
 
 			pst = con.prepareStatement(SQLString);
@@ -446,18 +455,17 @@ public class SQLStringSetting extends AbstractSQL {
 			pst.setString(2, Personnel_Employee.getAccountLevel());
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				T_Class Article_New = new ArticleModel();
 
-				((ArticleModel) Article_New).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
+				((ArticleModel) Article_Class).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
 						.setArticleClass(rs.getString("ArticleClass")).setArticleTitle(rs.getString("ArticleTitle"))
 						.setArticleContext(rs.getString("ArticleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
 						.setArticleUrl(rs.getString("ArticleUrl")).setArticleFileUrl(rs.getString("ArticleFileUrl"))
 						.setArticleView(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
 						.setArticleCreate(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
-				Article_New.Upload_Check = "OK";
-				DataArray_Pesonnel.add(Article_New);
-
+				Article_Class.Upload_Check = "OK";
+				Single_List.Set_List(Article_Class.toString());
 			}
+			DataArray_Pesonnel.add(Single_List);
 
 			return DataArray_Pesonnel;
 		} catch (Exception e) {
@@ -474,21 +482,25 @@ public class SQLStringSetting extends AbstractSQL {
 
 		DataArray_Pesonnel.clear();
 		Article_Class.reSerConstruct();   //此處不用因為不能使用相同記憶體
+		Article_Class.ReStruct();
+
+
 		try {
 			stat = con.createStatement();
 			rs = stat.executeQuery(SQLString);
 			while (rs.next()) {
-				T_Class Article_Power_New = new ArticleModel();
-				((ArticleModel) Article_Power_New).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
+				((ArticleModel) Article_Class).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
 						.setArticleClass(rs.getString("ArticleClass")).setArticleTitle(rs.getString("ArticleTitle"))
 						.setArticleContext(rs.getString("ArticleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
 						.setArticleUrl(rs.getString("ArticleUrl")).setArticleFileUrl(rs.getString("ArticleFileUrl"))
 						.setArticleView(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
 						.setArticleCreate(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
-				Article_Power_New.Upload_Check = "OK";
-				DataArray_Pesonnel.add(Article_Power_New);
-
+				Article_Class.Upload_Check = "OK";
+				Article_Class.Set_List(Article_Class.toString());
+			
 			}
+			DataArray_Pesonnel.add(Article_Class);
+//			System.out.println("輸出"+DataArray_Pesonnel.get(0).Return_List());
 
 			return DataArray_Pesonnel;
 
@@ -505,6 +517,8 @@ public class SQLStringSetting extends AbstractSQL {
 
 		DataArray_Pesonnel.clear();
 		Article_Class.reSerConstruct();   //此處不用因為不能使用相同記憶體
+		Article_Class.ReStruct();
+
 		try {
 			pst = con.prepareStatement(SQLString);
 			pst.setString(1, Personnel_Employee.getArticleClass());
@@ -512,18 +526,16 @@ public class SQLStringSetting extends AbstractSQL {
 			pst.setString(3, Personnel_Employee.getAccountLevel());
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				T_Class Article_Class_New = new ArticleModel();
-
-				((ArticleModel) Article_Class_New).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
+				((ArticleModel) Article_Class).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
 						.setArticleClass(rs.getString("ArticleClass")).setArticleTitle(rs.getString("ArticleTitle"))
 						.setArticleContext(rs.getString("ArticleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
 						.setArticleUrl(rs.getString("ArticleUrl")).setArticleFileUrl(rs.getString("ArticleFileUrl"))
 						.setArticleView(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
 						.setArticleCreate(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
-				Article_Class_New.Upload_Check = "OK";
-				DataArray_Pesonnel.add(Article_Class_New);
+				Article_Class.Upload_Check = "OK";
+				Article_Class.Set_List(Article_Class.toString());
 			}
-
+			DataArray_Pesonnel.add(Article_Class);
 			return DataArray_Pesonnel;
 
 		} catch (Exception e) {
@@ -540,23 +552,24 @@ public class SQLStringSetting extends AbstractSQL {
 
 		DataArray_Pesonnel.clear();
 		Article_Class.reSerConstruct(); //此處不用因為不能使用相同記憶體
+		Article_Class.ReStruct();
+
 		try {
 			pst = con.prepareStatement(SQLString);
 			pst.setString(1, Personnel_Employee.getArticleClass());
 			rs = pst.executeQuery();
 
 			while (rs.next()) {
-				T_Class Article_Class_Power_New = new ArticleModel();
-
-				((ArticleModel) Article_Class_Power_New).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
+				((ArticleModel) Article_Class).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
 						.setArticleClass(rs.getString("ArticleClass")).setArticleTitle(rs.getString("ArticleTitle"))
 						.setArticleContext(rs.getString("ArticleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
 						.setArticleUrl(rs.getString("ArticleUrl")).setArticleFileUrl(rs.getString("ArticleFileUrl"))
 						.setArticleView(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
 						.setArticleCreate(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
-				Article_Class_Power_New.Upload_Check = "OK";
-				DataArray_Pesonnel.add(Article_Class_Power_New);
+				Article_Class.Upload_Check = "OK";
+				Article_Class.Set_List(Article_Class.toString());
 			}
+			DataArray_Pesonnel.add(Article_Class);
 			return DataArray_Pesonnel;
 
 		} catch (Exception e) {
@@ -575,10 +588,8 @@ public class SQLStringSetting extends AbstractSQL {
 			if (Viewer.contains(Employee)) {
 
 			} else {
-//				Viewer = (Viewer == null || Viewer.equals("")) ? Viewer + Employee + ","
-//						: Viewer + "," + Employee + ",";
-				Viewer = Viewer + Employee;
-
+				Viewer = (Viewer == null || Viewer.equals("")) ? Viewer + Employee + ","
+						: Viewer + "," + Employee + ",";
 				String Update_String = "Update Article SET ArticleView='" + Viewer + "'  where id=" + Article_Id;
 				System.out.println(Update_String);
 
@@ -656,9 +667,8 @@ public class SQLStringSetting extends AbstractSQL {
 			stat = con.createStatement();
 			rs = stat.executeQuery(SQLString);
 			DataArray_Pesonnel.clear();
+			Article_Class.ReStruct();
 			
-			ArrayList<ArticleModel> DataArray = new ArrayList<>();
-
 			if (!rs.next()) {
 
 				Article_Class.Upload_Check="NOK";
@@ -666,16 +676,18 @@ public class SQLStringSetting extends AbstractSQL {
 				return DataArray_Pesonnel;
 
 			} else {
-				T_Class One_Article = new ArticleModel();
 
-				((ArticleModel) One_Article).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
+				((ArticleModel) Article_Class).setId(rs.getInt("id")).setEmpClass(rs.getString("EmpClass"))
 						.setArticleClass(rs.getString("ArticleClass")).setArticleTitle(rs.getString("ArticleTitle"))
 						.setArticleContext(rs.getString("ArticleContext")).setArticleEmpl(rs.getString("ArticleEmpl"))
 						.setArticleUrl(rs.getString("ArticleUrl")).setArticleFileUrl(rs.getString("ArticleFileUrl"))
 						.setArticleView(rs.getString("ArticleView")).setArticleUrl(rs.getString("ArticleLv"))
 						.setArticleCreate(rs.getString("ArticleCreate")).setEmpClass(rs.getString("ArticleLock"));
-				One_Article.Upload_Check = "OK";
-				DataArray_Pesonnel.add(One_Article);
+				Article_Class.Upload_Check = "OK";
+			
+				Article_Class.Set_List(Article_Class.toString());
+				DataArray_Pesonnel.add(Article_Class);
+			
 				return DataArray_Pesonnel;
 				
 			}
