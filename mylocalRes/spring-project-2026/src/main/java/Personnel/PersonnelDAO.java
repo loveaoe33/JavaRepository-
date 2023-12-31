@@ -77,8 +77,9 @@ public class PersonnelDAO {
 	}
 
 	private void SQL_Process(String ResetString) throws ClassNotFoundException {
-		if (sqlSetting == null) {
+		if (sqlSetting == null ) {
 			sqlSetting = new SQLStringSetting(ResetString, SQLConnectingSetting, SQLAccount, SQLPassword);
+		
 		} else {
 			sqlSetting.ReSettSQL(ResetString, SQLConnectingSetting, SQLAccount, SQLPassword);
 		}
@@ -120,13 +121,13 @@ public class PersonnelDAO {
 		     // 如抽象無定義抽象方法，要找到定義的方法要轉型使用Account搜尋。
 		SQLStringSetting.Personnel_Employee.setId(EmployeId).setDepartment(Department).setAccountLevel(Integer.toString(Employee_Check));
 		if (Employee_Check == 0) {
-			String Power_Print_Article = "select * from Article";
+			String Power_Print_Article = "select * from Article ORDER BY id DESC";
 			SQL_Process(Power_Print_Article);
 			return sqlSetting.SQLCase_Personnel(CaseSQL.Print_Article_Power);
 
 		} else {
 //        	String Print_Article_ = "select * from Article where (ArticleLv=0 or ArticleLv<="+EmployeId+")";  //依造LV搜尋文章
-			String Print_Article_ = "select * from Article where (ArticleLock=? or ArticleLock='') AND (ArticleLv=0 or ArticleLv<=?)"; // 依造LV搜尋文章
+			String Print_Article_ = "select * from Article where (ArticleLock=? or ArticleLock='') AND (ArticleLv=0 or ArticleLv<=?) ORDER BY id DESC"; // 依造LV搜尋文章
 
 			SQL_Process(Print_Article_);
 			return sqlSetting.SQLCase_Personnel(CaseSQL.Print_Article);
@@ -144,12 +145,12 @@ public class PersonnelDAO {
 
 		if (Employee_Check == 0) {
 
-			String Power_Print_Article = "select * from Article where ArticleClass=?"; // 依造類別搜尋文章
+			String Power_Print_Article = "select * from Article where ArticleClass=? ORDER BY id DESC"; // 依造類別搜尋文章
 			SQL_Process(Power_Print_Article);
 			return sqlSetting.SQLCase_Personnel(CaseSQL.Print_Article_Class_Power);
 
 		} else {
-			String Print_Article_Class = "select * from Article where ArticleClass=? AND (ArticleLock=? or ArticleLock='') AND (ArticleLv=0 or ArticleLv<=?)"; // 依造類別與LV搜尋文章
+			String Print_Article_Class = "select * from Article where ArticleClass=? AND (ArticleLock=? or ArticleLock='') AND (ArticleLv=0 or ArticleLv<=?) ORDER BY id DESC"; // 依造類別與LV搜尋文章
 //            String Print_Article_Class = "select * from Article where ArticleClass="+Article_Class+"AND (ArticleLock="+Department+ "or ArticleLock=='') AND (ArticleLv=0 or ArticleLv<"+EmployeId+")"; //依造類別與LV搜尋文章
 			SQL_Process(Print_Article_Class);
 			return sqlSetting.SQLCase_Personnel(CaseSQL.Print_Article_Class);
@@ -163,12 +164,12 @@ public class PersonnelDAO {
 		int Employee_Check = ((SQLStringSetting) sqlSetting).Employee_LvCheck(EmployeId); // 如抽象無定義抽象方法，要找到定義的方法要轉型使用Account搜尋。
 
 		if (Employee_Check == 0) {
-			String Quick_Search = "select * from Article where ArticleTitle LIKE '"+ Key + "%'";
+			String Quick_Search = "select * from Article where ArticleTitle LIKE '%"+ Key + "%'";
 			SQL_Process(Quick_Search);
 			return sqlSetting.SQLCase_Personnel(CaseSQL.Quick_Search);
 		} else {
-			String Quick_Search = "select * from Article where ArticleTitle LIKE" + Key
-					+ "% AND (ArticleLv=0 or ArticleLv<=" + Employee_Check + ")";
+			String Quick_Search = "select * from Article where ArticleTitle LIKE '%" + Key
+					+ "%' AND (ArticleLv=0 or ArticleLv<=" + Employee_Check + ")";
 			SQL_Process(Quick_Search);
 			return sqlSetting.SQLCase_Personnel(CaseSQL.Quick_Search);
 		}
@@ -192,6 +193,8 @@ public class PersonnelDAO {
 		SQLStringSetting.Personnel_Article.setId(id);
 		String Delete_Article = "Delete from Article where id=?";
 		SQL_Process(Delete_Article);
+		System.out.println(id);
+
 		return sqlSetting.SQLCase_Personnel(CaseSQL.Delete_Article);
 	}
 	

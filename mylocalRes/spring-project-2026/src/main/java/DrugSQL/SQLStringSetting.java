@@ -84,7 +84,13 @@ public class SQLStringSetting extends AbstractSQL {
 		// TODO Auto-generated method stub
 		try {
 			Class.forName("com.mysql.jdbc.Driver");// 註冊driver
-			con = DriverManager.getConnection(ConnectionString, Account, Password);
+			if(con==null||con.isClosed()) {
+				con = DriverManager.getConnection(ConnectionString, Account, Password);
+			}else if(con!=null)
+			{
+				con.close();
+				con = DriverManager.getConnection(ConnectionString, Account, Password);
+			}
 		} catch (SQLException e) {
 			System.out.println("資料庫設置錯誤" + e.toString());
 		} catch (ClassNotFoundException x) {
@@ -405,6 +411,7 @@ public class SQLStringSetting extends AbstractSQL {
 
 		} catch (Exception e) {
 			System.out.println("資料庫Employee_Login錯誤" + e.getMessage());
+			
 			return null;
 		} finally {
 			Personnel_Employee.reSerConstruct();
@@ -637,7 +644,10 @@ public class SQLStringSetting extends AbstractSQL {
 
 	}
 
-	public int Employee_LvCheck(int id) {
+	public int Employee_LvCheck(int id) throws SQLException {
+		if(con.isClosed()||con!=null) {
+			con = DriverManager.getConnection(ConnectionString, Account, Password);
+		}
 		String Employee_LvCheck = "select * from Employee where id=" + id; // 權限檢查
 		DataArray_Pesonnel.clear();
 		Employee_Class.reSerConstruct();
@@ -658,6 +668,7 @@ public class SQLStringSetting extends AbstractSQL {
 			return 99;// 找無權限id
 		} finally {
 			Close();
+			con.close();
 		}
 
 	}
@@ -711,7 +722,9 @@ public class SQLStringSetting extends AbstractSQL {
 
 		DataArray_Pesonnel.clear();
 		Article_Class.reSerConstruct();
+
 		try {
+
 			if (Pass_Code.equals("A078")) {
 				pst = con.prepareStatement(SQLString);
 				pst.setLong(1, Personnel_Article.getId());
@@ -799,6 +812,13 @@ public class SQLStringSetting extends AbstractSQL {
 		super.SQLString = SQLString;
 		super.Account = Account;
 		super.Password = Password;
+		try {
+			SQLConnection();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }

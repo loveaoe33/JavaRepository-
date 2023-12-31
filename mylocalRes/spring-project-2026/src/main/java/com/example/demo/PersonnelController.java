@@ -180,7 +180,7 @@ public class PersonnelController {
 		String[] Split_String = ((String) Object_String).split(",");
 		String Employee_Id = Split_String[0];
 		String Employee_Department = Split_String[1];
-      
+
 		return PersonSQL.Print_Article_(Integer.parseInt(Employee_Id), Employee_Department).get(0).Return_List(); // 給員工id，部門
 
 	}
@@ -201,6 +201,8 @@ public class PersonnelController {
 		Object Object_String = ArtilceObject.get("Article_ID");
 		String[] Split_String = ((String) Object_String).split(",");
 		SQLStringSetting.Pass_Code = Split_String[1];
+		System.out.println(Split_String[1]);
+
 		return PersonSQL.Delete_Article(Integer.parseInt(Split_String[0])); // 給文章編號
 
 	}

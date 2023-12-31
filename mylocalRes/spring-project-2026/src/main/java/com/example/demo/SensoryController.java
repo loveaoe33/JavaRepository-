@@ -41,7 +41,7 @@ public class SensoryController {
 	private AbstractSQL sqlSetting;
 	private String PostDateString = "insert into sensorTable(id,SensorKey,SensorTile,SensorContext,SensorDate,SensorEmp,Url,fileUrl,QrcodeUrl) "
 			+ "select ifNULL(max(id),0)+1,?,?,?,?,?,?,?,? FROM sensorTable";
-	private String SensoryString = "select * from sensorTable ORDER BY SensorDate DESC";
+	private String SensoryString = "select * from sensorTable ORDER BY id DESC";
 	private String SensoryOneString = "";
 	private String DeleteSensory = "";  
 	private String SQLConnectingSetting = "jdbc:mysql://localhost/drugsql?serverTimezone=UTC";
@@ -162,11 +162,11 @@ public class SensoryController {
 	@PostMapping("Sensory/PrintAllSensory")
 	public ArrayList<Sensory> QuerySensory() throws ClassNotFoundException, SQLException {
 		
-
 	    if(SensoryAll.isEmpty()||SensoryAll==null){ }else {SensoryAll.clear(); }
 		if (sqlSetting != null) {
 			sqlSetting.ReSettSQL(SensoryString, SQLConnectingSetting, SQLAccount, SQLPassword);
 			SensoryAll = sqlSetting.SQLCase(CaseSQL.Prinall);
+			sqlSetting=null;
 			return SensoryAll;
 		} else
 
@@ -186,6 +186,7 @@ public class SensoryController {
 		if (sqlSetting != null) {
 			sqlSetting.ReSettSQL(SensoryOneString, SQLConnectingSetting, SQLAccount, SQLPassword);
 			SensoryAll = sqlSetting.SQLCase(CaseSQL.PrintOne);
+			sqlSetting=null;
 			return SensoryAll;
 		} else
 
@@ -207,6 +208,7 @@ public class SensoryController {
 		if (sqlSetting != null) {
 			sqlSetting.ReSettSQL(SensoryOneString, SQLConnectingSetting, SQLAccount, SQLPassword);
 			SensoryAll = sqlSetting.SQLCase(CaseSQL.PrinClass);
+			sqlSetting=null;
 			return SensoryAll;
 		} else {
 			 sqlSetting = new SQLStringSetting(SensoryOneString, SQLConnectingSetting, SQLAccount,
