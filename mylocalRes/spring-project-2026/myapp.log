@@ -612,3 +612,4 @@
 2023-12-31 16:27:33.410 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.418 seconds (JVM running for 7349.795)
 2023-12-31 16:27:33.411 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
 2023-12-31 16:27:38.711 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-12-31 16:27:38.712 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
