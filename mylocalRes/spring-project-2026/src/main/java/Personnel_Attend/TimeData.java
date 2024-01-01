@@ -30,6 +30,7 @@ public class TimeData {
 	double Old_Time;//Log_Time
 	double New_Time;//Log_Time
 	Date Update_Time;//Log_Time
+	String Attend_Key;//Log_Time
 	HashMap<String,String>Time_Log=new HashMap<>();
 	public void ResConstruct() {
 		this.Emp_Key="";
@@ -42,6 +43,7 @@ public class TimeData {
 		this.Old_Time=0;
 		this.New_Time=0;
 		this.Update_Time=null;
+		this.Attend_Key="";
 		
 	}
 }

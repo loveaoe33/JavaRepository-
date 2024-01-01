@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import Personnel_Attend.Appli_form;
 import Personnel_Attend.Department;
 import Personnel_Attend.Employee;
 import Personnel_Attend.SQLSERVER;
@@ -30,10 +31,11 @@ import java.sql.Date;
 public class AttendController {
 	
 
-	private  Department department;
-	private  Employee employee;
-	private TimeData timeData;
+	private  final Department department;
+	private  final Employee employee;
+	private final TimeData timeData;
 	private final SQLSERVER  sqlserver;
+	private final Appli_form appli_form;
 //	public AttendController(testServer test) {
 //		this.test=test;
 //	}
@@ -57,11 +59,12 @@ public class AttendController {
 	
 	
 	@Autowired
-	public AttendController(SQLSERVER  sqlserver,Department department, Employee employee,TimeData timeData) {
+	public AttendController(SQLSERVER  sqlserver,Department department, Employee employee,TimeData timeData,Appli_form appli_form) {
 		this.department=department;
 		this.sqlserver=sqlserver;
 		this.employee=employee;
 		this.timeData=timeData;
+		this.appli_form=appli_form;
 	}
 	
 	
@@ -78,7 +81,7 @@ public class AttendController {
 		}else {
 			LocalDateTime  currenDate=LocalDateTime.now();
 			String Department_Key=String.format(Deaprtment+"_%s", currenDate.toString());
-			department=Department.builder().Department(Deaprtment).Department_Key(Department_Key).Child_Department_Key(Department_Key+"s").build();
+			Department department=Department.builder().Department(Deaprtment).Department_Key(Department_Key).Child_Department_Key(Department_Key+"s").build();
 			return sqlserver.Insert_Department(department);
 		}
 
@@ -89,10 +92,10 @@ public class AttendController {
 		LocalDateTime  currenDate=LocalDateTime.now();
         Timestamp timestamp = Timestamp.valueOf(currenDate);
         Date date = new Date(timestamp.getTime());
+        
 		String Time_Log_Key=String.format("E0010"+"_%s", currenDate.toString());
-
-		employee=Employee.builder().Emp_ID("E0010").Password("love20720").Emp_Name("黃立帆").Department_Key("資訊室_2023-12-28T18:06:55.350722100").Account_Lv(0).Create_Time(date).Create_Name("黃立帆").build();
-		timeData=TimeData.builder().Emp_Key("E0010").Last_Time(0).Time_Pon_Mark("Account_Init").Time_Log_Key(Time_Log_Key).Update_Time(date).Time_Event("Time_Init").Time_Mark("初始化").Insert_Time(0).Old_Time(0).New_Time(0).Update_Time(date).build();
+		Employee employee=Employee.builder().Emp_ID("E0010").Password("love20720").Emp_Name("黃立帆").Department_Key("資訊室_2023-12-28T18:06:55.350722100").Account_Lv(0).Create_Time(date).Create_Name("黃立帆").build();
+		TimeData timeData=TimeData.builder().Emp_Key("E0010").Last_Time(0).Time_Pon_Mark("Account_Init").Time_Log_Key(Time_Log_Key).Update_Time(date).Time_Event("Time_Init").Time_Mark("初始化").Insert_Time(0).Old_Time(0).New_Time(0).Update_Time(date).Attend_Key("").build();
 		return sqlserver.Insert_Employee(employee,timeData);
 	}
 	
@@ -105,11 +108,16 @@ public class AttendController {
         Timestamp timestamp = Timestamp.valueOf(currenDate);
         Date date = new Date(timestamp.getTime());
 		String Time_Log_Key=String.format("E0010"+"_%s", currenDate.toString());
-       
-		
-		timeData=TimeData.builder().Emp_Key("E0010").Last_Time(0).Time_Pon_Mark("").Time_Log_Key("E0010_2023-12-31T14:26:33.173907800").Update_Time(date).Time_Event("加班").Time_Mark("加班測試").Insert_Time(-9).Old_Time(0).New_Time(0).Update_Time(date).build();
+		TimeData timeData=TimeData.builder().Emp_Key("E0010").Last_Time(0).Time_Pon_Mark("").Time_Log_Key("E0010_2023-12-31T14:26:33.173907800").Update_Time(date).Time_Event("加班").Time_Mark("加班測試").Insert_Time(-9).Old_Time(0).New_Time(0).Update_Time(date).Attend_Key("").build();
 		return sqlserver.Insert_TimeData_Update(timeData);
 		
+	}
+	@CrossOrigin
+	@GetMapping("AttendController/Insert_TimeData") //申請資料
+	public String Insert_TimeData() {	
+
+		Appli_form appli_form=Appli_form.builder().Emp_Key("E0010").Department("資訊室").Reason("加班").Appli_Time(3).Last_Time(0).Apli_Total(0).Reason_Mark("機器維修").Review_ID_Key(null).Appli_Date(null).Review_Date(null).Check_State("No_Process").build();
+		return sqlserver.Attend_TimeData(appli_form);
 	}
 	
 	
@@ -128,11 +136,7 @@ public class AttendController {
 	public String Admin_Change_Employee(@RequestBody JSONObject Admin_Change_Employee) {	
 		return "";
 	}
-	@CrossOrigin
-	@GetMapping("AttendController/Insert_TimeData") //申請資料
-	public String Insert_TimeData(@RequestBody JSONObject Employee_Time_Post) {	
-		return "";
-	}
+
 	
 	@CrossOrigin
 	@GetMapping("AttendController/Search_TimeData") //調閱資料

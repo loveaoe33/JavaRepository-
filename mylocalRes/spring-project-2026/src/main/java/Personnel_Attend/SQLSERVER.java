@@ -1,7 +1,10 @@
 package Personnel_Attend;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,21 +13,24 @@ import Personnel.EmployeeModel;
 
 @Service
 public class SQLSERVER extends SQLOB {
-	private SQLClass sqlclass;
-	private Employee employee;
-	private Department department;
-	private TimeData timeData;
+	private final SQLClass sqlclass;
+	private final Employee employee;
+	private final Department department;
+	private final TimeData timeData;
+	private final Appli_form appli_form;
+    private Date date=new Date(0);
 	private String Result = null;
 	private String SQL_Str = null;
 
 	@Autowired
-	public SQLSERVER(SQLClass sqlclass, Department department, Employee employee, TimeData timeData) {
+	public SQLSERVER(SQLClass sqlclass, Department department, Employee employee, TimeData timeData,Appli_form appli_form) {
 
 		super(sqlclass);
 		this.sqlclass = sqlclass;
 		this.department = department;
 		this.employee = employee;
 		this.timeData = timeData;
+		this.appli_form=appli_form;
 	}
 
 	public void Res_SQL(String Trans_SQLString) {
@@ -36,7 +42,12 @@ public class SQLSERVER extends SQLOB {
 			System.out.println("字串更新失敗" + e.getMessage());
 		}
 	}
-
+    public Date Date_Time() {
+		LocalDateTime  currenDate=LocalDateTime.now();
+        Timestamp timestamp = Timestamp.valueOf(currenDate);
+        date.setTime(timestamp.getTime());
+        return date;
+    }
 	public boolean Check_Employee(String Emp_Account) {
 		boolean Emp_Check = false;
 		SQL_Str = "select * from Employee where  Emp_ID=?";
@@ -51,7 +62,7 @@ public class SQLSERVER extends SQLOB {
 				Emp_Check = true;
 			}
 		} catch (SQLException e) {
-			System.out.println("帳號驗證錯誤" + e.getMessage());
+			System.out.println("Check_Employee錯誤" + e.getMessage());
 
 		} finally {
 			close_SQL();
@@ -140,7 +151,7 @@ public class SQLSERVER extends SQLOB {
 			pst.setString(1, timeData_Par.getEmp_Key());
 			rs = pst.executeQuery();
 			
-			Last_Time = (rs.next())?rs.getDouble("Last_Time"):0;
+			Last_Time = (rs.next())?rs.getDouble("Last_Time"):null;
 			if (Last_Time <= timeData_Par.Insert_Time) {
 				timeData_Par.setTime_Pon_Mark("Positive");
 			} else {
@@ -173,6 +184,8 @@ public class SQLSERVER extends SQLOB {
 			pst.setDouble(5, timeData_Par.getOld_Time());
 			pst.setDouble(6, timeData_Par.New_Time);
 			pst.setDate(7, timeData_Par.getUpdate_Time());
+			pst.setString(8, timeData_Par.getAttend_Key());
+
 			pst.executeUpdate();
 			pst.clearParameters();
 			return true;
@@ -185,8 +198,8 @@ public class SQLSERVER extends SQLOB {
 
 	public String Insert_TimeData_New(TimeData timeData_Par) { // JOB_Time new
 		Result = null;
-		String SQL_Str_JobTime = "insert into job_time(id,Emp_Key,Last_Time,Time_Pon_Mark,Time_Log_Key,Update_Time)"
-				+ "select ifNull(max(id),0)+1,?,?,?,?,? FROM job_time;";
+		String SQL_Str_JobTime = "insert into job_time(id,Emp_Key,Last_Time,Time_Pon_Mark,Time_Log_Key,Update_Time,Attend_Key)"
+				+ "select ifNull(max(id),0)+1,?,?,?,?,?,? FROM job_time;";
 		String SQL_Str_TimeLog = "insert into time_log(id,Time_Log_Key,Time_Event,Time_Mark,Insert_Time,Old_Time,New_Time,Update_Time)"
 				+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,? FROM time_log;";
 		sqlclass.setSql_Str(SQL_Str_JobTime);
@@ -216,8 +229,8 @@ public class SQLSERVER extends SQLOB {
 	public String Insert_TimeData_Update(TimeData timeData_Par) { // JOB_Time update
 		Result = null;
 		String SQL_Str_JobTime = "Update job_time SET Last_Time=?,Time_Pon_Mark=?,Update_Time=?";
-		String SQL_Str_TimeLog = "insert into time_log(id,Time_Log_Key,Time_Event,Time_Mark,Insert_Time,Old_Time,New_Time,Update_Time)"
-				+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,? FROM time_log";
+		String SQL_Str_TimeLog = "insert into time_log(id,Time_Log_Key,Time_Event,Time_Mark,Insert_Time,Old_Time,New_Time,Update_Time,Attend_Key)"
+				+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,?,? FROM time_log";
 		if(!TimeData_Compare(timeData_Par)) {
 			return "false";
 		}
@@ -268,12 +281,79 @@ public class SQLSERVER extends SQLOB {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println("登入驗證錯誤" + e.getMessage());
+			System.out.println("Login_Employee錯誤" + e.getMessage());
 		} finally {
 			close_SQL();
 			return Result;
 
 		}
+	}
+	public String Employee_LstTime(Appli_form appli_form_Par) {
+		Result = null;
+		SQL_Str="select Last_Time from job_Time where Emp_Key=?";
+		Res_SQL(SQL_Str);
+		try {
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			pst.setString(1, appli_form_Par.Emp_Key);
+			pst.executeQuery();
+			rs = pst.executeQuery();
+
+			if (rs.next()) {
+				appli_form_Par.Last_Time=rs.getDouble("Last_Time");
+				appli_form_Par.Appli_Date=Date_Time();
+				appli_form_Par.Apli_Total=appli_form_Par.getAppli_Time()+appli_form_Par.getLast_Time();
+				Result = "Sucess";
+			} else {
+				Result = "false";
+			}
+
+		}catch(SQLException e) {
+			Result = "false";
+			System.out.println("Employee_LstTime錯誤" + e.getMessage());
+		}finally {
+			close_SQL();
+			return Result;
+
+		}
+	}
+	
+	public String Attend_TimeData(Appli_form appli_form_Par) {
+		if(Employee_LstTime(appli_form_Par).equals("Sucess")) {
+			Result = null;
+			SQL_Str = "insert into appli_form(id,Emp_Key,Department,Reason,Appli_Time,Last_Time,Apli_Total,Reason_Mark,Review_ID_Key,Appli_Date,Review_Date,Check_State)"
+					+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,?,?,?,?,? FROM appli_form";
+			Res_SQL(SQL_Str);
+			try {
+				pst=con.prepareStatement(sqlclass.getSql_Str());
+				pst.setString(1, appli_form_Par.getEmp_Key());
+				pst.setString(2, appli_form_Par.getDepartment());
+				pst.setString(3, appli_form_Par.getReason());
+				pst.setDouble(4, appli_form_Par.getAppli_Time());
+				pst.setDouble(5, appli_form_Par.getLast_Time());
+				pst.setDouble(6, appli_form_Par.getApli_Total());
+				pst.setString(7, appli_form_Par.getReason_Mark());
+				pst.setString(8, appli_form_Par.getReview_ID_Key());
+				pst.setDate(9, appli_form_Par.getAppli_Date());
+				pst.setString(10, appli_form_Par.getReview_Date());
+				pst.setString(11, appli_form_Par.getCheck_State());
+				pst.executeUpdate();
+				pst.clearParameters();
+				Result = "Sucess";
+			}catch(SQLException e) {
+		
+				System.out.println("Attend_TimeData錯誤" + e.getMessage());
+				Result= "false";
+			}finally {
+				close_SQL();
+				return Result;
+			}
+		}else {
+			
+		}
+		return "Cant Catch Employee_LstTime..";
+	}
+	public void Appli_TimeData() {
+        
 	}
 
 	public void SearchEmployee_TimeData_Post() {
@@ -284,9 +364,7 @@ public class SQLSERVER extends SQLOB {
 
 	}
 
-	public void Attend_TimeData() {
 
-	}
 
 	public void Excel_Employee_TimeData_Post() {
 
