@@ -33,6 +33,30 @@ public class Appli_form {
 	String Reason_Mark;
 	String Review_ID_Key;
 	Date Appli_Date;
-	String Review_Date;
+	Date Review_Date;
 	String Check_State;
+	
+	String Review_Manager;
+	Date Review_Time;
+	String Review_Result;
+	
+	
+	public void ResConstruct() {
+		this.Emp_Key="";
+		this.Department="";
+		this.Reason="";
+		this.Appli_Time=0;
+		this.Last_Time=0;
+		this.Apli_Total=0;
+		this.Reason_Mark="";
+		this.Review_ID_Key="";
+		this.Appli_Date=null;
+		this.Review_Date=null;
+		this.Check_State=null;
+		this.Review_Manager="";
+		this.Review_Time=null;
+		this.Review_Result="";
+		
+	}
+	
 }
