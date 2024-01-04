@@ -18,13 +18,14 @@ public class SQLSERVER extends SQLOB {
 	private final Department department;
 	private final TimeData timeData;
 	private final Appli_form appli_form;
+	private final PasswordEncryption PassEncry;
 	private Date date = new Date(0);
 	private String Result = null;
 	private String SQL_Str = null;
 
 	@Autowired
 	public SQLSERVER(SQLClass sqlclass, Department department, Employee employee, TimeData timeData,
-			Appli_form appli_form) {
+			Appli_form appli_form, PasswordEncryption PassEncry) {
 
 		super(sqlclass);
 		this.sqlclass = sqlclass;
@@ -32,6 +33,7 @@ public class SQLSERVER extends SQLOB {
 		this.employee = employee;
 		this.timeData = timeData;
 		this.appli_form = appli_form;
+		this.PassEncry = PassEncry;
 	}
 
 	public void Res_SQL(String Trans_SQLString) {
@@ -85,7 +87,7 @@ public class SQLSERVER extends SQLOB {
 
 				Employee_Pst = con.prepareStatement(sqlclass.getSql_Str());
 				Employee_Pst.setString(1, employee_Par.getEmp_ID());
-				Employee_Pst.setString(2, employee_Par.getPassword());
+				Employee_Pst.setString(2, PassEncry.hashedPassword(employee_Par.getPassword()));
 				Employee_Pst.setString(3, employee_Par.getEmp_Name());
 				Employee_Pst.setString(4, employee_Par.getDepartment_Key());
 				Employee_Pst.setInt(5, employee_Par.getAccount_Lv());
@@ -93,13 +95,13 @@ public class SQLSERVER extends SQLOB {
 				Employee_Pst.setString(7, employee_Par.getCreate_Name());
 
 				if (Insert_TimeData_New(timeData_Par).equals("Sucess")) {
-					Employee_Pst.executeUpdate();
-					Employee_Pst.clearParameters();
+
 					Result = "Sucess";
 				} else {
-					Result = "Insert_TimeData_New Error..";
+					return Result = "Insert_TimeData_New Error..";
 				}
-
+				Employee_Pst.executeUpdate();
+				Employee_Pst.clearParameters();
 			} else {
 				Result = "Account Repeat..";
 
@@ -154,8 +156,8 @@ public class SQLSERVER extends SQLOB {
 			rs = pst.executeQuery();
 
 			Last_Time = (rs.next()) ? rs.getDouble("Last_Time") : null;
-			
-			if (Last_Time+ timeData_Par.Insert_Time>0) {
+
+			if (Last_Time + timeData_Par.Insert_Time > 0) {
 				timeData_Par.setTime_Pon_Mark("Positive");
 			} else {
 				timeData_Par.setTime_Pon_Mark("Negative");
@@ -173,7 +175,7 @@ public class SQLSERVER extends SQLOB {
 		}
 	}
 
-	public boolean Insert_TimeLog(String TimeLog, TimeData timeData_Par,String Switch) { // Insert_Time_Log
+	public boolean Insert_TimeLog(String TimeLog, TimeData timeData_Par, String Switch) { // Insert_Time_Log
 		Result = null;
 		sqlclass.setSql_Str(TimeLog);
 		double New_Time = timeData_Par.getOld_Time() + timeData_Par.getInsert_Time();
@@ -182,11 +184,10 @@ public class SQLSERVER extends SQLOB {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
 			pst.setString(1, timeData_Par.getTime_Log_Key());
 			pst.setString(2, timeData_Par.getTime_Event());
-	       if(Switch.equals("init")){
-			pst.setString(3, "Init");				
-			}else
-			{
-		    pst.setString(3, timeData_Par.getTime_Mark());
+			if (Switch.equals("init")) {
+				pst.setString(3, "Init");
+			} else {
+				pst.setString(3, timeData_Par.getTime_Mark());
 			}
 			pst.setDouble(4, timeData_Par.getInsert_Time());
 			pst.setDouble(5, timeData_Par.getOld_Time());
@@ -213,18 +214,22 @@ public class SQLSERVER extends SQLOB {
 		sqlclass.setSql_Str(SQL_Str_JobTime);
 		try {
 			PreparedStatement TimeData_pst = con.prepareStatement(sqlclass.getSql_Str());
-			TimeData_pst.setString(1, timeData_Par.getEmp_Key());
-			TimeData_pst.setDouble(2, timeData_Par.getLast_Time());
-			TimeData_pst.setString(3, timeData_Par.getTime_Pon_Mark());
-			TimeData_pst.setString(4, timeData_Par.getTime_Log_Key());
-			TimeData_pst.setDate(5, timeData_Par.getUpdate_Time());
-			if (Insert_TimeLog(SQL_Str_TimeLog, timeData_Par,"Init")) {
+
+			if (Insert_TimeLog(SQL_Str_TimeLog, timeData_Par, "Init")) {
+
+				TimeData_pst.setString(1, timeData_Par.getEmp_Key());
+				TimeData_pst.setDouble(2, timeData_Par.getLast_Time());
+				TimeData_pst.setString(3, timeData_Par.getTime_Pon_Mark());
+				TimeData_pst.setString(4, timeData_Par.getTime_Log_Key());
+				TimeData_pst.setDate(5, timeData_Par.getUpdate_Time());
 				TimeData_pst.executeUpdate();
 				TimeData_pst.clearParameters();
+
 				Result = "Sucess";
 			} else {
-				Result = "false";
+				return Result = "false";
 			}
+
 		} catch (SQLException e) {
 			System.out.println("JOB_Time update錯誤" + e.getMessage());
 			Result = "false";
@@ -247,7 +252,7 @@ public class SQLSERVER extends SQLOB {
 
 		try {
 			PreparedStatement TimeData_Update_pst = con.prepareStatement(sqlclass.getSql_Str());
-			if (appli_from.getCheck_State().equals("Pass") && Insert_TimeLog(SQL_Str_TimeLog, timeData_Par,"Pass")
+			if (appli_from.getCheck_State().equals("Pass") && Insert_TimeLog(SQL_Str_TimeLog, timeData_Par, "Pass")
 					&& appli_from.getReview_ID_Key() != "") {
 
 				TimeData_Update_pst.setDouble(1, timeData_Par.getNew_Time());
@@ -259,8 +264,8 @@ public class SQLSERVER extends SQLOB {
 				TimeData_Update_pst.clearParameters();
 				Result = "Sucess";
 
-			}else if(appli_from.getCheck_State().equals("NPass")) {
-				Insert_TimeLog(SQL_Str_TimeLog, timeData_Par,"NPass");
+			} else if (appli_from.getCheck_State().equals("NPass")) {
+				Insert_TimeLog(SQL_Str_TimeLog, timeData_Par, "NPass");
 				Result = "Sucess_No_Update";
 
 			}
@@ -268,7 +273,7 @@ public class SQLSERVER extends SQLOB {
 			Result = "false";
 			System.out.println("JOB_Time update錯誤" + e.getMessage());
 		} finally {
-	
+
 			Update_Appli_form(appli_from);
 			timeData_Par.ResConstruct();
 			appli_from.ResConstruct();
@@ -276,28 +281,55 @@ public class SQLSERVER extends SQLOB {
 		}
 	}
 
-	public String Login_Employee() {
-		SQL_Str = "select * from personnel_Attend where Account=? AND Password=?";
+	public String Update_Employee(Employee employee_Par) {
+		SQL_Str = "Update Employee SET Password=? where Emp_ID=?";
+		Res_SQL(SQL_Str);
 		Result = null;
+		try {
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			pst.setString(1, PassEncry.hashedPassword(employee_Par.getPassword()));
+			pst.setString(2, employee_Par.getEmp_ID());
+			pst.executeUpdate();
+			Result = "Sucess";
+		} catch (SQLException e) {
+			Result = "false";
+			System.out.println("Update_Employee錯誤" + e.getMessage());
+		} finally {
+			close_SQL();
+			return Result;
+
+		}
+
+	}
+
+	public String Login_Employee(Employee employee_Par) {
+		SQL_Str = "select * from employee where Emp_ID=?";
+		Result = "false";
 		Res_SQL(SQL_Str);
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
-			String Account_Process = (employee.getEmp_ID()).replace("--", "");
-			String Password_Process = (employee.getPassword()).replace("--", "");
+			String Account_Process = (employee_Par.getEmp_ID()).replace("--", "");
 			pst.setString(1, Account_Process);
-			pst.setString(2, Password_Process);
 			rs = pst.executeQuery();
 			if (rs.next()) {
-				Result = "Sucess";
+				String Hash = rs.getString("Password");
+				if (PassEncry.Password_Check(employee_Par.getPassword(), Hash)) {
+					Result = String.format(
+							"{\"Emp_ID\": \"%s\", \"Emp_Name\": \"%s\", \"Department_Key\": \"%s\", \"Account_Lv\": %d}",
+							rs.getString("Emp_ID"), rs.getString("Emp_Name"), rs.getString("Department_Key"),
+							rs.getInt("Account_Lv"));
+				}
+				return Result;
 			} else {
-				Result = "false";
+				return Result;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Login_Employee錯誤" + e.getMessage());
+			return Result;
+
 		} finally {
 			close_SQL();
-			return Result;
 
 		}
 	}
@@ -365,11 +397,12 @@ public class SQLSERVER extends SQLOB {
 			return "Cant Catch Employee_LstTime..";
 		}
 	}
-    public void Update_Appli_form(Appli_form appli_form) {
-    	SQL_Str = "Update appli_form SET Review_ID_Key=?,Review_Date=?,Check_State=? where id=?";
+
+	public void Update_Appli_form(Appli_form appli_form) {
+		SQL_Str = "Update appli_form SET Review_ID_Key=?,Review_Date=?,Check_State=? where id=?";
 
 		Res_SQL(SQL_Str);
-    	try {
+		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
 			pst.setString(1, appli_form.getReview_ID_Key());
 			pst.setDate(2, appli_form.getReview_Date());
@@ -378,17 +411,17 @@ public class SQLSERVER extends SQLOB {
 			pst.executeUpdate();
 			pst.clearParameters();
 
-    	}catch(SQLException e) {
+		} catch (SQLException e) {
 			System.out.println("Update_Appli_form錯誤" + e.getMessage());
 
-    	}	finally {
+		} finally {
 			close_SQL();
 		}
-    	
-    }
+
+	}
 
 	public boolean Insert_Review(Appli_form appli_form) {
-		Result=null;
+		Result = null;
 		SQL_Str = "insert into review_form(id,Review_ID_Key,Review_Manager,Review_Time,Review_Result)"
 				+ "select ifNull(max(id),0)+1,?,?,?,? FROM review_form";
 		Res_SQL(SQL_Str);
@@ -428,7 +461,7 @@ public class SQLSERVER extends SQLOB {
 				appli_form.setApli_Total(rs.getDouble("Apli_Total"));
 
 			}
-			Result= Insert_TimeData_Update(appli_form, timeData);
+			Result = Insert_TimeData_Update(appli_form, timeData);
 		} catch (SQLException e) {
 
 			System.out.println("Review_TimeData錯誤" + e.getMessage());
@@ -443,15 +476,14 @@ public class SQLSERVER extends SQLOB {
 	public String Update_Review(Appli_form appli_form, TimeData timeData) {
 
 		if (appli_form.getCheck_State().equals("Pass") && Insert_Review(appli_form)) {
-			timeData.setTime_Mark("Pass_"+timeData.Time_Mark);
+			timeData.setTime_Mark("Pass_" + timeData.Time_Mark);
 		} else if (appli_form.getCheck_State().equals("NPass") && Insert_Review(appli_form)) {
-			timeData.setTime_Mark("NPass_"+timeData.Time_Mark);
+			timeData.setTime_Mark("NPass_" + timeData.Time_Mark);
 
 		} else {
 			return "Check_State No Update...";
 		}
 		return Review_TimeData(appli_form, timeData);
-
 
 	}
 
