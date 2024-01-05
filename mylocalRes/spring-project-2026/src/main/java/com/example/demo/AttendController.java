@@ -29,11 +29,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.sql.Date;
 
 @ComponentScan("Personnel_Attend")
 @RestController
-public class AttendController {
+public class AttendController<Json> {
 
 	private final Department department;
 	private final Employee employee;
@@ -41,6 +43,7 @@ public class AttendController {
 	private final SQLSERVER sqlserver;
 	private final Appli_form appli_form;
 	private final PasswordEncryption PassEncry;
+	private HashMap<Integer, JsonNode> Ret_Data = new HashMap();
 //	public AttendController(testServer test) {
 //		this.test=test;
 //	}
@@ -154,7 +157,6 @@ public class AttendController {
 		ObjectMapper objectMapper = new ObjectMapper();
 		if (sqlserver.Login_Employee(employee).equals("false")) {
 			System.out.println(sqlserver.Login_Employee(employee));
-
 			jsonNode = null;
 		} else {
 			System.out.println("xx");
@@ -168,39 +170,65 @@ public class AttendController {
 	public String Change_Employee() throws JsonMappingException, JsonProcessingException {
 //		PassEncry.Password_Check();
 		Employee employee = Employee.builder().Emp_ID("E0012").Password("love20320").build();
-		ObjectMapper objectMapper = new ObjectMapper();
-		JsonNode jsonNode = objectMapper.readTree(sqlserver.Update_Employee(employee));
 		return sqlserver.Update_Employee(employee);
 	}
 
-
-
 	@CrossOrigin
-	@GetMapping("AttendController/Admin_Change_Employee") // 管理者更改帳號密碼或權限
-	public String Admin_Change_Employee(@RequestBody JSONObject Admin_Change_Employee) {
-		return "";
+	@GetMapping("AttendController/Admin_Search_TimeData") // 調閱申請資料
+	public HashMap Admin_Search_TimeData()
+			throws JsonMappingException, JsonProcessingException {
+		JsonNode jsonNode = null;
+		Ret_Data.clear();
+		int Key = 0;
+		ArrayList<String> Admin_Search_TimeData = new ArrayList();
+		if (sqlserver.Search_TimeData(Admin_Search_TimeData).equals("Sucess")) {
+			ObjectMapper objectMapper = new ObjectMapper();
+
+			for (String str : Admin_Search_TimeData) {
+				Key++;
+				jsonNode = objectMapper.readTree(str);
+				Ret_Data.put(Key, jsonNode);
+			}
+			return Ret_Data;
+		}
+
+		return null;
+
+	}
+
+	@GetMapping("AttendController/Excel_All_TimeData_Post") // 所有員工報表輸出
+	public HashMap Excel_All_TimeData_Post() throws JsonMappingException, JsonProcessingException {
+		JsonNode jsonNode = null;
+		Ret_Data.clear();
+		int Key = 0;
+		ArrayList<String> Emplyee_Excel_Data = new ArrayList();
+		if (sqlserver.Excel_All_TimeData_Post(Emplyee_Excel_Data).equals("Sucess")) {
+			ObjectMapper objectMapper = new ObjectMapper();
+
+			for (String str : Emplyee_Excel_Data) {
+				Key++;
+				jsonNode = objectMapper.readTree(str);
+				Ret_Data.put(Key, jsonNode);
+			}
+			return Ret_Data;
+		}
+		return null;
 	}
 
 	@CrossOrigin
-	@GetMapping("AttendController/Search_TimeData") // 調閱資料
-	public String Search_TimeData(@RequestBody JSONObject Employee_SearchTime_Post) {
+	@GetMapping("AttendController/ Emp_Search_TimeData") // 調閱已審核資料
+	public String Emp_Search_TimeData(@RequestBody JSONObject Employee_SearchTime_Post) {
 		return "";
 	}
 
-	@CrossOrigin
-	@GetMapping("AttendController/EditAttend_TimeData_Post") // 編輯審核資料
-	public String EditAttend_TimeData_Post(@RequestBody JSONObject EditAttend_TimeData_Post) {
+	@GetMapping("AttendController/Excel_Employee_TimeData_Post") // 當月審核報表輸出
+	public String Excel_Employee_TimeData_Post(@RequestBody JSONObject SearchEmployee_TimeData_Post) {
 		return "";
 	}
 
 	@CrossOrigin
 	@GetMapping("AttendController/SearchEmployee_TimeData_Post") // 查詢員工資料
 	public String SearchEmployee_TimeData_Post(@RequestBody JSONObject SearchEmployee_TimeData_Post) {
-		return "";
-	}
-
-	@GetMapping("AttendController/Excel_Employee_TimeData_Post") // 員工報表輸出
-	public String Excel_Employee_TimeData_Post(@RequestBody JSONObject SearchEmployee_TimeData_Post) {
 		return "";
 	}
 

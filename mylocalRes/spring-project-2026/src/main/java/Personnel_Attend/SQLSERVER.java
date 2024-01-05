@@ -2,9 +2,11 @@ package Personnel_Attend;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -495,11 +497,62 @@ public class SQLSERVER extends SQLOB {
 
 	}
 
-	public void Excel_Employee_TimeData_Post() {
+	public String Excel_All_TimeData_Post(ArrayList<String> emplyee_Excel_Data) {
+		SQL_Str = "	SELECT  employee.id,employee.Emp_Name, employee.Emp_ID,employee.Account_Lv ,department.Department,job_time.Last_Time,job_time.Time_Pon_Mark,job_time.Update_Time\r\n"
+				+ "		from employee\r\n" + "		INNER JOIN department\r\n"
+				+ "		ON  employee.Department_Key=department.Department_Key\r\n" + "		INNER JOIN job_time\r\n"
+				+ "		ON employee.Emp_ID=job_time.Emp_Key";
+		Res_SQL(SQL_Str);
+
+		try {
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			rs = pst.executeQuery();
+			if (rs.next()) {
+				emplyee_Excel_Data.add(employee.Execll_All_JsonString(rs));
+				while (rs.next()) {
+					emplyee_Excel_Data.add(employee.Execll_All_JsonString(rs));
+				}
+			}
+			return "Sucess";
+
+		} catch (SQLException e) {
+			System.out.println("Excel_All_TimeData_Post錯誤" + e.getMessage());
+
+			return "false";
+
+		} finally {
+			close_SQL();
+		}
 
 	}
 
-	public void Search_TimeData() {
+	public String Search_TimeData(ArrayList<String> emplyee_Appli_Data) {
+		SQL_Str = "SELECT appli_form.id,appli_form.Emp_Key, employee.Emp_Name, appli_form.Department, appli_form.Reason, appli_form.Appli_Time, appli_form.Last_Time, appli_form.Apli_Total, appli_form.Reason_Mark, appli_form.Review_ID_Key, appli_form.Appli_Date, appli_form.Review_Date, appli_form.Check_State "
+				+ "FROM appli_form " + "INNER JOIN employee ON appli_form.Emp_Key = employee.Emp_ID "
+				+ "WHERE Check_State = 'No_process'";
+
+		Res_SQL(SQL_Str);
+		try {
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			rs = pst.executeQuery();
+	
+	        if (rs.next()) {
+	            do {
+	                emplyee_Appli_Data.add(employee.Appli_JsonString(rs));
+	            } while (rs.next());
+
+	            return "Sucess";
+	        } 
+			return "false";
+
+		} catch (SQLException e) {
+
+			System.out.println("Search_TimeData錯誤" + e.getMessage());
+			return "false";
+
+		} finally {
+			close_SQL();
+		}
 
 	}
 
