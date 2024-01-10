@@ -59,13 +59,30 @@ public class Employee {
 				rs.getInt("Account_Lv"), rs.getInt("Last_Time"), rs.getString("Time_Pon_Mark"),
 				rs.getString("Update_Time"));
 	}
-	
+
 	public String Appli_JsonString(ResultSet rs) throws SQLException {
 		return String.format(
-				"{\"id\": \"%d\",\"Emp_Key\": \"%s\", \"Emp_Name\": \"%s\", \"Department\": \"%s\", \"Reason\": \"%s\", \"Appli_Time\": %f, \"Last_Time\": %f, \"Apli_Total\": \"%f\", \"Reason_Mark\": \"%s\", \"Review_ID_Key\": \"%s\", \"Appli_Date\": \"%s\", \"Review_Date\": \"%s\", \"Check_State\": \"%s\"}"  ,
-				rs.getInt("id"), rs.getString("Emp_Key"),rs.getString("Emp_Name"), rs.getString("Department"), rs.getString("Reason"),
-				rs.getDouble("Appli_Time"), rs.getDouble("Last_Time"), rs.getDouble("Apli_Total"), rs.getString("Reason_Mark"), rs.getString("Review_ID_Key"), rs.getDate("Appli_Date"),rs.getDate("Review_Date"),rs.getString("Check_State"));
+				"{\"id\": \"%d\",\"Emp_Key\": \"%s\", \"Emp_Name\": \"%s\", \"Department\": \"%s\", \"Reason\": \"%s\", \"Appli_Time\": %f, \"Last_Time\": %f, \"Apli_Total\": \"%f\", \"Reason_Mark\": \"%s\", \"Review_ID_Key\": \"%s\", \"Appli_Date\": \"%s\", \"Review_Date\": \"%s\", \"Check_State\": \"%s\"}",
+				rs.getInt("id"), rs.getString("Emp_Key"), rs.getString("Emp_Name"), rs.getString("Department"),
+				rs.getString("Reason"), rs.getDouble("Appli_Time"), rs.getDouble("Last_Time"),
+				rs.getDouble("Apli_Total"), rs.getString("Reason_Mark"), rs.getString("Review_ID_Key"),
+				rs.getDate("Appli_Date"), rs.getDate("Review_Date"), rs.getString("Check_State"));
 	}
-	
+
+	public String Time_Log_JsonString(ResultSet rs) throws SQLException {
+
+		return String.format(
+		        "{\"id\": \"%d\",\"Emp_ID\": \"%s\", \"Emp_Name\": \"%s\", \"Time_Event\": \"%s\", \"department\": \"%s\",\"Reason_Mark\": \"%s\",\"Appli_Date\": \"%s\",\"Time_Mark\": \"%s\", \"Last_Time\": %f, \"Insert_Time\": %f, \"Old_Time\": %f,\"New_Time\": %f,\"Update_Time\": \"%s\",\"Review_Manager\": \"%s\", \"Review_Time\": \"%s\", \"Review_Result\": \"%s\"}",
+				rs.getInt("id"), rs.getString("Emp_ID"), rs.getString("Emp_Name"), rs.getString("Time_Event"),rs.getString("department"),
+				rs.getString("Reason_Mark"), rs.getDate("Appli_Date"), rs.getString("Time_Mark"),
+				rs.getDouble("Last_Time"), rs.getDouble("Insert_Time"), rs.getDouble("Old_Time"),
+				rs.getDouble("New_Time"), rs.getString("Reason_Mark"), rs.getDate("Update_Time"),
+				rs.getString("Review_Manager"), rs.getDate("Review_Time"), rs.getString("Review_Result"));
+		
+		
+		
+		
+
+	}
 
 }

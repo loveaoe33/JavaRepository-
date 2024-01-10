@@ -174,14 +174,13 @@ public class AttendController<Json> {
 	}
 
 	@CrossOrigin
-	@GetMapping("AttendController/Admin_Search_TimeData") // 調閱申請資料
-	public HashMap Admin_Search_TimeData()
-			throws JsonMappingException, JsonProcessingException {
+	@GetMapping("AttendController/Admin_Search_TimeData") // 調閱申請審核/未審核資料_All
+	public HashMap Admin_Search_TimeData() throws JsonMappingException, JsonProcessingException {
 		JsonNode jsonNode = null;
 		Ret_Data.clear();
 		int Key = 0;
 		ArrayList<String> Admin_Search_TimeData = new ArrayList();
-		if (sqlserver.Search_TimeData(Admin_Search_TimeData).equals("Sucess")) {
+		if (sqlserver.Search_TimeData(Admin_Search_TimeData, 1, "資訊室", "No_Process").equals("Sucess")) {
 			ObjectMapper objectMapper = new ObjectMapper();
 
 			for (String str : Admin_Search_TimeData) {
@@ -196,36 +195,94 @@ public class AttendController<Json> {
 
 	}
 
-	@GetMapping("AttendController/Excel_All_TimeData_Post") // 所有員工報表輸出
-	public HashMap Excel_All_TimeData_Post() throws JsonMappingException, JsonProcessingException {
+	@GetMapping("AttendController/Excel_Employee_TimeData_Post") // 當月審核報表輸出
+	public HashMap Admin_Search_TimeDataM() throws JsonMappingException, JsonProcessingException {
 		JsonNode jsonNode = null;
 		Ret_Data.clear();
 		int Key = 0;
-		ArrayList<String> Emplyee_Excel_Data = new ArrayList();
-		if (sqlserver.Excel_All_TimeData_Post(Emplyee_Excel_Data).equals("Sucess")) {
+		ArrayList<String> Admin_Search_TimeData = new ArrayList();
+		if (sqlserver
+				.Admin_Search_TimeDataM(Admin_Search_TimeData, "E0010", "資訊室", "No_Process", "2024-01-01", "2024-01-31")
+				.equals("Sucess")) {
 			ObjectMapper objectMapper = new ObjectMapper();
 
-			for (String str : Emplyee_Excel_Data) {
+			for (String str : Admin_Search_TimeData) {
 				Key++;
 				jsonNode = objectMapper.readTree(str);
 				Ret_Data.put(Key, jsonNode);
 			}
 			return Ret_Data;
 		}
+
 		return null;
 	}
 
 	@CrossOrigin
-	@GetMapping("AttendController/ Emp_Search_TimeData") // 調閱已審核資料
-	public String Emp_Search_TimeData(@RequestBody JSONObject Employee_SearchTime_Post) {
-		return "";
+	@GetMapping("AttendController/SearchEmployee_History") // 查詢歷史申請All log
+	public HashMap SearchEmployee_History() throws JsonMappingException, JsonProcessingException {
+		ArrayList<String> SearchEmployee_History = new ArrayList();
+		JsonNode jsonNode = null;
+		Ret_Data.clear();
+		int Key = 0;
+		if (sqlserver.SearchEmployee_History(SearchEmployee_History, "E0010", "資訊室").equals("Sucess")) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			for (String str : SearchEmployee_History) {
+				Key++;
+				jsonNode = objectMapper.readTree(str);
+				Ret_Data.put(Key, jsonNode);
+			}
+			return Ret_Data;
+		}
+
+		return null;
 	}
 
-	@GetMapping("AttendController/Excel_Employee_TimeData_Post") // 當月審核報表輸出
-	public String Excel_Employee_TimeData_Post(@RequestBody JSONObject SearchEmployee_TimeData_Post) {
-		return "";
+	@CrossOrigin
+	@GetMapping("AttendController/SearchEmployee_HistoryM") // 查詢歷史申請月份log
+	public HashMap SearchEmployee_HistoryM() throws JsonMappingException, JsonProcessingException {
+		ArrayList<String> SearchEmployee_HistoryM = new ArrayList();
+		JsonNode jsonNode = null;
+		Ret_Data.clear();
+		int Key = 0;
+		if (sqlserver.SearchEmployee_HistoryM(SearchEmployee_HistoryM, "E0010", "資訊室","2024-01-01", "2024-01-03").equals("Sucess")) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			for (String str : SearchEmployee_HistoryM) {
+				Key++;
+				jsonNode = objectMapper.readTree(str);
+				Ret_Data.put(Key, jsonNode);
+			}
+			return Ret_Data;
+		}
+
+		return null;
 	}
 
+	@GetMapping("AttendController/Excel_All_TimeData_Post") // 所有員工報表輸出
+	public HashMap Excel_All_TimeData_Post() throws JsonMappingException, JsonProcessingException {
+		JsonNode jsonNode = null;
+		HashMap<Integer, JsonNode> Ret_Data_M = new HashMap();
+
+		int Key = 0;
+		String Emp_Key = "E0010";
+		ArrayList<String> Emplyee_Excel_Data = new ArrayList();
+		if (sqlserver.Excel_All_TimeData_Post(Emplyee_Excel_Data, "E00105", "資訊室").equals("Sucess")) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			for (String str : Emplyee_Excel_Data) {
+				Key++;
+				jsonNode = objectMapper.readTree(str);
+				Ret_Data_M.put(Key, jsonNode);
+			}
+			return Ret_Data_M;
+		}
+		return null;
+	}
+
+	@CrossOrigin
+	@GetMapping("AttendController/Cancel_Appli") // 查詢員工資料
+	public String Cancel_Appli(@RequestBody JSONObject SearchEmployee_TimeData_Post) {
+		return "";
+	}
+	
 	@CrossOrigin
 	@GetMapping("AttendController/SearchEmployee_TimeData_Post") // 查詢員工資料
 	public String SearchEmployee_TimeData_Post(@RequestBody JSONObject SearchEmployee_TimeData_Post) {
