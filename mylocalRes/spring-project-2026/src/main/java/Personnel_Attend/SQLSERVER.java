@@ -146,7 +146,6 @@ public class SQLSERVER extends SQLOB {
 	}
 
 	public boolean TimeData_Compare(TimeData timeData_Par) {
-		Result = null;
 		double Last_Time = 0;
 		SQL_Str = "select * from job_time  where Emp_Key=?";
 		Res_SQL(SQL_Str);
@@ -178,7 +177,6 @@ public class SQLSERVER extends SQLOB {
 	}
 
 	public boolean Insert_TimeLog(String TimeLog, TimeData timeData_Par, String Switch) { // Insert_Time_Log
-		Result = null;
 		sqlclass.setSql_Str(TimeLog);
 		double New_Time = timeData_Par.getOld_Time() + timeData_Par.getInsert_Time();
 		timeData_Par.setNew_Time(New_Time);
@@ -188,6 +186,9 @@ public class SQLSERVER extends SQLOB {
 			pst.setString(2, timeData_Par.getTime_Event());
 			if (Switch.equals("init")) {
 				pst.setString(3, "Init");
+			} else if (Switch.equals("Review")) {
+				pst.setString(3, "Review");
+
 			} else {
 				pst.setString(3, timeData_Par.getTime_Mark());
 			}
@@ -261,7 +262,6 @@ public class SQLSERVER extends SQLOB {
 				TimeData_Update_pst.setString(2, timeData_Par.getTime_Pon_Mark());
 				TimeData_Update_pst.setDate(3, timeData_Par.getUpdate_Time());
 				TimeData_Update_pst.setString(4, timeData_Par.getEmp_Key());
-
 				TimeData_Update_pst.executeUpdate();
 				TimeData_Update_pst.clearParameters();
 				Result = "Sucess";
@@ -489,14 +489,6 @@ public class SQLSERVER extends SQLOB {
 
 	}
 
-	public void SearchEmployee_TimeData_Post() {
-
-	}
-
-	public void EditAttend_TimeData_Post() {
-
-	}
-
 	public String Excel_All_TimeData_Post(ArrayList<String> emplyee_Excel_Data, String Emp_key, String Department) {
 
 		if (get_Emp_Lv(Emp_key) == 99) {
@@ -621,6 +613,7 @@ public class SQLSERVER extends SQLOB {
 
 	}
 
+	// 查詢歷史申請所有log
 	public String SearchEmployee_History(ArrayList<String> SearchEmployee_HistoryString, String Emp_key,
 			String Department) {
 		if (get_Emp_Lv(Emp_key) == 99) {
@@ -668,6 +661,7 @@ public class SQLSERVER extends SQLOB {
 		return "false";
 	}
 
+	// 查詢歷史申請月份log
 	public String SearchEmployee_HistoryM(ArrayList<String> SearchEmployee_HistoryStringM, String Emp_key,
 			String Department, String Date_Key_Start, String Date_Key_End) {
 		if (get_Emp_Lv(Emp_key) == 99) {
@@ -716,10 +710,123 @@ public class SQLSERVER extends SQLOB {
 		}
 		return "false";
 	}
-    public String Cancel_Appli() {
-    	
-    	return null;
-    }
+
+	public String Cancel_jobTime(TimeData timeData) {
+		String SQL_Str_JobTime = "Update job_time SET Last_Time=?,Time_Pon_Mark=?,Update_Time=? where Emp_Key=?";
+
+		if (!TimeData_Compare(timeData)) {
+			return "false";
+		}
+
+		Res_SQL(SQL_Str_JobTime);
+
+		try {
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+
+			pst.setDouble(1, timeData.getNew_Time());
+			pst.setString(2, timeData.getTime_Pon_Mark());
+			pst.setDate(3, timeData.getUpdate_Time());
+			pst.setString(4, timeData.getEmp_Key());
+			pst.executeUpdate();
+			pst.clearParameters();
+			return "Sucess";
+
+		} catch (SQLException e) {
+			System.out.println("Cancel_jobTime update錯誤" + e.getMessage());
+			return "false";
+
+		} finally {
+			close_SQL();
+
+		}
+
+	}
+
+	public String Cancel_timeLog(TimeData timeData) {
+
+		SQL_Str = "select * from time_log where Attend_Key=?";
+		String SQL_Str_TimeLog = "insert into time_log(id,Time_Log_Key,Time_Event,Time_Mark,Insert_Time,Old_Time,New_Time,Update_Time,Attend_Key)"
+				+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,?,? FROM time_log;";
+
+		String Time_LogKey = "";
+		sqlclass.setSql_Str(SQL_Str);
+		try {
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			rs = pst.executeQuery();
+			if (rs.next()) {
+				timeData.setTime_Log_Key(rs.getString("Time_Log_Key"));
+				timeData.setTime_Event("Review");
+				timeData.setTime_Mark("取消");
+				timeData.setInsert_Time(-rs.getDouble("Insert_Time"));
+				timeData.setUpdate_Time(Date_Time());
+
+				if (Cancel_jobTime(timeData).equals("Scuess") && Insert_TimeLog(SQL_Str_TimeLog, timeData, "Review")) {
+					return "Scuess";
+				}
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Cancel_timeLog錯誤" + e.getMessage());
+
+		} finally {
+
+		}
+
+		return null;
+	}
+
+	public String Cancel_Review(TimeData timeData) { // 不能重製pst
+		SQL_Str = "Update review_form SET Review_Result=? Review_Time=? where Review_ID_Key=?";
+		sqlclass.setSql_Str(SQL_Str);
+		if (Cancel_timeLog(timeData).equals("Scuess")) {
+			try {
+				pst = con.prepareStatement(sqlclass.getSql_Str());
+				pst.setString(1, "NPass");
+				pst.setDate(2, timeData.getUpdate_Time());
+				pst.setString(3, timeData.getAttend_Key());
+				pst.executeLargeUpdate();
+
+				return "Scuess";
+			} catch (SQLException e) {
+				System.out.println("Cancel_Review錯誤" + e.getMessage());
+
+			} finally {
+
+			}
+		}
+
+		return "false";
+	}
+
+	public String Cancel_Appli(TimeData timeData) {
+		String Review_ID_Key = "";
+		SQL_Str = "select * from appli_form where id=?";
+		Res_SQL(SQL_Str);
+		try {
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			pst.setInt(1, timeData.getId());
+			rs = pst.executeQuery();
+
+			if (rs.next()) {
+				Review_ID_Key = rs.getString("Review_ID_Key");
+				timeData.setAttend_Key(Review_ID_Key);
+				if (Cancel_Review(timeData).equals("Scuess")) {
+
+					return "Sucess";
+
+				}
+				return "false";
+
+			}
+		} catch (SQLException e) {
+			System.out.println("Cancel_Appli錯誤" + e.getMessage());
+
+		} finally {
+			close_SQL();
+		}
+
+		return "false";
+	}
 //	public String SearchEmployee_HistoryM() {
 //		try {
 //

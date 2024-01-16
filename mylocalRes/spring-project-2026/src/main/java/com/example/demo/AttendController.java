@@ -177,7 +177,8 @@ public class AttendController<Json> {
 	@GetMapping("AttendController/Admin_Search_TimeData") // 調閱申請審核/未審核資料_All
 	public HashMap Admin_Search_TimeData() throws JsonMappingException, JsonProcessingException {
 		JsonNode jsonNode = null;
-		Ret_Data.clear();
+		HashMap<Integer, JsonNode> Ret_Data_S = new HashMap();
+
 		int Key = 0;
 		ArrayList<String> Admin_Search_TimeData = new ArrayList();
 		if (sqlserver.Search_TimeData(Admin_Search_TimeData, 1, "資訊室", "No_Process").equals("Sucess")) {
@@ -186,9 +187,9 @@ public class AttendController<Json> {
 			for (String str : Admin_Search_TimeData) {
 				Key++;
 				jsonNode = objectMapper.readTree(str);
-				Ret_Data.put(Key, jsonNode);
+				Ret_Data_S.put(Key, jsonNode);
 			}
-			return Ret_Data;
+			return Ret_Data_S;
 		}
 
 		return null;
@@ -221,17 +222,17 @@ public class AttendController<Json> {
 	@GetMapping("AttendController/SearchEmployee_History") // 查詢歷史申請All log
 	public HashMap SearchEmployee_History() throws JsonMappingException, JsonProcessingException {
 		ArrayList<String> SearchEmployee_History = new ArrayList();
+		HashMap<Integer, JsonNode> Ret_Data_H = new HashMap();
 		JsonNode jsonNode = null;
-		Ret_Data.clear();
 		int Key = 0;
 		if (sqlserver.SearchEmployee_History(SearchEmployee_History, "E0010", "資訊室").equals("Sucess")) {
 			ObjectMapper objectMapper = new ObjectMapper();
 			for (String str : SearchEmployee_History) {
 				Key++;
 				jsonNode = objectMapper.readTree(str);
-				Ret_Data.put(Key, jsonNode);
+				Ret_Data_H.put(Key, jsonNode);
 			}
-			return Ret_Data;
+			return Ret_Data_H;
 		}
 
 		return null;
@@ -244,7 +245,8 @@ public class AttendController<Json> {
 		JsonNode jsonNode = null;
 		Ret_Data.clear();
 		int Key = 0;
-		if (sqlserver.SearchEmployee_HistoryM(SearchEmployee_HistoryM, "E0010", "資訊室","2024-01-01", "2024-01-03").equals("Sucess")) {
+		if (sqlserver.SearchEmployee_HistoryM(SearchEmployee_HistoryM, "E0010", "資訊室", "2024-01-01", "2024-01-03")
+				.equals("Sucess")) {
 			ObjectMapper objectMapper = new ObjectMapper();
 			for (String str : SearchEmployee_HistoryM) {
 				Key++;
@@ -278,11 +280,14 @@ public class AttendController<Json> {
 	}
 
 	@CrossOrigin
-	@GetMapping("AttendController/Cancel_Appli") // 查詢員工資料
+	@GetMapping("AttendController/Cancel_Appli") // 取消審核資料
 	public String Cancel_Appli(@RequestBody JSONObject SearchEmployee_TimeData_Post) {
-		return "";
+		timeData.ResConstruct();
+		timeData.setId(0);
+		timeData.setEmp_Key("E0011");
+		return sqlserver.Cancel_Appli(timeData);
 	}
-	
+
 	@CrossOrigin
 	@GetMapping("AttendController/SearchEmployee_TimeData_Post") // 查詢員工資料
 	public String SearchEmployee_TimeData_Post(@RequestBody JSONObject SearchEmployee_TimeData_Post) {
