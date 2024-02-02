@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -77,18 +78,35 @@ public class AttendController<Json> {
 	}
 
 	@CrossOrigin
-	@GetMapping("AttendController/Insert_Department") // 新增部門OK
-	public String Insert_Department(String Deaprtment) {
-		if (Deaprtment.isEmpty() || Deaprtment == null) {
+	@PostMapping("AttendController/Init") // 初始化帶出
+	public <T> T Init() throws JsonProcessingException {
+
+
+			return sqlserver.Init_Data();
+	}
+	
+	
+	@CrossOrigin
+	@PostMapping("AttendController/Insert_Department") // 新增部門OK
+	public String Insert_Department(@RequestBody JSONObject Depart_POST) {
+		String Department_Value =Depart_POST.getString("Department_Value");
+		if ( Department_Value == null || Department_Value.isEmpty()) {
 			return "Deaprtment value Cant Empty..";
 		} else {
 			LocalDateTime currenDate = LocalDateTime.now();
-			String Department_Key = String.format(Deaprtment + "_%s", currenDate.toString());
-			Department department = Department.builder().Department(Deaprtment).Department_Key(Department_Key)
+			String Department_Key = String.format(Department_Value + "_%s", currenDate.toString());
+			Department department = Department.builder().Department(Department_Value).Department_Key(Department_Key)
 					.Child_Department_Key(Department_Key + "s").build();
 			return sqlserver.Insert_Department(department);
 		}
 
+	}
+	@CrossOrigin
+	@PostMapping("AttendController/Get_Department_Employee")
+	public <T> T Get_Department_Employee(@RequestBody JSONObject Depart_POST)
+	{
+		
+		return null;
 	}
 
 	@CrossOrigin
@@ -125,8 +143,8 @@ public class AttendController<Json> {
 	@GetMapping("AttendController/Insert_TimeData") // 申請資料
 	public String Insert_TimeData() {
 
-		Appli_form appli_form = Appli_form.builder().Emp_Key("E0011").Department("資訊室").Reason("加班").Appli_Time(5)
-				.Last_Time(0).Apli_Total(0).Reason_Mark("機器維修").Review_ID_Key(null).Appli_Date(null).Review_Date(null)
+		Appli_form appli_form = Appli_form.builder().Emp_Key("E0010").Department("資訊室").Reason("補休").Appli_Time(-20)
+				.Last_Time(0).Apli_Total(0).Reason_Mark("補休").Review_ID_Key(null).Appli_Date(null).Review_Date(null)
 				.Check_State("No_Process").build();
 		return sqlserver.Attend_TimeData(appli_form);
 	}
@@ -138,12 +156,12 @@ public class AttendController<Json> {
 		Timestamp timestamp = Timestamp.valueOf(currenDate);
 		Date date = new Date(timestamp.getTime());
 		String Mark = "審核測試"; // 審核註記
-		String Review_ID_Key = String.format("E0010_%s_%s", "E0011", timestamp.toString()); // Key規則 "管理人"_"申請者"_時間戳
-		Appli_form appli_form = Appli_form.builder().id(2).Check_State("NPass").Review_Result("NPass")
+		String Review_ID_Key = String.format("E0010_%s_%s", "E0010", timestamp.toString()); // Key規則 "管理人"_"申請者"_時間戳
+		Appli_form appli_form = Appli_form.builder().id(4).Check_State("Pass").Review_Result("Pass")
 				.Review_Manager("黃立帆").Review_ID_Key(Review_ID_Key).Review_Date(date).Review_Time(date).build();
-		TimeData timeData = TimeData.builder().Emp_Key("E0011").Last_Time(0).Time_Pon_Mark("")
-				.Time_Log_Key("E0011_2024-01-03T16:24:30.757747100").Update_Time(date).Time_Event("加班").Time_Mark(Mark)
-				.Insert_Time(-70).Old_Time(0).New_Time(0).Update_Time(date).Attend_Key(Review_ID_Key).build();
+		TimeData timeData = TimeData.builder().Emp_Key("E0010").Last_Time(0).Time_Pon_Mark("")
+				.Time_Log_Key("E0010_2023-12-31T14:26:33.173907800").Update_Time(date).Time_Event("補休").Time_Mark(Mark)
+				.Insert_Time(-20).Old_Time(0).New_Time(0).Update_Time(date).Attend_Key(Review_ID_Key).build();
 
 		return sqlserver.Update_Review(appli_form, timeData);
 	}
@@ -281,10 +299,11 @@ public class AttendController<Json> {
 
 	@CrossOrigin
 	@GetMapping("AttendController/Cancel_Appli") // 取消審核資料
-	public String Cancel_Appli(@RequestBody JSONObject SearchEmployee_TimeData_Post) {
+	public String Cancel_Appli() {
 		timeData.ResConstruct();
-		timeData.setId(0);
-		timeData.setEmp_Key("E0011");
+		timeData.setId(4);
+		timeData.setEmp_Key("E0010");
+		timeData.setTime_Log_Key("E0010_2023-12-31T14:26:33.173907800");
 		return sqlserver.Cancel_Appli(timeData);
 	}
 

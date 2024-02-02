@@ -11,10 +11,14 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 //import Personnel.EmployeeModel;
 
 @Service
 public class SQLSERVER extends SQLOB {
+	private final ObjectMapper objectMapper = new ObjectMapper();
 	private final SQLClass sqlclass;
 	private final Employee employee;
 	private final Department department;
@@ -148,7 +152,8 @@ public class SQLSERVER extends SQLOB {
 	public boolean TimeData_Compare(TimeData timeData_Par) {
 		double Last_Time = 0;
 		SQL_Str = "select * from job_time  where Emp_Key=?";
-		Res_SQL(SQL_Str);
+		sqlclass.setSql_Str(SQL_Str);
+//		Res_SQL(SQL_Str);
 		System.out.println("TimeData_Compare的記憶體位置" + timeData_Par);
 
 		try {
@@ -158,7 +163,7 @@ public class SQLSERVER extends SQLOB {
 
 			Last_Time = (rs.next()) ? rs.getDouble("Last_Time") : null;
 
-			if (Last_Time + timeData_Par.Insert_Time > 0) {
+			if (Last_Time + timeData_Par.getInsert_Time() > 0) {
 				timeData_Par.setTime_Pon_Mark("Positive");
 			} else {
 				timeData_Par.setTime_Pon_Mark("Negative");
@@ -171,7 +176,7 @@ public class SQLSERVER extends SQLOB {
 
 		} finally {
 			timeData_Par.setOld_Time(Last_Time);
-			close_SQL();
+			timeData_Par.setNew_Time(Last_Time + timeData_Par.getInsert_Time());
 
 		}
 	}
@@ -187,7 +192,7 @@ public class SQLSERVER extends SQLOB {
 			if (Switch.equals("init")) {
 				pst.setString(3, "Init");
 			} else if (Switch.equals("Review")) {
-				pst.setString(3, "Review");
+				pst.setString(3, "Cancel");
 
 			} else {
 				pst.setString(3, timeData_Par.getTime_Mark());
@@ -712,13 +717,13 @@ public class SQLSERVER extends SQLOB {
 	}
 
 	public String Cancel_jobTime(TimeData timeData) {
-		String SQL_Str_JobTime = "Update job_time SET Last_Time=?,Time_Pon_Mark=?,Update_Time=? where Emp_Key=?";
 
 		if (!TimeData_Compare(timeData)) {
 			return "false";
 		}
+		SQL_Str = "Update job_time SET Last_Time=?,Time_Pon_Mark=?,Update_Time=? where Emp_Key=?";
 
-		Res_SQL(SQL_Str_JobTime);
+		sqlclass.setSql_Str(SQL_Str);
 
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
@@ -736,7 +741,6 @@ public class SQLSERVER extends SQLOB {
 			return "false";
 
 		} finally {
-			close_SQL();
 
 		}
 
@@ -752,6 +756,7 @@ public class SQLSERVER extends SQLOB {
 		sqlclass.setSql_Str(SQL_Str);
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
+			pst.setString(1, timeData.getAttend_Key());
 			rs = pst.executeQuery();
 			if (rs.next()) {
 				timeData.setTime_Log_Key(rs.getString("Time_Log_Key"));
@@ -760,26 +765,26 @@ public class SQLSERVER extends SQLOB {
 				timeData.setInsert_Time(-rs.getDouble("Insert_Time"));
 				timeData.setUpdate_Time(Date_Time());
 
-				if (Cancel_jobTime(timeData).equals("Scuess") && Insert_TimeLog(SQL_Str_TimeLog, timeData, "Review")) {
+				if (Cancel_jobTime(timeData).equals("Sucess") && Insert_TimeLog(SQL_Str_TimeLog, timeData, "Review")) { // 這裡順序須注意，有空改良
 					return "Scuess";
 				}
 			}
-
+			return "false";
 		} catch (SQLException e) {
 			System.out.println("Cancel_timeLog錯誤" + e.getMessage());
+			return "false";
 
 		} finally {
 
 		}
 
-		return null;
 	}
 
-	public String Cancel_Review(TimeData timeData) { // 不能重製pst
-		SQL_Str = "Update review_form SET Review_Result=? Review_Time=? where Review_ID_Key=?";
-		sqlclass.setSql_Str(SQL_Str);
+	public String Cancel_Review(TimeData timeData) {
 		if (Cancel_timeLog(timeData).equals("Scuess")) {
 			try {
+				SQL_Str = "Update review_form SET Review_Result=?,Review_Time=? where Review_ID_Key=?";
+				sqlclass.setSql_Str(SQL_Str);
 				pst = con.prepareStatement(sqlclass.getSql_Str());
 				pst.setString(1, "NPass");
 				pst.setDate(2, timeData.getUpdate_Time());
@@ -799,7 +804,6 @@ public class SQLSERVER extends SQLOB {
 	}
 
 	public String Cancel_Appli(TimeData timeData) {
-		String Review_ID_Key = "";
 		SQL_Str = "select * from appli_form where id=?";
 		Res_SQL(SQL_Str);
 		try {
@@ -808,8 +812,7 @@ public class SQLSERVER extends SQLOB {
 			rs = pst.executeQuery();
 
 			if (rs.next()) {
-				Review_ID_Key = rs.getString("Review_ID_Key");
-				timeData.setAttend_Key(Review_ID_Key);
+				timeData.setAttend_Key(rs.getString("Review_ID_Key"));
 				if (Cancel_Review(timeData).equals("Scuess")) {
 
 					return "Sucess";
@@ -868,9 +871,9 @@ public class SQLSERVER extends SQLOB {
 	public void Change_Employee() {
 
 	}
-
-	public <T> T Init_Data() { // 初始化要帶出的資料
-		SQL_Str = "select * from Department";
+    public <T> T getEmployee(String Depart) {    //部門員工
+    	SQL_Str = "select * from employee where Depart";
+		department.Department_List.clear();
 		Res_SQL(SQL_Str);
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
@@ -878,21 +881,41 @@ public class SQLSERVER extends SQLOB {
 			if (rs.next()) {
 
 				do {
-					department.Department_List.add(rs.getString("Department"));
+					department.Department_List.add(rs.getString("Department_Key"));
 				} while (rs.next());
-
 			}
+			
+		}catch(SQLException e){
+			
+		}finally {
+			close_SQL();
 
+		}
+    	return null;
+    }
+	public <T> T Init_Data() throws JsonProcessingException { // 初始化要帶出的資料
+		SQL_Str = "select * from Department";
+		department.Department_List.clear();
+		Res_SQL(SQL_Str);
+		try {
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			rs = pst.executeQuery();
+			if (rs.next()) {
+
+				do {
+					department.Department_List.add(rs.getString("Department_Key"));
+				} while (rs.next());
+			}
+            return (T) department.Department_List;
 		} catch (SQLException e) {
 			System.out.println("初始化部門資料錯誤" + e.getMessage());
+			return  null;
 
 		} finally {
 
 			close_SQL();
-			System.out.println("部門資料" + department.Department_List);
 
 		}
-		return null;
 
 	}
 
