@@ -90,7 +90,7 @@ public class AttendController<Json> {
 	@PostMapping("AttendController/Insert_Department") // 新增部門OK
 	public String Insert_Department(@RequestBody JSONObject Depart_POST) {
 		String Department_Value =Depart_POST.getString("Department_Value");
-		if ( Department_Value == null || Department_Value.isEmpty()) {
+		if ( Department_Value==null || Department_Value.isEmpty()) {
 			return "Deaprtment value Cant Empty..";
 		} else {
 			LocalDateTime currenDate = LocalDateTime.now();
@@ -102,12 +102,22 @@ public class AttendController<Json> {
 
 	}
 	@CrossOrigin
-	@PostMapping("AttendController/Get_Department_Employee")
-	public <T> T Get_Department_Employee(@RequestBody JSONObject Depart_POST)
+	@PostMapping("AttendController/Get_Department_Employee")   //取得部門員工
+	public <T> T Get_Department_Employee(@RequestBody JSONObject Depart_Key_POST)
 	{
 		
-		return null;
+		return sqlserver.getEmployee(Depart_Key_POST.getString("Depart_Key_POST"));
 	}
+	
+	@CrossOrigin
+	@PostMapping("AttendController/get_Emp_LstTime")   //取得員工時數
+	public double  get_Emp_LstTime(@RequestBody JSONObject Emp_Key_POST)
+	{
+		
+		return sqlserver.get_LstTime(Emp_Key_POST.getString("Emp_Key"));
+	}
+	
+	
 
 	@CrossOrigin
 	@GetMapping("AttendController/Insert_Employee") // 新增員工

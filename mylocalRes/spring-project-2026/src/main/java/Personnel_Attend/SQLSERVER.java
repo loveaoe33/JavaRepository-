@@ -340,6 +340,35 @@ public class SQLSERVER extends SQLOB {
 
 		}
 	}
+    public Double get_LstTime(String Emp_Key) {
+    	Result=null;
+    	double Result;
+		SQL_Str = "select Last_Time from job_Time where Emp_Key=?";
+		Res_SQL(SQL_Str);
+		try {
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			pst.setString(1, Emp_Key);
+
+			pst.executeQuery();
+			rs = pst.executeQuery();
+
+			if (rs.next()) {
+				Result = rs.getDouble("Last_Time");
+			} else {
+				Result = (Double) null;
+			}
+			return Result;
+		}catch(SQLException e) {
+			System.out.println("get_LstTime錯誤" + e.getMessage());
+			Result = (Double) null;
+			return Result;
+
+		}finally {
+			close_SQL();
+
+		}
+
+    }
 
 	public String Employee_LstTime(Appli_form appli_form_Par) {
 		Result = null;
@@ -871,28 +900,37 @@ public class SQLSERVER extends SQLOB {
 	public void Change_Employee() {
 
 	}
-    public <T> T getEmployee(String Depart) {    //部門員工
-    	SQL_Str = "select * from employee where Depart";
-		department.Department_List.clear();
+
+	public <T> T getEmployee(String Depart) { // 部門員工
+		String Emp_String = "";
+		SQL_Str = "select * from employee where Department_Key=?";
+		employee.Emp_List.clear();
 		Res_SQL(SQL_Str);
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
+			pst.setString(1, Depart);
 			rs = pst.executeQuery();
 			if (rs.next()) {
 
 				do {
-					department.Department_List.add(rs.getString("Department_Key"));
-				} while (rs.next());
-			}
-			
-		}catch(SQLException e){
-			
-		}finally {
-			close_SQL();
 
+					employee.Emp_List.add(employee.getEmployee_JsonString(rs));
+
+				} while (rs.next());
+				return (T) employee.Emp_List;
+
+			} else {
+				return (T) "none";
+
+			}
+		} catch (SQLException e) {
+			System.out.println("getEmployee錯誤" + e.getMessage());
+			return (T) "Error";
+		} finally {
+			close_SQL();
 		}
-    	return null;
-    }
+	}
+
 	public <T> T Init_Data() throws JsonProcessingException { // 初始化要帶出的資料
 		SQL_Str = "select * from Department";
 		department.Department_List.clear();
@@ -906,10 +944,10 @@ public class SQLSERVER extends SQLOB {
 					department.Department_List.add(rs.getString("Department_Key"));
 				} while (rs.next());
 			}
-            return (T) department.Department_List;
+			return (T) department.Department_List;
 		} catch (SQLException e) {
-			System.out.println("初始化部門資料錯誤" + e.getMessage());
-			return  null;
+			System.out.println("Init_Data錯誤" + e.getMessage());
+			return null;
 
 		} finally {
 

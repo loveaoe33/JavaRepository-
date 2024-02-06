@@ -35,6 +35,7 @@ public class Employee {
 	private String Time_Mark;
 	private Date Update_Time;
 	private String Time_Log_key;
+	ArrayList<String> Emp_List = new ArrayList<>();
 
 	public void ResConstruct() {
 		this.Emp_ID = "";
@@ -72,17 +73,22 @@ public class Employee {
 	public String Time_Log_JsonString(ResultSet rs) throws SQLException {
 
 		return String.format(
-		        "{\"id\": \"%d\",\"Emp_ID\": \"%s\", \"Emp_Name\": \"%s\", \"Time_Event\": \"%s\", \"department\": \"%s\",\"Reason_Mark\": \"%s\",\"Appli_Date\": \"%s\",\"Time_Mark\": \"%s\", \"Last_Time\": %f, \"Insert_Time\": %f, \"Old_Time\": %f,\"New_Time\": %f,\"Update_Time\": \"%s\",\"Review_Manager\": \"%s\", \"Review_Time\": \"%s\", \"Review_Result\": \"%s\"}",
-				rs.getInt("id"), rs.getString("Emp_ID"), rs.getString("Emp_Name"), rs.getString("Time_Event"),rs.getString("department"),
-				rs.getString("Reason_Mark"), rs.getDate("Appli_Date"), rs.getString("Time_Mark"),
-				rs.getDouble("Last_Time"), rs.getDouble("Insert_Time"), rs.getDouble("Old_Time"),
-				rs.getDouble("New_Time"), rs.getString("Reason_Mark"), rs.getDate("Update_Time"),
-				rs.getString("Review_Manager"), rs.getDate("Review_Time"), rs.getString("Review_Result"));
-		
-		
-		
-		
+				"{\"id\": \"%d\",\"Emp_ID\": \"%s\", \"Emp_Name\": \"%s\", \"Time_Event\": \"%s\", \"department\": \"%s\",\"Reason_Mark\": \"%s\",\"Appli_Date\": \"%s\",\"Time_Mark\": \"%s\", \"Last_Time\": %f, \"Insert_Time\": %f, \"Old_Time\": %f,\"New_Time\": %f,\"Update_Time\": \"%s\",\"Review_Manager\": \"%s\", \"Review_Time\": \"%s\", \"Review_Result\": \"%s\"}",
+				rs.getInt("id"), rs.getString("Emp_ID"), rs.getString("Emp_Name"), rs.getString("Time_Event"),
+				rs.getString("department"), rs.getString("Reason_Mark"), rs.getDate("Appli_Date"),
+				rs.getString("Time_Mark"), rs.getDouble("Last_Time"), rs.getDouble("Insert_Time"),
+				rs.getDouble("Old_Time"), rs.getDouble("New_Time"), rs.getString("Reason_Mark"),
+				rs.getDate("Update_Time"), rs.getString("Review_Manager"), rs.getDate("Review_Time"),
+				rs.getString("Review_Result"));
 
+	}
+
+	public String getEmployee_JsonString(ResultSet rs) throws SQLException {
+
+		return String.format(
+				"{\"id\": \"%d\",\"Emp_ID\": \"%s\", \"Emp_Name\": \"%s\", \"Department_Key\": \"%s\", \"Account_Lv\": \"%d\" }",
+				rs.getInt("id"), rs.getString("Emp_ID"), rs.getString("Emp_Name"), rs.getString("Department_Key"),
+				rs.getInt("Account_Lv"));
 	}
 
 }
