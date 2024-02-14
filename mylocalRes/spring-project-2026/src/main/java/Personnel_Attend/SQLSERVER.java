@@ -28,6 +28,7 @@ public class SQLSERVER extends SQLOB {
 	private Date date = new Date(0);
 	private String Result = null;
 	private String SQL_Str = null;
+	static ArrayList<String> Announcement_List = new ArrayList();
 
 	@Autowired
 	public SQLSERVER(SQLClass sqlclass, Department department, Employee employee, TimeData timeData,
@@ -340,9 +341,10 @@ public class SQLSERVER extends SQLOB {
 
 		}
 	}
-    public Double get_LstTime(String Emp_Key) {
-    	Result=null;
-    	double Result;
+
+	public Double get_LstTime(String Emp_Key) {
+		Result = null;
+		double Result;
 		SQL_Str = "select Last_Time from job_Time where Emp_Key=?";
 		Res_SQL(SQL_Str);
 		try {
@@ -358,17 +360,17 @@ public class SQLSERVER extends SQLOB {
 				Result = (Double) null;
 			}
 			return Result;
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			System.out.println("get_LstTime錯誤" + e.getMessage());
 			Result = (Double) null;
 			return Result;
 
-		}finally {
+		} finally {
 			close_SQL();
 
 		}
 
-    }
+	}
 
 	public String Employee_LstTime(Appli_form appli_form_Par) {
 		Result = null;
@@ -930,8 +932,79 @@ public class SQLSERVER extends SQLOB {
 			close_SQL();
 		}
 	}
+	
 
-	public <T> T Init_Data() throws JsonProcessingException { // 初始化要帶出的資料
+	public String Announcement(String Key,String Announcement_String)  { // 公告欄處理
+		String Announcement_Str = (Key.equals("Insert"))?"insert into announcement(id,Title,Context,Create_Time,Create_Name)"
+				+ "select ifNull(max(id),0)+1,?,?,?,? FROM announcement" :"Delet * from announcement where id=?";
+		Res_SQL(Announcement_Str);
+		try {
+			if(Key.equals("Insert")) {
+				String Announcement_Spllite[]=Announcement_String.split(",");
+				System.out.println("字串" + Announcement_String);
+
+				pst = con.prepareStatement(sqlclass.getSql_Str());
+				pst.setString(1, Announcement_Spllite[1]);
+				pst.setString(2, Announcement_Spllite[2]);
+				pst.setDate(3, Date_Time());
+				pst.setString(4, Announcement_Spllite[0]);
+			
+				
+			}else if(Key.equals("Delete")) {
+				pst = con.prepareStatement(sqlclass.getSql_Str());
+				pst.setInt(1,Integer.parseInt(Announcement_Str));
+			}
+			pst.executeUpdate();
+			pst.clearParameters();
+			return "Sucess";
+		} catch (SQLException e) {
+			System.out.println("Announcement錯誤" + e.getMessage());
+			return "false";
+
+		} finally {
+
+			close_SQL();
+
+		}
+
+	}
+	
+
+	
+	public <T> T Announcement_Init_Data() throws JsonProcessingException { // 初始化布告欄要帶出的資料
+		SQL_Str = "select * from announcement";
+		String Announ_Str="";
+		Res_SQL(SQL_Str);
+		try {
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			rs = pst.executeQuery();
+			if (rs.next()) {
+  
+				do {	
+					Announ_Str=String.format(
+							"{\"id\": \"%d\",\"Title\": \"%s\", \"Context\": \"%s\", \"Create_Time\": \"%s\", \"Create_Name\": \"%s\"}",
+							rs.getInt("id"), rs.getString("Title"), rs.getString("Context"), rs.getString("Create_Time"),
+							rs.getString("Create_Name"));
+					if(!Announcement_List.contains(Announ_Str)) {
+						Announcement_List.add(Announ_Str);
+					}
+	
+				} while (rs.next());
+			}
+			return (T) Announcement_List;
+		} catch (SQLException e) {
+			System.out.println("Announcement_Init_Data錯誤" + e.getMessage());
+			return null;
+
+		} finally {
+
+			close_SQL();
+
+		}
+
+	}
+	
+	public <T> T Init_Data() throws JsonProcessingException { // 初始化部門要帶出的資料
 		SQL_Str = "select * from Department";
 		department.Department_List.clear();
 		Res_SQL(SQL_Str);
@@ -948,11 +1021,8 @@ public class SQLSERVER extends SQLOB {
 		} catch (SQLException e) {
 			System.out.println("Init_Data錯誤" + e.getMessage());
 			return null;
-
 		} finally {
-
 			close_SQL();
-
 		}
 
 	}
