@@ -206,24 +206,38 @@ public class AttendController<Json> {
 	}
 
 	@CrossOrigin
-	@GetMapping("AttendController/Attend_TimeData") // 審核資料
-	public String Attend_TimeData() {
+	@PostMapping("AttendController/Attend_TimeData") // 審核資料
+	public String Attend_TimeData(@RequestBody JSONObject Attend_TimeData_Post) throws SQLException {
 		LocalDateTime currenDate = LocalDateTime.now();
 		Timestamp timestamp = Timestamp.valueOf(currenDate);
 		Date date = new Date(timestamp.getTime());
-		String Mark = "審核測試"; // 審核註記
-		String Review_ID_Key = String.format("E0010_%s_%s", "E0010", timestamp.toString()); // Key規則 "管理人"_"申請者"_時間戳
+		Object Attend_TimeData = Attend_TimeData_Post.get("Attend_TimeData_Post");
+		String Appli_Id = ((JSONObject) Attend_TimeData).getString("Appli_Id"); // 申請id
+		String Mark = ((JSONObject) Attend_TimeData).getString("Time_Mark"); // 審核註記
+		String Time_Event = ((JSONObject) Attend_TimeData).getString("Time_Event"); // 申請事件
+		String Manager = ((JSONObject) Attend_TimeData).getString("Manager"); // 主管
+		String Appli_Employee = ((JSONObject) Attend_TimeData).getString("Appli_Employee"); // 申請人
+		String Review_ID_Key = String.format("%s_%s_%s", Manager, Appli_Employee, currenDate); // Key規則 "管理人"_"申請者"_時間戳
+		String State = ((JSONObject) Attend_TimeData).getString("State"); // 審核狀態
+		int Appli_Time = ((JSONObject) Attend_TimeData).getInt("Appli_Time"); // 申請時間
+		String Time_Log_Key = sqlserver.Get_TimeKey(Appli_Employee);// 申請人時間主鍵
 
 		try {
 			lock.lock();
-			Appli_form appli_form = Appli_form.builder().id(4).Check_State("Pass").Review_Result("Pass")
-					.Review_Manager("黃立帆").Review_ID_Key(Review_ID_Key).Review_Date(date).Review_Time(date).build();
-			TimeData timeData = TimeData.builder().Emp_Key("E0010").Last_Time(0).Time_Pon_Mark("")
-					.Time_Log_Key("E0010_2023-12-31T14:26:33.173907800").Update_Time(date).Time_Event("補休")
-					.Time_Mark(Mark).Insert_Time(-20).Old_Time(0).New_Time(0).Update_Time(date)
-					.Attend_Key(Review_ID_Key).build();
+			if (Time_Log_Key.equals("false")) {
+				return "Error Key...";
+			} else {
+				Appli_form appli_form = Appli_form.builder().id(Integer.parseInt(Appli_Id)).Check_State(State)
+						.Review_Result(State).Review_Manager(Manager).Review_ID_Key(Review_ID_Key).Review_Date(date)
+						.Review_Time(date).build();
+				TimeData timeData = TimeData.builder().Emp_Key(Appli_Employee).Last_Time(0).Time_Pon_Mark("")
+						.Time_Log_Key(Time_Log_Key).Update_Time(date).Time_Event(Time_Event).Time_Mark(Mark)
+						.Insert_Time(Appli_Time).Old_Time(0).New_Time(0).Update_Time(date).Attend_Key(Review_ID_Key)
+						.build();
 
-			return sqlserver.Update_Review(appli_form, timeData);
+				return sqlserver.Update_Review(appli_form, timeData);
+			}
+
 		} finally {
 			lock.unlock();
 		}
@@ -280,12 +294,45 @@ public class AttendController<Json> {
 			ArrayList<String> Admin_Search_TimeData = new ArrayList();
 			JsonNode jsonNode = null;
 			Object Appli_Object = Appli_Object_Post.get("Appli_Object_Post");
+
 			if (sqlserver.Search_TimeData(Admin_Search_TimeData, ((JSONObject) Appli_Object).getInt("Admin_Lv"),
 					((JSONObject) Appli_Object).getString("Export_Depart"),
 					((JSONObject) Appli_Object).getString("Export_State")).equals("Sucess")) {
 				ObjectMapper objectMapper = new ObjectMapper();
 
 				for (String str : Admin_Search_TimeData) {
+
+					jsonNode = objectMapper.readTree(str);
+					Ret_Data_S.add(jsonNode);
+				}
+				return Ret_Data_S;
+			}
+
+			return null;
+		} finally {
+			lock.unlock();
+		}
+
+	}
+
+	@CrossOrigin
+	@PostMapping("AttendController/Member_Search_TimeData") // 調閱申請審核/未審核資料_All
+	public ArrayList Member_Search_TimeData(@RequestBody JSONObject Member_Object_Post)
+			throws JsonMappingException, JsonProcessingException {
+
+		try {
+			lock.lock();
+			ArrayList<JsonNode> Ret_Data_S = new ArrayList();
+			ArrayList<String> Member_Search_TimeData = new ArrayList();
+			JsonNode jsonNode = null;
+			Object Member_TimeData_Object = Member_Object_Post.get("Member_Object");
+			System.out.println(Member_TimeData_Object);
+
+			if (sqlserver.Search_TimeData_Member(Member_Search_TimeData,
+					(((JSONObject) Member_TimeData_Object).getString("Emp_Key")),
+					(((JSONObject) Member_TimeData_Object).getString("State"))).equals("Sucess")) {
+				ObjectMapper objectMapper = new ObjectMapper();
+				for (String str : Member_Search_TimeData) {
 
 					jsonNode = objectMapper.readTree(str);
 					Ret_Data_S.add(jsonNode);
@@ -411,9 +458,16 @@ public class AttendController<Json> {
 	}
 
 	@CrossOrigin
-	@GetMapping("AttendController/Cancel_Appli") // 取消審核資料
-	public String Cancel_Appli() {
+	@GetMapping("AttendController/Cancel_Appli") // 取消審核資料  appli的id、管理員、TimeLogKey
+	public String Cancel_Appli(@RequestBody JSONObject Attend_TimeData_Post) {
 
+
+		Object Attend_TimeData = Attend_TimeData_Post.get("Attend_TimeData_Post");
+		String Appli_Id = ((JSONObject) Attend_TimeData).getString("Appli_Id"); // 申請id
+		String Manager = ((JSONObject) Attend_TimeData).getString("Manager"); // 主管
+		String Appli_Employee = ((JSONObject) Attend_TimeData).getString("Appli_Employee"); // 申請人
+	
+		
 		try {
 			lock.lock();
 			timeData.ResConstruct();
@@ -465,7 +519,8 @@ public class AttendController<Json> {
 						((JSONObject) Announcement_Object).getString("Announcement_Context"));
 				return sqlserver.Announcement("Insert", Insert_Str);
 			} else if (((JSONObject) Announcement_Object).getString("State_Key").equals("Delete")) {
-				return sqlserver.Announcement("Delete", "1");
+				return sqlserver.Announcement("Delete",
+						((JSONObject) Announcement_Object).getString("Announcement_Id"));
 			}
 			return Insert_Str;
 		} finally {
