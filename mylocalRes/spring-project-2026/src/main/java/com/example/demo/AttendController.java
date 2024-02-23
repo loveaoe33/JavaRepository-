@@ -193,6 +193,7 @@ public class AttendController<Json> {
 					|| ((JSONObject) Appli_Object).getString("Reason").equals("Over_Time"))
 							? ((JSONObject) Appli_Object).getDouble("Appli_Time")
 							: -(((JSONObject) Appli_Object).getDouble("Appli_Time"));
+			
 			Appli_form appli_form = Appli_form.builder().Emp_Key(((JSONObject) Appli_Object).getString("Emp_ID"))
 					.Department(((JSONObject) Appli_Object).getString("DepartMent"))
 					.Reason(((JSONObject) Appli_Object).getString("Reason")).Appli_Time(Time).Last_Time(0).Apli_Total(0)
@@ -203,7 +204,24 @@ public class AttendController<Json> {
 			lock.unlock();
 		}
 
+	}	
+	
+	@CrossOrigin
+	@GetMapping("AttendController/Insert_Special_TimeData") // 申請資料
+	public boolean Insert_Special_TimeData() throws SQLException {
+
+		try {
+			lock.lock();
+			timeData.ResConstruct();
+			timeData.Special("E0010", "Special", "三個月特休", 7, "E0010");
+	
+			return sqlserver.Insert_Special_Log(timeData);
+		} finally {
+			lock.unlock();
+		}
+
 	}
+	
 
 	@CrossOrigin
 	@PostMapping("AttendController/Attend_TimeData") // 審核資料
@@ -230,6 +248,7 @@ public class AttendController<Json> {
 				Appli_form appli_form = Appli_form.builder().id(Integer.parseInt(Appli_Id)).Check_State(State)
 						.Review_Result(State).Review_Manager(Manager).Review_ID_Key(Review_ID_Key).Review_Date(date)
 						.Review_Time(date).build();
+				
 				TimeData timeData = TimeData.builder().Emp_Key(Appli_Employee).Last_Time(0).Time_Pon_Mark("")
 						.Time_Log_Key(Time_Log_Key).Update_Time(date).Time_Event(Time_Event).Time_Mark(Mark)
 						.Insert_Time(Appli_Time).Old_Time(0).New_Time(0).Update_Time(date).Attend_Key(Review_ID_Key)
@@ -458,7 +477,7 @@ public class AttendController<Json> {
 	}
 
 	@CrossOrigin
-	@GetMapping("AttendController/Cancel_Appli") // 取消審核資料  appli的id、管理員、TimeLogKey
+	@PostMapping("AttendController/Cancel_Appli") // 取消審核資料  appli的id、管理員、TimeLogKey
 	public String Cancel_Appli(@RequestBody JSONObject Attend_TimeData_Post) {
 
 
@@ -471,9 +490,10 @@ public class AttendController<Json> {
 		try {
 			lock.lock();
 			timeData.ResConstruct();
-			timeData.setId(4);
-			timeData.setEmp_Key("E0010");
-			timeData.setTime_Log_Key("E0010_2023-12-31T14:26:33.173907800");
+			timeData.setId(Integer.parseInt(Appli_Id)); 
+			timeData.setManager(Manager);
+			timeData.setEmp_Key(Appli_Employee);
+//			timeData.setTime_Log_Key("E0010_2023-12-31T14:26:33.173907800");
 			return sqlserver.Cancel_Appli(timeData);
 		} finally {
 			lock.unlock();

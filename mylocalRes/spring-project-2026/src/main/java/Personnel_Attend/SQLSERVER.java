@@ -181,6 +181,33 @@ public class SQLSERVER extends SQLOB {
 
 		}
 	}
+	
+	public boolean Insert_Special_Log(TimeData timeData_Par) throws SQLException { // Insert_Special
+		String SQL_Str_TimeLog = "insert into time_log(id,Time_Log_Key,Time_Event,Time_Mark,Insert_Time,Old_Time,New_Time,Update_Time,Attend_Key)"
+				+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,?,? FROM time_log;";	
+		SQL_Str = "Update job_time SET Special_Date=?,Update_Time=? where Emp_Key=?";
+		timeData_Par.setUpdate_Time(Date_Time());
+		timeData_Par.setTime_Log_Key(Get_TimeKey(timeData_Par.getEmp_Key()));
+		try {
+			if(Insert_TimeLog(SQL_Str_TimeLog,timeData_Par, "Special")) {
+				sqlclass.setSql_Str(SQL_Str);
+				pst = con.prepareStatement(sqlclass.getSql_Str());
+				pst.setInt(1, timeData_Par.getSpecial_Date());
+				pst.setDate(2, timeData_Par.getUpdate_Time());
+				pst.setString(3, timeData_Par.getEmp_Key());
+				pst.executeUpdate();
+				return true;
+			}
+			return false;
+		} catch (SQLException e) {
+			System.out.println("Insert_Special_Log錯誤" + e.getMessage());
+			return false;
+		} finally {
+			close_SQL();
+
+		}
+	}
+	
 
 	public boolean Insert_TimeLog(String TimeLog, TimeData timeData_Par, String Switch) { // Insert_Time_Log
 		sqlclass.setSql_Str(TimeLog);
@@ -190,12 +217,15 @@ public class SQLSERVER extends SQLOB {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
 			pst.setString(1, timeData_Par.getTime_Log_Key());
 			pst.setString(2, timeData_Par.getTime_Event());
-			if (Switch.equals("init")) {
+			if (Switch.equals("Init")) {
 				pst.setString(3, "Init");
 			} else if (Switch.equals("Review")) {
 				pst.setString(3, "Cancel");
-
-			} else {
+             
+			} else if(Switch.equals("Special")) {
+				pst.setString(3, "Special_Date");
+			} 
+			else {
 				pst.setString(3, timeData_Par.getTime_Mark());
 			}
 			pst.setDouble(4, timeData_Par.getInsert_Time());
@@ -213,11 +243,11 @@ public class SQLSERVER extends SQLOB {
 		} finally {
 		}
 	}
-
+	
 	public String Insert_TimeData_New(TimeData timeData_Par) { // JOB_Time new
 		Result = null;
-		String SQL_Str_JobTime = "insert into job_time(id,Emp_Key,Last_Time,Time_Pon_Mark,Time_Log_Key,Update_Time)"
-				+ "select ifNull(max(id),0)+1,?,?,?,?,? FROM job_time;";
+		String SQL_Str_JobTime = "insert into job_time(id,Emp_Key,Last_Time,Special_Date,Time_Pon_Mark,Time_Log_Key,Update_Time)"
+				+ "select ifNull(max(id),0)+1,?,?,?,?,?,? FROM job_time;";
 		String SQL_Str_TimeLog = "insert into time_log(id,Time_Log_Key,Time_Event,Time_Mark,Insert_Time,Old_Time,New_Time,Update_Time,Attend_Key)"
 				+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,?,? FROM time_log;";
 		sqlclass.setSql_Str(SQL_Str_JobTime);
@@ -228,9 +258,10 @@ public class SQLSERVER extends SQLOB {
 
 				TimeData_pst.setString(1, timeData_Par.getEmp_Key());
 				TimeData_pst.setDouble(2, timeData_Par.getLast_Time());
-				TimeData_pst.setString(3, timeData_Par.getTime_Pon_Mark());
-				TimeData_pst.setString(4, timeData_Par.getTime_Log_Key());
-				TimeData_pst.setDate(5, timeData_Par.getUpdate_Time());
+				TimeData_pst.setDouble(3, 0);
+				TimeData_pst.setString(4, timeData_Par.getTime_Pon_Mark());
+				TimeData_pst.setString(5, timeData_Par.getTime_Log_Key());
+				TimeData_pst.setDate(6, timeData_Par.getUpdate_Time());
 				TimeData_pst.executeUpdate();
 				TimeData_pst.clearParameters();
 
@@ -976,14 +1007,14 @@ public class SQLSERVER extends SQLOB {
 	public String Cancel_Review(TimeData timeData) {
 		if (Cancel_timeLog(timeData).equals("Scuess")) {
 			try {
-				SQL_Str = "Update review_form SET Review_Result=?,Review_Time=? where Review_ID_Key=?";
+				SQL_Str = "Update review_form SET Review_Result=?,Review_Time=?,Review_Manager=? where Review_ID_Key=?";
 				sqlclass.setSql_Str(SQL_Str);
 				pst = con.prepareStatement(sqlclass.getSql_Str());
 				pst.setString(1, "NPass");
 				pst.setDate(2, timeData.getUpdate_Time());
-				pst.setString(3, timeData.getAttend_Key());
+				pst.setString(3, timeData.getManager());
+				pst.setString(4, timeData.getAttend_Key());
 				pst.executeLargeUpdate();
-
 				return "Scuess";
 			} catch (SQLException e) {
 				System.out.println("Cancel_Review錯誤" + e.getMessage());
@@ -1005,6 +1036,7 @@ public class SQLSERVER extends SQLOB {
 			rs = pst.executeQuery();
 
 			if (rs.next()) {
+				
 				timeData.setAttend_Key(rs.getString("Review_ID_Key"));
 				if (Cancel_Review(timeData).equals("Scuess")) {
 
