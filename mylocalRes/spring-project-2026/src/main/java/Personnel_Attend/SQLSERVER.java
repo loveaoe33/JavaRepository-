@@ -152,17 +152,16 @@ public class SQLSERVER extends SQLOB {
 
 	public boolean TimeData_Compare(TimeData timeData_Par) {
 		double Last_Time = 0;
-		SQL_Str = "select * from job_time  where Emp_Key=?";
-		sqlclass.setSql_Str(SQL_Str);
+//		SQL_Str = "select * from job_time  where Emp_Key=?";
+//		sqlclass.setSql_Str(SQL_Str);
 //		Res_SQL(SQL_Str);
-		System.out.println("TimeData_Compare的記憶體位置" + timeData_Par);
-
 		try {
-			pst = con.prepareStatement(sqlclass.getSql_Str());
-			pst.setString(1, timeData_Par.getEmp_Key());
-			rs = pst.executeQuery();
+//			pst = con.prepareStatement(sqlclass.getSql_Str());
+//			pst.setString(1, timeData_Par.getEmp_Key());
+//			rs = pst.executeQuery();
 
-			Last_Time = (rs.next()) ? rs.getDouble("Last_Time") : null;
+//			Last_Time = (rs.next()) ? rs.getDouble("Last_Time") : null;
+			Last_Time = get_LstTime(timeData_Par.getEmp_Key(),"Last_Time");
 
 			if (Last_Time + timeData_Par.getInsert_Time() > 0) {
 				timeData_Par.setTime_Pon_Mark("Positive");
@@ -171,28 +170,43 @@ public class SQLSERVER extends SQLOB {
 			}
 			return true;
 
-		} catch (SQLException e) {
-			System.out.println("TimeData_Compare錯誤" + e.getMessage());
-			return false;
-
 		} finally {
 			timeData_Par.setOld_Time(Last_Time);
 			timeData_Par.setNew_Time(Last_Time + timeData_Par.getInsert_Time());
 
 		}
 	}
-	
-	public boolean Insert_Special_Log(TimeData timeData_Par) throws SQLException { // Insert_Special
-		String SQL_Str_TimeLog = "insert into time_log(id,Time_Log_Key,Time_Event,Time_Mark,Insert_Time,Old_Time,New_Time,Update_Time,Attend_Key)"
-				+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,?,? FROM time_log;";	
-		SQL_Str = "Update job_time SET Special_Date=?,Update_Time=? where Emp_Key=?";
+	public String getEmpyoee_Data(String Emp_Key) {
+		Result=null;
+     	SQL_Str = "select * from job_time  where Emp_Key=?";
+		Res_SQL(SQL_Str);
+
+		try {
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			pst.setString(1, Emp_Key);
+			rs=pst.executeQuery();
+			return Result=(rs.next())?String.format("Emp_Key:%s,Last_Time:%f,Special_Date:%f,Update_Time:%s",rs.getString("Emp_Key"),rs.getDouble("Last_Time"),rs.getDouble("Special_Date"),rs.getString("Update_Time")):"No Select...";
+		}catch(SQLException e)
+		{
+			System.out.println("getEmpyoee_Data錯誤" + e.getMessage());
+			return "false";
+
+		}finally {
+			close_SQL();
+		}
+	}
+	public boolean Insert_Special_Log(TimeData timeData_Par,double Lst_Special) throws SQLException { // Insert_Special
+		String SQL_Str_TimeLog = "insert into time_log(id,Time_Log_Key,Time_Event,Time_Mark,Insert_Time,Old_Time,New_Time,Special_Date,Update_Time,Attend_Key)"
+				+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,?,?,? FROM time_log;";	
+		String SQL_Str_JobTime = "Update job_time SET Special_Date=?,Update_Time=? where Emp_Key=?";
 		timeData_Par.setUpdate_Time(Date_Time());
 		timeData_Par.setTime_Log_Key(Get_TimeKey(timeData_Par.getEmp_Key()));
 		try {
 			if(Insert_TimeLog(SQL_Str_TimeLog,timeData_Par, "Special")) {
-				sqlclass.setSql_Str(SQL_Str);
+				Lst_Special=get_LstTime(timeData_Par.getEmp_Key(),"Special_Date");
+				sqlclass.setSql_Str(SQL_Str_JobTime);
 				pst = con.prepareStatement(sqlclass.getSql_Str());
-				pst.setInt(1, timeData_Par.getSpecial_Date());
+				pst.setInt(1,(int) (Lst_Special+timeData_Par.getSpecial_Date()));
 				pst.setDate(2, timeData_Par.getUpdate_Time());
 				pst.setString(3, timeData_Par.getEmp_Key());
 				pst.executeUpdate();
@@ -217,22 +231,27 @@ public class SQLSERVER extends SQLOB {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
 			pst.setString(1, timeData_Par.getTime_Log_Key());
 			pst.setString(2, timeData_Par.getTime_Event());
+			pst.setDouble(4, timeData_Par.getInsert_Time());
+			pst.setDouble(5, timeData_Par.getOld_Time());
+			pst.setDouble(6, timeData_Par.New_Time);
+			pst.setDouble(7, 0);
+			pst.setDate(8, timeData_Par.getUpdate_Time());
+			pst.setString(9, timeData_Par.getAttend_Key());
+			
 			if (Switch.equals("Init")) {
 				pst.setString(3, "Init");
 			} else if (Switch.equals("Review")) {
 				pst.setString(3, "Cancel");
              
 			} else if(Switch.equals("Special")) {
-				pst.setString(3, "Special_Date");
+				pst.setString(3, timeData.getTime_Mark());
+				pst.setDouble(7, timeData.getSpecial_Date());
+
 			} 
 			else {
 				pst.setString(3, timeData_Par.getTime_Mark());
 			}
-			pst.setDouble(4, timeData_Par.getInsert_Time());
-			pst.setDouble(5, timeData_Par.getOld_Time());
-			pst.setDouble(6, timeData_Par.New_Time);
-			pst.setDate(7, timeData_Par.getUpdate_Time());
-			pst.setString(8, timeData_Par.getAttend_Key());
+
 
 			pst.executeUpdate();
 			pst.clearParameters();
@@ -373,20 +392,20 @@ public class SQLSERVER extends SQLOB {
 		}
 	}
 
-	public Double get_LstTime(String Emp_Key) {
+	public Double get_LstTime(String Emp_Key,String Switch) {
 		Result = null;
 		double Result;
-		SQL_Str = "select Last_Time from job_Time where Emp_Key=?";
-		Res_SQL(SQL_Str);
+		SQL_Str = "select *  from job_Time where Emp_Key=?";
+		sqlclass.setSql_Str(SQL_Str);
+
+//		Res_SQL(SQL_Str);
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
 			pst.setString(1, Emp_Key);
-
-			pst.executeQuery();
 			rs = pst.executeQuery();
 
 			if (rs.next()) {
-				Result = rs.getDouble("Last_Time");
+				Result = rs.getDouble(Switch);
 			} else {
 				Result = (Double) null;
 			}
@@ -397,7 +416,7 @@ public class SQLSERVER extends SQLOB {
 			return Result;
 
 		} finally {
-			close_SQL();
+//			close_SQL();
 
 		}
 
