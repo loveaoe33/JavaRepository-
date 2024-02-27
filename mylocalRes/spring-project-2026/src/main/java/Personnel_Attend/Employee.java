@@ -90,5 +90,14 @@ public class Employee {
 				rs.getInt("id"), rs.getString("Emp_ID"), rs.getString("Emp_Name"), rs.getString("Department_Key"),
 				rs.getInt("Account_Lv"));
 	}
+	public String getJobTime_JsonString(ResultSet rs) throws SQLException {
+
+		return String.format(
+				"{\"Emp_Key\": \"%s\",\"Last_Time\": \"%f\", \"Special_Date\": \"%f\", \"Update_Time\": \"%s\"}",
+				rs.getString("Emp_Key"), rs.getDouble("Last_Time"), rs.getDouble("Special_Date"), rs.getString("Update_Time"));
+	}
+	
+	
+	
 
 }

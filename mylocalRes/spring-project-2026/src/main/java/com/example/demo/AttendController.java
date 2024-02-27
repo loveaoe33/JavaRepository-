@@ -208,12 +208,13 @@ public class AttendController<Json> {
 	
 	@CrossOrigin
 	@GetMapping("AttendController/Insert_Special_TimeData") // 新增特休
-	public boolean Insert_Special_TimeData() throws SQLException {
+	public boolean Insert_Special_TimeData(@RequestBody JSONObject Emp_Data) throws SQLException {
 
 		try {
 			lock.lock();
 			timeData.ResConstruct();
-			timeData.Special("E0010", "Special", "三個月特休", -8, "E0010");
+			Object Special_Object=Emp_Data.get("Special_Object");
+			timeData.Special(((JSONObject) Special_Object).getString("Emp_Key"), ((JSONObject) Special_Object).getString("State"), ((JSONObject) Special_Object).getString("Remark"), ((JSONObject) Special_Object).getInt("Pluse_Special"), ((JSONObject) Special_Object).getString("Manager"));
 	        Double Lst_Special=sqlserver.get_LstTime(timeData.getEmp_Key(), "Special_Date"); 
 			return sqlserver.Insert_Special_Log(timeData, Lst_Special);
 		} finally {
@@ -224,11 +225,10 @@ public class AttendController<Json> {
 	
 	@CrossOrigin
 	@PostMapping("AttendController/Select_Emp_Data") // 抓取特休資料
-	public String Select_Emp_Data(String Emp_Key) throws SQLException {
-
+	public String Select_Emp_Data(@RequestBody JSONObject Emp_Data) throws SQLException {
 		try {
 			lock.lock();
-			return sqlserver.getEmpyoee_Data("E0010");
+			return sqlserver.getEmpyoee_Data(Emp_Data.getString("Emp_Key"));
 		} finally {
 			lock.unlock();
 		}

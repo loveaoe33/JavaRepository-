@@ -185,7 +185,7 @@ public class SQLSERVER extends SQLOB {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
 			pst.setString(1, Emp_Key);
 			rs=pst.executeQuery();
-			return Result=(rs.next())?String.format("Emp_Key:%s,Last_Time:%f,Special_Date:%f,Update_Time:%s",rs.getString("Emp_Key"),rs.getDouble("Last_Time"),rs.getDouble("Special_Date"),rs.getString("Update_Time")):"No Select...";
+			return Result=(rs.next())?employee.getJobTime_JsonString(rs):"No Select...";
 		}catch(SQLException e)
 		{
 			System.out.println("getEmpyoee_Data錯誤" + e.getMessage());
@@ -371,11 +371,8 @@ public class SQLSERVER extends SQLOB {
 			rs = pst.executeQuery();
 			if (rs.next()) {
 				String Hash = rs.getString("Password");
-				if (PassEncry.Password_Check(employee_Par.getPassword(), Hash)) {
-					Result = String.format(
-							"{\"Emp_ID\": \"%s\", \"Emp_Name\": \"%s\", \"Department_Key\": \"%s\", \"Account_Lv\": %d}",
-							rs.getString("Emp_ID"), rs.getString("Emp_Name"), rs.getString("Department_Key"),
-							rs.getInt("Account_Lv"));
+				if (PassEncry.Password_Check(employee_Par.getPassword(), Hash)) {	
+					Result =employee.getEmployee_JsonString(rs);
 				}
 				return Result;
 			} else {
