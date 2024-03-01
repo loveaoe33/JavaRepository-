@@ -35,6 +35,7 @@ public class SQLSERVER extends SQLOB {
 			Appli_form appli_form, PasswordEncryption PassEncry) {
 
 		super(sqlclass);
+
 		this.sqlclass = sqlclass;
 		this.department = department;
 		this.employee = employee;

@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import Personnel_Attend.Appli_form;
 import Personnel_Attend.Department;
 import Personnel_Attend.Employee;
+import Personnel_Attend.HistoryLog;
 import Personnel_Attend.PasswordEncryption;
 import Personnel_Attend.SQLSERVER;
 import Personnel_Attend.TimeData;
@@ -44,6 +45,7 @@ public class AttendController<Json> {
 	private final Employee employee;
 	private final TimeData timeData;
 	private final SQLSERVER sqlserver;
+	private final HistoryLog historylog;
 	private final Appli_form appli_form;
 	private final PasswordEncryption PassEncry;
 	private HashMap<Integer, JsonNode> Ret_Data = new HashMap();
@@ -71,10 +73,11 @@ public class AttendController<Json> {
 //	
 
 	@Autowired
-	public AttendController(SQLSERVER sqlserver, Department department, Employee employee, TimeData timeData,
+	public AttendController(SQLSERVER sqlserver,HistoryLog historylog, Department department, Employee employee, TimeData timeData,
 			Appli_form appli_form, PasswordEncryption PassEncry) {
 		this.department = department;
 		this.sqlserver = sqlserver;
+		this.historylog=historylog;
 		this.employee = employee;
 		this.timeData = timeData;
 		this.appli_form = appli_form;
@@ -207,14 +210,14 @@ public class AttendController<Json> {
 	}	
 	
 	@CrossOrigin
-	@GetMapping("AttendController/Insert_Special_TimeData") // 新增特休
+	@PostMapping("AttendController/Insert_Special_TimeData") // 新增特休
 	public boolean Insert_Special_TimeData(@RequestBody JSONObject Emp_Data) throws SQLException {
 
 		try {
 			lock.lock();
 			timeData.ResConstruct();
 			Object Special_Object=Emp_Data.get("Special_Object");
-			timeData.Special(((JSONObject) Special_Object).getString("Emp_Key"), ((JSONObject) Special_Object).getString("State"), ((JSONObject) Special_Object).getString("Remark"), ((JSONObject) Special_Object).getInt("Pluse_Special"), ((JSONObject) Special_Object).getString("Manager"));
+			timeData.Special(((JSONObject) Special_Object).getString("Emp_Key"), ((JSONObject) Special_Object).getString("State"), ((JSONObject) Special_Object).getString("Remark"), ((JSONObject) Special_Object).getDouble("Plus_Special"), ((JSONObject) Special_Object).getString("Manager"));
 	        Double Lst_Special=sqlserver.get_LstTime(timeData.getEmp_Key(), "Special_Date"); 
 			return sqlserver.Insert_Special_Log(timeData, Lst_Special);
 		} finally {
@@ -379,6 +382,8 @@ public class AttendController<Json> {
 
 	}
 
+	
+	
 	@GetMapping("AttendController/Excel_Employee_TimeData_Post") // 當月審核報表輸出
 	public HashMap Admin_Search_TimeDataM() throws JsonMappingException, JsonProcessingException {
 		JsonNode jsonNode = null;
@@ -405,6 +410,29 @@ public class AttendController<Json> {
 			lock.unlock();
 		}
 
+	}
+	
+	@CrossOrigin
+	@GetMapping("AttendController/SearchEmployee_Appli") // 查詢員工申請紀錄
+	public HashMap SearchEmployee_Appli() {
+		try {
+			lock.lock();
+			String Switch="";
+		    if(Switch.equals("Admin")) {
+		    	
+		    }else if(Switch.equals("Employee"))
+		    		{
+		    	
+		    		}
+		    		
+		
+		}
+	finally {
+			lock.unlock();
+
+		}
+		return Ret_Data;
+		
 	}
 
 	@CrossOrigin

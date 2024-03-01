@@ -29,7 +29,7 @@ public class TimeData {
 	double Insert_Time;//Log_Time
 	double Old_Time;//Log_Time
 	double New_Time;//Log_Time
-	int Special_Date;
+	double Special_Date;
 	Date Update_Time;//Log_Time
 	String Attend_Key;//Log_Time
 	String Manager;//
@@ -52,7 +52,7 @@ public class TimeData {
 		
 	}
 	
-	public void Special(String Emp_Key,String Time_Event,String Time_Mark,int Special_Date,String Manager) {
+	public void Special(String Emp_Key,String Time_Event,String Time_Mark,double Special_Date,String Manager) {
 		this.Emp_Key=Emp_Key;
 		this.Last_Time=0;
 		this.Time_Pon_Mark="";

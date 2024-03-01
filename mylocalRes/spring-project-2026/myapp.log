@@ -1,301 +1,133 @@
-2024-02-27 11:14:54.654 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 2904 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2024-02-27 11:14:54.656 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2024-02-27 11:14:54.657 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2024-02-27 11:14:54.696 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2024-02-27 11:14:54.697 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2024-02-27 11:14:55.153 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-02-27 11:14:55.168 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 JPA repository interfaces.
-2024-02-27 11:14:56.040 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2024-02-27 11:14:56.139 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1441 ms
-2024-02-27 11:14:56.241 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2024-02-27 11:14:56.540 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2024-02-27 11:14:56.592 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-02-27 11:14:56.647 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.6.9.Final
-2024-02-27 11:14:56.825 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2024-02-27 11:14:56.939 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2024-02-27 11:14:57.155 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-02-27 11:14:57.165 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 11:14:57.394 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-02-27 11:14:57.737 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2024-02-27 11:14:57.798 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2024-02-27 11:14:57.808 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 3.45 seconds (JVM running for 4.15)
-2024-02-27 11:15:19.685 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2024-02-27 11:15:19.687 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2024-02-27 11:18:39.433 [Thread-8] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 11:18:39.435 [Thread-8] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2024-02-27 11:18:39.441 [Thread-8] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2024-02-27 11:18:39.502 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 2904 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2024-02-27 11:18:39.502 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2024-02-27 11:18:39.503 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2024-02-27 11:18:39.628 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-02-27 11:18:39.630 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 2 ms. Found 0 JPA repository interfaces.
-2024-02-27 11:18:39.694 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2024-02-27 11:18:39.721 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 216 ms
-2024-02-27 11:18:39.741 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
-2024-02-27 11:18:39.752 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
-2024-02-27 11:18:39.754 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-02-27 11:18:39.759 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2024-02-27 11:18:39.763 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-02-27 11:18:39.764 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 11:18:39.815 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-02-27 11:18:39.965 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2024-02-27 11:18:39.982 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2024-02-27 11:18:39.988 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.509 seconds (JVM running for 226.33)
-2024-02-27 11:18:39.994 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2024-02-27 11:18:41.534 [Thread-10] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 11:18:41.534 [Thread-10] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
-2024-02-27 11:18:41.539 [Thread-10] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
-2024-02-27 11:18:41.588 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 2904 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2024-02-27 11:18:41.588 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2024-02-27 11:18:41.588 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2024-02-27 11:18:41.705 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-02-27 11:18:41.707 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
-2024-02-27 11:18:41.763 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2024-02-27 11:18:41.793 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 203 ms
-2024-02-27 11:18:41.819 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
-2024-02-27 11:18:41.833 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
-2024-02-27 11:18:41.836 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-02-27 11:18:41.841 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2024-02-27 11:18:41.845 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-02-27 11:18:41.845 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 11:18:41.890 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-02-27 11:18:41.947 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2024-02-27 11:18:41.955 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2024-02-27 11:18:41.958 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.389 seconds (JVM running for 228.3)
-2024-02-27 11:18:41.959 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2024-02-27 11:18:45.117 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2024-02-27 11:18:45.118 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2024-02-27 11:19:08.433 [Thread-16] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 11:19:08.434 [Thread-16] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
-2024-02-27 11:19:08.439 [Thread-16] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
-2024-02-27 11:19:08.499 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 2904 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2024-02-27 11:19:08.499 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2024-02-27 11:19:08.499 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2024-02-27 11:19:08.616 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-02-27 11:19:08.618 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
-2024-02-27 11:19:08.664 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2024-02-27 11:19:08.689 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 188 ms
-2024-02-27 11:19:08.708 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
-2024-02-27 11:19:08.717 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
-2024-02-27 11:19:08.719 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-02-27 11:19:08.723 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2024-02-27 11:19:08.727 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-02-27 11:19:08.728 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 11:19:08.763 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-02-27 11:19:08.813 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2024-02-27 11:19:08.821 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2024-02-27 11:19:08.825 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.352 seconds (JVM running for 255.167)
-2024-02-27 11:19:08.825 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2024-02-27 11:19:09.294 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2024-02-27 11:19:09.295 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2024-02-27 11:21:04.044 [Thread-22] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 11:21:04.044 [Thread-22] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
-2024-02-27 11:21:04.057 [Thread-22] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown completed.
-2024-02-27 11:21:04.105 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 2904 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2024-02-27 11:21:04.105 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2024-02-27 11:21:04.106 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2024-02-27 11:21:04.206 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-02-27 11:21:04.208 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
-2024-02-27 11:21:04.249 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2024-02-27 11:21:04.273 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 166 ms
-2024-02-27 11:21:04.296 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Starting...
-2024-02-27 11:21:04.309 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Start completed.
-2024-02-27 11:21:04.312 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-02-27 11:21:04.317 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2024-02-27 11:21:04.326 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-02-27 11:21:04.326 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 11:21:04.370 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-02-27 11:21:04.510 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2024-02-27 11:21:04.522 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2024-02-27 11:21:04.526 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.44 seconds (JVM running for 370.868)
-2024-02-27 11:21:04.528 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2024-02-27 11:21:08.554 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2024-02-27 11:21:08.555 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2024-02-27 11:45:45.915 [RMI TCP Connection(35)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
-2024-02-27 11:45:45.966 [RMI TCP Connection(35)-127.0.0.1] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 11:45:45.976 [RMI TCP Connection(35)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown initiated...
-2024-02-27 11:45:45.983 [RMI TCP Connection(35)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown completed.
-2024-02-27 11:45:48.283 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 15332 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2024-02-27 11:45:48.284 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2024-02-27 11:45:48.285 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2024-02-27 11:45:48.316 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2024-02-27 11:45:48.316 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2024-02-27 11:45:48.758 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-02-27 11:45:48.773 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 JPA repository interfaces.
-2024-02-27 11:45:49.555 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2024-02-27 11:45:49.657 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1341 ms
-2024-02-27 11:45:49.771 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2024-02-27 11:45:50.031 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2024-02-27 11:45:50.071 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-02-27 11:45:50.123 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.6.9.Final
-2024-02-27 11:45:50.376 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2024-02-27 11:45:50.490 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2024-02-27 11:45:50.637 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-02-27 11:45:50.645 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 11:45:50.867 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-02-27 11:45:51.157 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2024-02-27 11:45:51.192 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2024-02-27 11:45:51.200 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 3.174 seconds (JVM running for 3.783)
-2024-02-27 11:45:54.467 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2024-02-27 11:45:54.468 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2024-02-27 11:49:00.241 [Thread-8] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 11:49:00.243 [Thread-8] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2024-02-27 11:49:00.247 [Thread-8] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2024-02-27 11:49:00.306 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 15332 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2024-02-27 11:49:00.306 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2024-02-27 11:49:00.307 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2024-02-27 11:49:00.438 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-02-27 11:49:00.440 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 2 ms. Found 0 JPA repository interfaces.
-2024-02-27 11:49:00.506 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2024-02-27 11:49:00.528 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 219 ms
-2024-02-27 11:49:00.550 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
-2024-02-27 11:49:00.561 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
-2024-02-27 11:49:00.564 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-02-27 11:49:00.568 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2024-02-27 11:49:00.573 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-02-27 11:49:00.574 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 11:49:00.628 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-02-27 11:49:00.722 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2024-02-27 11:49:00.731 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2024-02-27 11:49:00.735 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.456 seconds (JVM running for 193.318)
-2024-02-27 11:49:00.737 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2024-02-27 11:49:03.463 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2024-02-27 11:49:03.464 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2024-02-27 11:55:59.008 [Thread-10] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 11:55:59.009 [Thread-10] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
-2024-02-27 11:55:59.025 [Thread-10] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
-2024-02-27 11:55:59.110 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 15332 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2024-02-27 11:55:59.111 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2024-02-27 11:55:59.111 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2024-02-27 11:55:59.325 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-02-27 11:55:59.328 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 2 ms. Found 0 JPA repository interfaces.
-2024-02-27 11:55:59.399 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2024-02-27 11:55:59.439 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 324 ms
-2024-02-27 11:55:59.467 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
-2024-02-27 11:55:59.480 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
-2024-02-27 11:55:59.483 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-02-27 11:55:59.490 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2024-02-27 11:55:59.497 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-02-27 11:55:59.498 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 11:55:59.557 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-02-27 11:55:59.677 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2024-02-27 11:55:59.692 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2024-02-27 11:55:59.696 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.615 seconds (JVM running for 612.279)
-2024-02-27 11:55:59.697 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2024-02-27 11:56:26.396 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2024-02-27 11:56:26.397 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
-2024-02-27 12:20:28.659 [HikariPool-3 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=15m28s907ms579µs300ns).
-2024-02-27 13:51:58.154 [HikariPool-3 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=1h30m29s543ms993µs400ns).
-2024-02-27 14:22:27.908 [HikariPool-3 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=30m29s773ms970µs400ns).
-2024-02-27 14:40:28.797 [HikariPool-3 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=17m883ms159µs700ns).
-2024-02-27 16:27:44.953 [Thread-16] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 16:27:44.972 [Thread-16] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
-2024-02-27 16:27:44.978 [Thread-16] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
-2024-02-27 16:27:45.260 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 15332 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2024-02-27 16:27:45.260 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2024-02-27 16:27:45.260 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2024-02-27 16:27:45.427 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-02-27 16:27:45.431 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 4 ms. Found 0 JPA repository interfaces.
-2024-02-27 16:27:45.496 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2024-02-27 16:27:45.520 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 257 ms
-2024-02-27 16:27:45.539 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
-2024-02-27 16:27:45.553 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
-2024-02-27 16:27:45.556 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-02-27 16:27:45.562 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2024-02-27 16:27:45.569 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-02-27 16:27:45.569 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 16:27:45.651 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-02-27 16:27:45.725 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2024-02-27 16:27:45.736 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2024-02-27 16:27:45.739 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.515 seconds (JVM running for 16918.435)
-2024-02-27 16:27:45.740 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2024-02-27 16:27:47.283 [Thread-22] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 16:27:47.283 [Thread-22] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
-2024-02-27 16:27:47.288 [Thread-22] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown completed.
-2024-02-27 16:27:47.332 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 15332 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2024-02-27 16:27:47.332 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2024-02-27 16:27:47.332 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2024-02-27 16:27:47.447 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-02-27 16:27:47.449 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
-2024-02-27 16:27:47.504 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2024-02-27 16:27:47.586 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 252 ms
-2024-02-27 16:27:47.603 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Starting...
-2024-02-27 16:27:47.610 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Start completed.
-2024-02-27 16:27:47.612 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-02-27 16:27:47.706 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2024-02-27 16:27:47.710 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-02-27 16:27:47.711 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 16:27:47.935 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-02-27 16:27:47.981 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2024-02-27 16:27:47.994 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2024-02-27 16:27:47.997 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.681 seconds (JVM running for 16920.694)
-2024-02-27 16:27:47.999 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2024-02-27 16:28:38.747 [Thread-28] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 16:28:38.748 [Thread-28] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown initiated...
-2024-02-27 16:28:38.753 [Thread-28] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown completed.
-2024-02-27 16:28:38.807 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 15332 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2024-02-27 16:28:38.808 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2024-02-27 16:28:38.808 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2024-02-27 16:28:38.941 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-02-27 16:28:38.943 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
-2024-02-27 16:28:38.988 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2024-02-27 16:28:39.020 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 211 ms
-2024-02-27 16:28:39.037 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Starting...
-2024-02-27 16:28:39.048 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Start completed.
-2024-02-27 16:28:39.050 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-02-27 16:28:39.053 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2024-02-27 16:28:39.058 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-02-27 16:28:39.058 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 16:28:39.101 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-02-27 16:28:39.155 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2024-02-27 16:28:39.168 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2024-02-27 16:28:39.172 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.38 seconds (JVM running for 16971.868)
-2024-02-27 16:28:39.172 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2024-02-27 16:28:47.027 [Thread-34] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 16:28:47.027 [Thread-34] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown initiated...
-2024-02-27 16:28:47.031 [Thread-34] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown completed.
-2024-02-27 16:28:47.081 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 15332 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2024-02-27 16:28:47.081 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2024-02-27 16:28:47.081 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2024-02-27 16:28:47.183 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-02-27 16:28:47.186 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 2 ms. Found 0 JPA repository interfaces.
-2024-02-27 16:28:47.228 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2024-02-27 16:28:47.255 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 172 ms
-2024-02-27 16:28:47.271 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Starting...
-2024-02-27 16:28:47.306 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Start completed.
-2024-02-27 16:28:47.311 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-02-27 16:28:47.319 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2024-02-27 16:28:47.325 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-02-27 16:28:47.325 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 16:28:47.382 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-02-27 16:28:47.443 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2024-02-27 16:28:47.453 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2024-02-27 16:28:47.457 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.395 seconds (JVM running for 16980.153)
-2024-02-27 16:28:47.458 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2024-02-27 16:28:57.468 [Thread-40] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 16:28:57.468 [Thread-40] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown initiated...
-2024-02-27 16:28:57.471 [Thread-40] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown completed.
-2024-02-27 16:28:57.519 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 15332 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
-2024-02-27 16:28:57.519 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
-2024-02-27 16:28:57.519 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
-2024-02-27 16:28:57.621 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-02-27 16:28:57.623 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
-2024-02-27 16:28:57.664 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-2024-02-27 16:28:57.693 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 172 ms
-2024-02-27 16:28:57.708 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Starting...
-2024-02-27 16:28:57.726 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Start completed.
-2024-02-27 16:28:57.728 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-02-27 16:28:57.732 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2024-02-27 16:28:57.736 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-02-27 16:28:57.736 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 16:28:57.782 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-02-27 16:28:57.826 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2024-02-27 16:28:57.836 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-2024-02-27 16:28:57.841 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.339 seconds (JVM running for 16990.537)
-2024-02-27 16:28:57.842 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2024-02-27 17:49:41.020 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2024-02-27 17:49:41.022 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2024-02-27 18:14:39.204 [RMI TCP Connection(245)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
-2024-02-27 18:14:39.275 [RMI TCP Connection(245)-127.0.0.1] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-02-27 18:14:39.279 [RMI TCP Connection(245)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown initiated...
-2024-02-27 18:14:39.300 [RMI TCP Connection(245)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown completed.
+2024-03-01 10:09:35.378 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 17892 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2024-03-01 10:09:35.381 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2024-03-01 10:09:35.382 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2024-03-01 10:09:35.431 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-03-01 10:09:35.431 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-03-01 10:09:35.904 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-01 10:09:35.921 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 JPA repository interfaces.
+2024-03-01 10:09:36.672 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2024-03-01 10:09:36.776 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1344 ms
+2024-03-01 10:09:36.865 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-03-01 10:09:37.243 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-03-01 10:09:37.288 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-03-01 10:09:37.354 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.6.9.Final
+2024-03-01 10:09:37.521 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2024-03-01 10:09:37.637 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2024-03-01 10:09:37.790 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-03-01 10:09:37.800 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-03-01 10:09:38.008 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-03-01 10:09:38.372 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-03-01 10:09:38.607 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2024-03-01 10:09:38.614 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 3.649 seconds (JVM running for 4.309)
+2024-03-01 10:11:16.016 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-03-01 10:11:16.018 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-03-01 14:40:59.943 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2h57m53s649ms768µs100ns).
+2024-03-01 15:38:32.622 [Thread-8] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-03-01 15:38:32.627 [Thread-8] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-03-01 15:38:32.633 [Thread-8] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-03-01 15:38:32.716 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 17892 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2024-03-01 15:38:32.716 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2024-03-01 15:38:32.716 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2024-03-01 15:38:32.879 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-01 15:38:32.883 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 3 ms. Found 0 JPA repository interfaces.
+2024-03-01 15:38:32.949 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2024-03-01 15:38:32.973 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 254 ms
+2024-03-01 15:38:33.011 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2024-03-01 15:38:33.023 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2024-03-01 15:38:33.025 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-03-01 15:38:33.031 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2024-03-01 15:38:33.038 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-03-01 15:38:33.038 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-03-01 15:38:33.110 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-03-01 15:38:33.188 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-03-01 15:38:33.198 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2024-03-01 15:38:33.201 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.519 seconds (JVM running for 19741.367)
+2024-03-01 15:38:33.203 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-03-01 15:39:26.625 [Thread-10] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-03-01 15:39:26.626 [Thread-10] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2024-03-01 15:39:26.630 [Thread-10] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2024-03-01 15:39:26.682 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 17892 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2024-03-01 15:39:26.682 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2024-03-01 15:39:26.682 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2024-03-01 15:39:26.794 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-01 15:39:26.797 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 2 ms. Found 0 JPA repository interfaces.
+2024-03-01 15:39:26.844 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2024-03-01 15:39:26.866 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 182 ms
+2024-03-01 15:39:26.888 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2024-03-01 15:39:26.905 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2024-03-01 15:39:26.907 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-03-01 15:39:26.912 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2024-03-01 15:39:26.916 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-03-01 15:39:26.917 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-03-01 15:39:26.964 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-03-01 15:39:27.022 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-03-01 15:39:27.031 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2024-03-01 15:39:27.036 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.373 seconds (JVM running for 19795.201)
+2024-03-01 15:39:27.037 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-03-01 15:39:40.212 [Thread-16] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-03-01 15:39:40.214 [Thread-16] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2024-03-01 15:39:40.219 [Thread-16] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+2024-03-01 15:39:40.264 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 17892 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2024-03-01 15:39:40.265 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2024-03-01 15:39:40.265 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2024-03-01 15:39:40.366 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-01 15:39:40.368 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 2 ms. Found 0 JPA repository interfaces.
+2024-03-01 15:39:40.410 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2024-03-01 15:39:40.430 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 164 ms
+2024-03-01 15:39:40.451 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
+2024-03-01 15:39:40.462 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
+2024-03-01 15:39:40.465 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-03-01 15:39:40.468 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2024-03-01 15:39:40.472 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-03-01 15:39:40.472 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-03-01 15:39:40.511 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-03-01 15:39:40.558 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-03-01 15:39:40.565 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2024-03-01 15:39:40.568 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.319 seconds (JVM running for 19808.733)
+2024-03-01 15:39:40.570 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-03-01 16:28:58.824 [Thread-22] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-03-01 16:28:58.825 [Thread-22] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
+2024-03-01 16:28:58.829 [Thread-22] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown completed.
+2024-03-01 16:28:58.885 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 17892 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2024-03-01 16:28:58.885 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2024-03-01 16:28:58.885 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2024-03-01 16:28:59.004 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-01 16:28:59.006 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2024-03-01 16:28:59.055 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2024-03-01 16:28:59.075 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 188 ms
+2024-03-01 16:28:59.092 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Starting...
+2024-03-01 16:28:59.099 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Start completed.
+2024-03-01 16:28:59.101 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-03-01 16:28:59.106 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2024-03-01 16:28:59.110 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-03-01 16:28:59.111 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-03-01 16:28:59.164 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-03-01 16:28:59.225 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-03-01 16:28:59.233 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2024-03-01 16:28:59.236 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.372 seconds (JVM running for 22767.401)
+2024-03-01 16:28:59.237 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-03-01 16:29:00.750 [Thread-28] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-03-01 16:29:00.751 [Thread-28] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown initiated...
+2024-03-01 16:29:00.754 [Thread-28] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown completed.
+2024-03-01 16:29:00.798 [restartedMain] INFO  c.e.d.SpringProject2026Application - Starting SpringProject2026Application using Java 17.0.3 on MSI with PID 17892 (C:\gitJava\mylocalRes\spring-project-2026\target\classes started by loveaoe33 in C:\gitJava\mylocalRes\spring-project-2026)
+2024-03-01 16:29:00.798 [restartedMain] DEBUG c.e.d.SpringProject2026Application - Running with Spring Boot v2.7.0, Spring v5.3.20
+2024-03-01 16:29:00.798 [restartedMain] INFO  c.e.d.SpringProject2026Application - No active profile set, falling back to 1 default profile: "default"
+2024-03-01 16:29:00.897 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-01 16:29:00.899 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2024-03-01 16:29:00.940 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2024-03-01 16:29:00.959 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 159 ms
+2024-03-01 16:29:00.976 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Starting...
+2024-03-01 16:29:00.984 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Start completed.
+2024-03-01 16:29:00.986 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-03-01 16:29:00.989 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2024-03-01 16:29:00.993 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-03-01 16:29:00.993 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-03-01 16:29:01.037 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-03-01 16:29:01.084 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-03-01 16:29:01.090 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2024-03-01 16:29:01.094 [restartedMain] INFO  c.e.d.SpringProject2026Application - Started SpringProject2026Application in 0.311 seconds (JVM running for 22769.259)
+2024-03-01 16:29:01.095 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-03-01 17:56:36.848 [RMI TCP Connection(297)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2024-03-01 17:56:36.860 [RMI TCP Connection(297)-127.0.0.1] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-03-01 17:56:36.861 [RMI TCP Connection(297)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown initiated...
+2024-03-01 17:56:36.865 [RMI TCP Connection(297)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown completed.
