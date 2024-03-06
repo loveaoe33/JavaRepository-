@@ -23,6 +23,7 @@ import Personnel_Attend.Department;
 import Personnel_Attend.Employee;
 import Personnel_Attend.HistoryLog;
 import Personnel_Attend.PasswordEncryption;
+import Personnel_Attend.SQLClass;
 import Personnel_Attend.SQLSERVER;
 import Personnel_Attend.TimeData;
 import Personnel_Attend.testServer;
@@ -40,7 +41,6 @@ import java.sql.Date;
 @ComponentScan("Personnel_Attend")
 @RestController
 public class AttendController<Json> {
-
 	private final Department department;
 	private final Employee employee;
 	private final TimeData timeData;
@@ -543,17 +543,81 @@ public class AttendController<Json> {
 	}
 
 	@CrossOrigin
-	@GetMapping("AttendController/SearchEmployee_TimeData_Post") // 查詢員工資料
-	public String SearchEmployee_TimeData_Post(@RequestBody JSONObject SearchEmployee_TimeData_Post) {
-
+	@GetMapping("AttendController/SearchEmployee_TimeData_Appli") // 查詢日期申請範圍申請資料
+	public  <T> T SearchEmployee_TimeData_Appli() {
+		HistoryLog Log=new HistoryLog(new SQLClass());
+		ArrayList<String> Emplyee_Excel_Data = new ArrayList();
 		try {
 			lock.lock();
-			return "";
+			if(Log.Get_Employee_Histort(Emplyee_Excel_Data, "E0010").equals("Sucess")) {
+				return (T) Emplyee_Excel_Data;
+			}else {
+				return (T) "找無資料";				
+			}
 		} finally {
 			lock.unlock();
 		}
 
 	}
+	
+	@CrossOrigin
+	@GetMapping("AttendController/SearchEmployee_TimeData_Review") // 查詢日期審核範圍申請資料
+	public  <T> T SearchEmployee_TimeData_Review() {
+		HistoryLog Log=new HistoryLog(new SQLClass());
+		ArrayList<String> Emplyee_Excel_Data = new ArrayList();
+		try {
+			lock.lock();
+			if(Log.Get_Employee_Review(Emplyee_Excel_Data, "E0010").equals("Sucess")) {
+				return (T) Emplyee_Excel_Data;
+			}else {
+				return (T) "找無資料";				
+			}
+		} finally {
+			lock.unlock();
+		}
+
+	}
+	
+	@CrossOrigin
+	@GetMapping("AttendController/SearchDepart_TimeData_Log") // 查詢日期範圍部門log
+	public  <T> T SearchDepart_TimeData_Log() {
+		HistoryLog Log=new HistoryLog(new SQLClass());
+		ArrayList<String> Emplyee_Excel_Data = new ArrayList();
+		try {
+			lock.lock();
+			if(Log.Get_Depart_History(Emplyee_Excel_Data, "E0010").equals("Sucess")) {
+				return (T) Emplyee_Excel_Data;
+			}else {
+				return (T) "找無資料";				
+			}
+		} finally {
+			lock.unlock();
+		}
+
+	}
+	
+	
+	@CrossOrigin
+	@GetMapping("AttendController/SearchDepart_TimeData_AllLog") // 查詢日期範圍部門log
+	public  <T> T SearchDepart_TimeData_AllLog() {
+		HistoryLog Log=new HistoryLog(new SQLClass());
+		ArrayList<String> Emplyee_Excel_Data = new ArrayList();
+		try {
+			lock.lock();
+			if(Log.All_Histort(Emplyee_Excel_Data).equals("Sucess")) {
+				return (T) Emplyee_Excel_Data;
+			}else {
+				return (T) "找無資料";				
+			}
+		} finally {
+			lock.unlock();
+		}
+
+	}
+	
+	
+	
+	
 
 	@CrossOrigin
 	@PostMapping("AttendController/Announcement_List") // 布告欄資料
