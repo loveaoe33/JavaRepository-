@@ -73,11 +73,11 @@ public class AttendController<Json> {
 //	
 
 	@Autowired
-	public AttendController(SQLSERVER sqlserver,HistoryLog historylog, Department department, Employee employee, TimeData timeData,
-			Appli_form appli_form, PasswordEncryption PassEncry) {
+	public AttendController(SQLSERVER sqlserver, HistoryLog historylog, Department department, Employee employee,
+			TimeData timeData, Appli_form appli_form, PasswordEncryption PassEncry) {
 		this.department = department;
 		this.sqlserver = sqlserver;
-		this.historylog=historylog;
+		this.historylog = historylog;
 		this.employee = employee;
 		this.timeData = timeData;
 		this.appli_form = appli_form;
@@ -135,7 +135,7 @@ public class AttendController<Json> {
 	public double get_Emp_LstTime(@RequestBody JSONObject Emp_Key_POST) {
 		try {
 			lock.lock();
-			return sqlserver.get_LstTime(Emp_Key_POST.getString("Emp_Key"),"Last_Time");
+			return sqlserver.get_LstTime(Emp_Key_POST.getString("Emp_Key"), "Last_Time");
 		} finally {
 			lock.unlock();
 		}
@@ -196,7 +196,7 @@ public class AttendController<Json> {
 					|| ((JSONObject) Appli_Object).getString("Reason").equals("Over_Time"))
 							? ((JSONObject) Appli_Object).getDouble("Appli_Time")
 							: -(((JSONObject) Appli_Object).getDouble("Appli_Time"));
-			
+
 			Appli_form appli_form = Appli_form.builder().Emp_Key(((JSONObject) Appli_Object).getString("Emp_ID"))
 					.Department(((JSONObject) Appli_Object).getString("DepartMent"))
 					.Reason(((JSONObject) Appli_Object).getString("Reason")).Appli_Time(Time).Last_Time(0).Apli_Total(0)
@@ -207,8 +207,8 @@ public class AttendController<Json> {
 			lock.unlock();
 		}
 
-	}	
-	
+	}
+
 	@CrossOrigin
 	@PostMapping("AttendController/Insert_Special_TimeData") // 新增特休
 	public boolean Insert_Special_TimeData(@RequestBody JSONObject Emp_Data) throws SQLException {
@@ -216,16 +216,19 @@ public class AttendController<Json> {
 		try {
 			lock.lock();
 			timeData.ResConstruct();
-			Object Special_Object=Emp_Data.get("Special_Object");
-			timeData.Special(((JSONObject) Special_Object).getString("Emp_Key"), ((JSONObject) Special_Object).getString("State"), ((JSONObject) Special_Object).getString("Remark"), ((JSONObject) Special_Object).getDouble("Plus_Special"), ((JSONObject) Special_Object).getString("Manager"));
-	        Double Lst_Special=sqlserver.get_LstTime(timeData.getEmp_Key(), "Special_Date"); 
+			Object Special_Object = Emp_Data.get("Special_Object");
+			timeData.Special(((JSONObject) Special_Object).getString("Emp_Key"),
+					((JSONObject) Special_Object).getString("State"), ((JSONObject) Special_Object).getString("Remark"),
+					((JSONObject) Special_Object).getDouble("Plus_Special"),
+					((JSONObject) Special_Object).getString("Manager"));
+			Double Lst_Special = sqlserver.get_LstTime(timeData.getEmp_Key(), "Special_Date");
 			return sqlserver.Insert_Special_Log(timeData, Lst_Special);
 		} finally {
 			lock.unlock();
 		}
 
 	}
-	
+
 	@CrossOrigin
 	@PostMapping("AttendController/Select_Emp_Data") // 抓取特休資料
 	public String Select_Emp_Data(@RequestBody JSONObject Emp_Data) throws SQLException {
@@ -237,7 +240,6 @@ public class AttendController<Json> {
 		}
 
 	}
-	
 
 	@CrossOrigin
 	@PostMapping("AttendController/Attend_TimeData") // 審核資料
@@ -264,7 +266,7 @@ public class AttendController<Json> {
 				Appli_form appli_form = Appli_form.builder().id(Integer.parseInt(Appli_Id)).Check_State(State)
 						.Review_Result(State).Review_Manager(Manager).Review_ID_Key(Review_ID_Key).Review_Date(date)
 						.Review_Time(date).build();
-				
+
 				TimeData timeData = TimeData.builder().Emp_Key(Appli_Employee).Last_Time(0).Time_Pon_Mark("")
 						.Time_Log_Key(Time_Log_Key).Update_Time(date).Time_Event(Time_Event).Time_Mark(Mark)
 						.Insert_Time(Appli_Time).Old_Time(0).New_Time(0).Update_Time(date).Attend_Key(Review_ID_Key)
@@ -382,8 +384,6 @@ public class AttendController<Json> {
 
 	}
 
-	
-	
 	@GetMapping("AttendController/Excel_Employee_TimeData_Post") // 當月審核報表輸出
 	public HashMap Admin_Search_TimeDataM() throws JsonMappingException, JsonProcessingException {
 		JsonNode jsonNode = null;
@@ -411,28 +411,25 @@ public class AttendController<Json> {
 		}
 
 	}
-	
+
 	@CrossOrigin
 	@GetMapping("AttendController/SearchEmployee_Appli") // 查詢員工申請紀錄
 	public HashMap SearchEmployee_Appli() {
 		try {
 			lock.lock();
-			String Switch="";
-		    if(Switch.equals("Admin")) {
-		    	
-		    }else if(Switch.equals("Employee"))
-		    		{
-		    	
-		    		}
-		    		
-		
-		}
-	finally {
+			String Switch = "";
+			if (Switch.equals("Admin")) {
+
+			} else if (Switch.equals("Employee")) {
+
+			}
+
+		} finally {
 			lock.unlock();
 
 		}
 		return Ret_Data;
-		
+
 	}
 
 	@CrossOrigin
@@ -518,20 +515,18 @@ public class AttendController<Json> {
 	}
 
 	@CrossOrigin
-	@PostMapping("AttendController/Cancel_Appli") // 取消審核資料  appli的id、管理員、TimeLogKey
+	@PostMapping("AttendController/Cancel_Appli") // 取消審核資料 appli的id、管理員、TimeLogKey
 	public String Cancel_Appli(@RequestBody JSONObject Attend_TimeData_Post) {
-
 
 		Object Attend_TimeData = Attend_TimeData_Post.get("Attend_TimeData_Post");
 		String Appli_Id = ((JSONObject) Attend_TimeData).getString("Appli_Id"); // 申請id
 		String Manager = ((JSONObject) Attend_TimeData).getString("Manager"); // 主管
 		String Appli_Employee = ((JSONObject) Attend_TimeData).getString("Appli_Employee"); // 申請人
-	
-		
+
 		try {
 			lock.lock();
 			timeData.ResConstruct();
-			timeData.setId(Integer.parseInt(Appli_Id)); 
+			timeData.setId(Integer.parseInt(Appli_Id));
 			timeData.setManager(Manager);
 			timeData.setEmp_Key(Appli_Employee);
 //			timeData.setTime_Log_Key("E0010_2023-12-31T14:26:33.173907800");
@@ -544,80 +539,75 @@ public class AttendController<Json> {
 
 	@CrossOrigin
 	@GetMapping("AttendController/SearchEmployee_TimeData_Appli") // 查詢日期申請範圍申請資料
-	public  <T> T SearchEmployee_TimeData_Appli() {
-		HistoryLog Log=new HistoryLog(new SQLClass());
+	public <T> T SearchEmployee_TimeData_Appli() {
+		HistoryLog Log = new HistoryLog(new SQLClass());
 		ArrayList<String> Emplyee_Excel_Data = new ArrayList();
 		try {
 			lock.lock();
-			if(Log.Get_Employee_Histort(Emplyee_Excel_Data, "E0010").equals("Sucess")) {
+			if (Log.Get_Employee_Histort(Emplyee_Excel_Data, "E0010").equals("Sucess")) {
 				return (T) Emplyee_Excel_Data;
-			}else {
-				return (T) "找無資料";				
+			} else {
+				return (T) "找無資料";
 			}
 		} finally {
 			lock.unlock();
 		}
 
 	}
-	
+
 	@CrossOrigin
 	@GetMapping("AttendController/SearchEmployee_TimeData_Review") // 查詢日期審核範圍申請資料
-	public  <T> T SearchEmployee_TimeData_Review() {
-		HistoryLog Log=new HistoryLog(new SQLClass());
+	public <T> T SearchEmployee_TimeData_Review() {
+		HistoryLog Log = new HistoryLog(new SQLClass());
 		ArrayList<String> Emplyee_Excel_Data = new ArrayList();
 		try {
 			lock.lock();
-			if(Log.Get_Employee_Review(Emplyee_Excel_Data, "E0010").equals("Sucess")) {
+			if (Log.Get_Employee_Review(Emplyee_Excel_Data, "E0010").equals("Sucess")) {
 				return (T) Emplyee_Excel_Data;
-			}else {
-				return (T) "找無資料";				
+			} else {
+				return (T) "找無資料";
 			}
 		} finally {
 			lock.unlock();
 		}
 
 	}
-	
+
 	@CrossOrigin
 	@GetMapping("AttendController/SearchDepart_TimeData_Log") // 查詢日期範圍部門log
-	public  <T> T SearchDepart_TimeData_Log() {
-		HistoryLog Log=new HistoryLog(new SQLClass());
+	public <T> T SearchDepart_TimeData_Log() {
+		HistoryLog Log = new HistoryLog(new SQLClass());
 		ArrayList<String> Emplyee_Excel_Data = new ArrayList();
 		try {
 			lock.lock();
-			if(Log.Get_Depart_History(Emplyee_Excel_Data, "E0010").equals("Sucess")) {
+			if (Log.Get_Depart_History(Emplyee_Excel_Data, "E0010").equals("Sucess")) {
 				return (T) Emplyee_Excel_Data;
-			}else {
-				return (T) "找無資料";				
+			} else {
+				return (T) "找無資料";
 			}
 		} finally {
 			lock.unlock();
 		}
 
 	}
-	
-	
+
 	@CrossOrigin
-	@GetMapping("AttendController/SearchDepart_TimeData_AllLog") // 查詢日期範圍部門log
-	public  <T> T SearchDepart_TimeData_AllLog() {
-		HistoryLog Log=new HistoryLog(new SQLClass());
+	@GetMapping("AttendController/SearchDepart_TimeData_AllLog") // 查詢所有log
+	public <T> T SearchDepart_TimeData_AllLog() {
+		HistoryLog Log = new HistoryLog(new SQLClass());
 		ArrayList<String> Emplyee_Excel_Data = new ArrayList();
 		try {
 			lock.lock();
-			if(Log.All_Histort(Emplyee_Excel_Data).equals("Sucess")) {
+			if (Log.All_Histort(Emplyee_Excel_Data).equals("Sucess")) {
 				return (T) Emplyee_Excel_Data;
-			}else {
-				return (T) "找無資料";				
+			} else {
+				return (T) "找無資料";
 			}
 		} finally {
 			lock.unlock();
 		}
 
 	}
-	
-	
-	
-	
 
 	@CrossOrigin
 	@PostMapping("AttendController/Announcement_List") // 布告欄資料

@@ -162,7 +162,7 @@ public class SQLSERVER extends SQLOB {
 //			rs = pst.executeQuery();
 
 //			Last_Time = (rs.next()) ? rs.getDouble("Last_Time") : null;
-			Last_Time = get_LstTime(timeData_Par.getEmp_Key(),"Last_Time");
+			Last_Time = get_LstTime(timeData_Par.getEmp_Key(), "Last_Time");
 
 			if (Last_Time + timeData_Par.getInsert_Time() > 0) {
 				timeData_Par.setTime_Pon_Mark("Positive");
@@ -177,37 +177,38 @@ public class SQLSERVER extends SQLOB {
 
 		}
 	}
+
 	public String getEmpyoee_Data(String Emp_Key) {
-		Result=null;
-     	SQL_Str = "select * from job_time  where Emp_Key=?";
+		Result = null;
+		SQL_Str = "select * from job_time  where Emp_Key=?";
 		Res_SQL(SQL_Str);
 
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
 			pst.setString(1, Emp_Key);
-			rs=pst.executeQuery();
-			return Result=(rs.next())?employee.getJobTime_JsonString(rs):"No Select...";
-		}catch(SQLException e)
-		{
+			rs = pst.executeQuery();
+			return Result = (rs.next()) ? employee.getJobTime_JsonString(rs) : "No Select...";
+		} catch (SQLException e) {
 			System.out.println("getEmpyoee_Data錯誤" + e.getMessage());
 			return "false";
 
-		}finally {
+		} finally {
 			close_SQL();
 		}
 	}
-	public boolean Insert_Special_Log(TimeData timeData_Par,double Lst_Special) throws SQLException { // Insert_Special
+
+	public boolean Insert_Special_Log(TimeData timeData_Par, double Lst_Special) throws SQLException { // Insert_Special
 		String SQL_Str_TimeLog = "insert into time_log(id,Time_Log_Key,Time_Event,Time_Mark,Insert_Time,Old_Time,New_Time,Special_Date,Update_Time,Attend_Key)"
-				+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,?,?,? FROM time_log;";	
+				+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,?,?,? FROM time_log;";
 		String SQL_Str_JobTime = "Update job_time SET Special_Date=?,Update_Time=? where Emp_Key=?";
 		timeData_Par.setUpdate_Time(Date_Time());
 		timeData_Par.setTime_Log_Key(Get_TimeKey(timeData_Par.getEmp_Key()));
 		try {
-			if(Insert_TimeLog(SQL_Str_TimeLog,timeData_Par, "Special")) {
-				Lst_Special=get_LstTime(timeData_Par.getEmp_Key(),"Special_Date");
+			if (Insert_TimeLog(SQL_Str_TimeLog, timeData_Par, "Special")) {
+				Lst_Special = get_LstTime(timeData_Par.getEmp_Key(), "Special_Date");
 				sqlclass.setSql_Str(SQL_Str_JobTime);
 				pst = con.prepareStatement(sqlclass.getSql_Str());
-				pst.setInt(1,(int) (Lst_Special+timeData_Par.getSpecial_Date()));
+				pst.setInt(1, (int) (Lst_Special + timeData_Par.getSpecial_Date()));
 				pst.setDate(2, timeData_Par.getUpdate_Time());
 				pst.setString(3, timeData_Par.getEmp_Key());
 				pst.executeUpdate();
@@ -222,7 +223,6 @@ public class SQLSERVER extends SQLOB {
 
 		}
 	}
-	
 
 	public boolean Insert_TimeLog(String TimeLog, TimeData timeData_Par, String Switch) { // Insert_Time_Log
 		sqlclass.setSql_Str(TimeLog);
@@ -238,21 +238,19 @@ public class SQLSERVER extends SQLOB {
 			pst.setDouble(7, 0);
 			pst.setDate(8, timeData_Par.getUpdate_Time());
 			pst.setString(9, timeData_Par.getAttend_Key());
-			
+
 			if (Switch.equals("Init")) {
 				pst.setString(3, "Init");
 			} else if (Switch.equals("Review")) {
 				pst.setString(3, "Cancel");
-             
-			} else if(Switch.equals("Special")) {
+
+			} else if (Switch.equals("Special")) {
 				pst.setString(3, timeData.getTime_Mark());
 				pst.setDouble(7, timeData.getSpecial_Date());
 
-			} 
-			else {
+			} else {
 				pst.setString(3, timeData_Par.getTime_Mark());
 			}
-
 
 			pst.executeUpdate();
 			pst.clearParameters();
@@ -263,13 +261,13 @@ public class SQLSERVER extends SQLOB {
 		} finally {
 		}
 	}
-	
+
 	public String Insert_TimeData_New(TimeData timeData_Par) { // JOB_Time new
 		Result = null;
 		String SQL_Str_JobTime = "insert into job_time(id,Emp_Key,Last_Time,Special_Date,Time_Pon_Mark,Time_Log_Key,Update_Time)"
 				+ "select ifNull(max(id),0)+1,?,?,?,?,?,? FROM job_time;";
-		String SQL_Str_TimeLog = "insert into time_log(id,Time_Log_Key,Time_Event,Time_Mark,Insert_Time,Old_Time,New_Time,Update_Time,Attend_Key)"
-				+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,?,? FROM time_log;";
+		String SQL_Str_TimeLog = "insert into time_log(id,Time_Log_Key,Time_Event,Time_Mark,Insert_Time,Old_Time,New_Time,Special_Date,Update_Time,Attend_Key)"
+				+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,?,?,? FROM time_log;";
 		sqlclass.setSql_Str(SQL_Str_JobTime);
 		try {
 			PreparedStatement TimeData_pst = con.prepareStatement(sqlclass.getSql_Str());
@@ -302,8 +300,8 @@ public class SQLSERVER extends SQLOB {
 	public String Insert_TimeData_Update(Appli_form appli_from, TimeData timeData_Par) { // JOB_Time update
 		Result = null;
 		String SQL_Str_JobTime = "Update job_time SET Last_Time=?,Time_Pon_Mark=?,Update_Time=? where Emp_Key=?";
-		String SQL_Str_TimeLog = "insert into time_log(id,Time_Log_Key,Time_Event,Time_Mark,Insert_Time,Old_Time,New_Time,Update_Time,Attend_Key)"
-				+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,?,? FROM time_log";
+		String SQL_Str_TimeLog = "insert into time_log(id,Time_Log_Key,Time_Event,Time_Mark,Insert_Time,Old_Time,New_Time,Special_Date,Update_Time,Attend_Key)"
+				+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,?,?,? FROM time_log";
 		if (!TimeData_Compare(timeData_Par)) {// Time Compare
 			return "false";
 		}
@@ -372,8 +370,8 @@ public class SQLSERVER extends SQLOB {
 			rs = pst.executeQuery();
 			if (rs.next()) {
 				String Hash = rs.getString("Password");
-				if (PassEncry.Password_Check(employee_Par.getPassword(), Hash)) {	
-					Result =employee.getEmployee_JsonString(rs);
+				if (PassEncry.Password_Check(employee_Par.getPassword(), Hash)) {
+					Result = employee.getEmployee_JsonString(rs);
 				}
 				return Result;
 			} else {
@@ -390,7 +388,7 @@ public class SQLSERVER extends SQLOB {
 		}
 	}
 
-	public Double get_LstTime(String Emp_Key,String Switch) {
+	public Double get_LstTime(String Emp_Key, String Switch) {
 		Result = null;
 		double Result;
 		SQL_Str = "select *  from job_Time where Emp_Key=?";
@@ -659,9 +657,9 @@ public class SQLSERVER extends SQLOB {
 		}
 
 	}
-	
+
 	public String Get_TimeKey(String Emp_Key) throws SQLException {
-		SQL_Str="select Time_Log_Key from job_time where Emp_Key=?";
+		SQL_Str = "select Time_Log_Key from job_time where Emp_Key=?";
 		Res_SQL(SQL_Str);
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
@@ -672,130 +670,61 @@ public class SQLSERVER extends SQLOB {
 				return rs.getString("Time_Log_Key");
 			}
 			return "false";
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 
 			return "false";
-		}finally {
+		} finally {
 			close_SQL();
 		}
 	}
-	
-	public String Search_TimeData_Switch(int Emp_Lv, String Department,String KeyValue) {
+
+	public String Search_TimeData_Switch(int Emp_Lv, String Department, String KeyValue) {
 		String Case_Sql = "";
 		System.out.print(KeyValue);
-		if(Emp_Lv==0 && KeyValue.equals("Process")) {
-			 Case_Sql = "SELECT " +
-				    "appli_form.id, " +
-				    "appli_form.Emp_Key, " +
-				    "employee.Emp_Name, " +
-				    "appli_form.Department, " +
-				    "appli_form.Reason, " +
-				    "appli_form.Appli_Time, " +
-				    "appli_form.Last_Time, " +
-				    "appli_form.Apli_Total, " +
-				    "appli_form.Reason_Mark, " +
-				    "appli_form.Review_ID_Key, " +
-				    "appli_form.Appli_Date, " +
-				    "appli_form.Review_Date, " +
-				    "appli_form.Check_State, " +
-				    "review_form.Review_ID_Key,  " +
-				    "review_form.Review_Result " +
-				    "FROM " +
-				    "appli_form " +
-				    "INNER JOIN " +
-				    "employee ON appli_form.Emp_Key = employee.Emp_ID " +
-				    "INNER JOIN " +
-				    "review_form ON appli_form.Review_ID_Key = review_form.Review_ID_Key " +
-				    "WHERE " +
-				    "appli_form.Check_State = 'Process' AND review_form.Review_Result = 'Pass'";
+		if (Emp_Lv == 0 && KeyValue.equals("Process")) { // 最高元現抓當月審核資料
+			Case_Sql = "SELECT " + "appli_form.id, " + "appli_form.Emp_Key, " + "employee.Emp_Name, "
+					+ "appli_form.Department, " + "appli_form.Reason, " + "appli_form.Appli_Time, "
+					+ "appli_form.Last_Time, " + "appli_form.Apli_Total, " + "appli_form.Reason_Mark, "
+					+ "appli_form.Review_ID_Key, " + "appli_form.Appli_Date, " + "appli_form.Review_Date, "
+					+ "appli_form.Check_State, " + "review_form.Review_ID_Key,  " + "review_form.Review_Result "
+					+ "FROM " + "appli_form " + "INNER JOIN " + "employee ON appli_form.Emp_Key = employee.Emp_ID "
+					+ "INNER JOIN " + "review_form ON appli_form.Review_ID_Key = review_form.Review_ID_Key " + "WHERE "
+					+ "MONTH(appli_form.Review_Date)=MONTH(CURDATE()) AND appli_form.Check_State = 'Process' AND review_form.Review_Result = 'Pass'  ";
 
-		
-		}else if(Emp_Lv==0 && KeyValue.equals("No_Process")) {
+		} else if (Emp_Lv == 0 && KeyValue.equals("No_Process")) {//// 部門主管抓當月申請資料
 			Case_Sql = "SELECT appli_form.id,appli_form.Emp_Key, employee.Emp_Name, appli_form.Department, appli_form.Reason, appli_form.Appli_Time, appli_form.Last_Time, appli_form.Apli_Total, appli_form.Reason_Mark, appli_form.Review_ID_Key, appli_form.Appli_Date, appli_form.Review_Date, appli_form.Check_State "
 					+ "FROM appli_form " + "INNER JOIN employee ON appli_form.Emp_Key = employee.Emp_ID "
-					+ "WHERE appli_form.Check_State = 'No_Process'	";
-		}else if(Emp_Lv==1 && KeyValue.equals("Process")) {
-		    Case_Sql = "SELECT " +
-				    "appli_form.id, " +
-				    "appli_form.Emp_Key, " +
-				    "employee.Emp_Name, " +
-				    "appli_form.Department, " +
-				    "appli_form.Reason, " +
-				    "appli_form.Appli_Time, " +
-				    "appli_form.Last_Time, " +
-				    "appli_form.Apli_Total, " +
-				    "appli_form.Reason_Mark, " +
-				    "appli_form.Review_ID_Key  " +
-				    "appli_form.Appli_Date, " +
-				    "appli_form.Review_Date, " +
-				    "appli_form.Check_State, " +
-				    "review_form.Review_ID_Key,  " +
-				    "review_form.Review_Result " +
-				    "FROM " +
-				    "appli_form " +
-				    "INNER JOIN " +
-				    "employee ON appli_form.Emp_Key = employee.Emp_ID " +
-				    "INNER JOIN " +
-				    "review_form ON appli_form.Review_ID_Key = review_form.Review_ID_Key " +
-				    "WHERE " +
-				    "appli_form.Department = '" + Department + "' AND " +
-				    "appli_form.Check_State = 'Process' AND review_form.Review_Result = 'Pass'";
+					+ "WHERE  MONTH(appli_form.Appli_Date)=MONTH(CURDATE()) AND appli_form.Check_State = 'No_Process' ";
 
-			
-		}else if(Emp_Lv==1 && KeyValue.equals("No_Process")) {
+		} else if (Emp_Lv == 1 && KeyValue.equals("Process")) {// 部門主管抓當月審核資料
+			Case_Sql = "SELECT " + "appli_form.id, " + "appli_form.Emp_Key, " + "employee.Emp_Name, "
+					+ "appli_form.Department, " + "appli_form.Reason, " + "appli_form.Appli_Time, "
+					+ "appli_form.Last_Time, " + "appli_form.Apli_Total, " + "appli_form.Reason_Mark, "
+					+ "appli_form.Review_ID_Key  " + "appli_form.Appli_Date, " + "appli_form.Review_Date, "
+					+ "appli_form.Check_State, " + "review_form.Review_ID_Key,  " + "review_form.Review_Result "
+					+ "FROM " + "appli_form " + "INNER JOIN " + "employee ON appli_form.Emp_Key = employee.Emp_ID "
+					+ "INNER JOIN " + "review_form ON appli_form.Review_ID_Key = review_form.Review_ID_Key " + "WHERE "
+					+ "appli_form.Department = '" + Department + "' AND "
+					+ "MONTH(appli_form.Review_Date)=MONTH(CURDATE()) AND appli_form.Check_State = 'Process'  AND review_form.Review_Result = 'Pass' ";
+
+		} else if (Emp_Lv == 1 && KeyValue.equals("No_Process")) { // 部門主管抓當月申請資料
 			Case_Sql = "SELECT appli_form.id,appli_form.Emp_Key, employee.Emp_Name, appli_form.Department, appli_form.Reason, appli_form.Appli_Time, appli_form.Last_Time, appli_form.Apli_Total, appli_form.Reason_Mark, appli_form.Review_ID_Key, appli_form.Appli_Date, appli_form.Review_Date, appli_form.Check_State "
 					+ "FROM appli_form " + "INNER JOIN employee ON appli_form.Emp_Key = employee.Emp_ID "
-					+ "WHERE appli_form.Check_State = 'No_Process' AND appli_form.Department='" + Department + "'";
-		}else if(Emp_Lv==99 && KeyValue.equals("Process")) {
-			 Case_Sql = "SELECT " +
-					    "appli_form.id, " +
-					    "appli_form.Emp_Key, " +
-					    "employee.Emp_Name, " +
-					    "appli_form.Department, " +
-					    "appli_form.Reason, " +
-					    "appli_form.Appli_Time, " +
-					    "appli_form.Last_Time, " +
-					    "appli_form.Apli_Total, " +
-					    "appli_form.Reason_Mark, " +
-					    "appli_form.Review_ID_Key, " +
-					    "appli_form.Appli_Date, " +
-					    "appli_form.Review_Date, " +
-					    "appli_form.Check_State, " +
-					    "review_form.Review_ID_Key,  " +
-					    "review_form.Review_Result " +
-					    "FROM " +
-					    "appli_form " +
-					    "INNER JOIN " +
-					    "employee ON appli_form.Emp_Key = employee.Emp_ID " +
-					    "INNER JOIN " +
-					    "review_form ON appli_form.Review_ID_Key = review_form.Review_ID_Key " +
-					    "WHERE " +
-					    "appli_form.Check_State = 'Process'  AND appli_form.Emp_Key=?";
-		}else if(Emp_Lv==99 && KeyValue.equals("No_Process")) {
-			 Case_Sql = "SELECT " +
-					    "appli_form.id, " +
-					    "appli_form.Emp_Key, " +
-					    "employee.Emp_Name, " +
-					    "appli_form.Department, " +
-					    "appli_form.Reason, " +
-					    "appli_form.Appli_Time, " +
-					    "appli_form.Last_Time, " +
-					    "appli_form.Apli_Total, " +
-					    "appli_form.Reason_Mark, " +
-					    "appli_form.Review_ID_Key, " +
-					    "appli_form.Appli_Date, " +
-					    "appli_form.Review_Date, " +
-					    "appli_form.Check_State, " +
-					    "review_form.Review_ID_Key,  " +
-					    "review_form.Review_Result " +
-					    "FROM " +
-					    "appli_form " +
-					    "INNER JOIN " +
-					    "employee ON appli_form.Emp_Key = employee.Emp_ID " +
-					    "INNER JOIN " +
-					    "review_form ON appli_form.Review_ID_Key = review_form.Review_ID_Key " +
-					    "WHERE " +
-					    "appli_form.Check_State = 'No_Process' AND appli_form.Emp_Key=?";
+					+ "WHERE MONTH(appli_form.Appli_Date)=MONTH(CURDATE()) AND appli_form.Check_State = 'No_Process' AND appli_form.Department='"
+					+ Department + "'";
+		} else if (Emp_Lv == 99 && KeyValue.equals("Process")) { // 員工抓當月審核資料
+			Case_Sql = "SELECT " + "appli_form.id, " + "appli_form.Emp_Key, " + "employee.Emp_Name, "
+					+ "appli_form.Department, " + "appli_form.Reason, " + "appli_form.Appli_Time, "
+					+ "appli_form.Last_Time, " + "appli_form.Apli_Total, " + "appli_form.Reason_Mark, "
+					+ "appli_form.Review_ID_Key, " + "appli_form.Appli_Date, " + "appli_form.Review_Date, "
+					+ "appli_form.Check_State, " + "review_form.Review_ID_Key,  " + "review_form.Review_Result "
+					+ "FROM " + "appli_form " + "INNER JOIN " + "employee ON appli_form.Emp_Key = employee.Emp_ID "
+					+ "INNER JOIN " + "review_form ON appli_form.Review_ID_Key = review_form.Review_ID_Key " + "WHERE "
+					+ "MONTH(appli_form.Appli_Date)=MONTH(CURDATE()) AND appli_form.Check_State = 'Process'  AND appli_form.Emp_Key=?";
+		} else if (Emp_Lv == 99 && KeyValue.equals("No_Process")) { // 員工抓當月限定申請資料
+			Case_Sql = "SELECT appli_form.id,appli_form.Emp_Key, employee.Emp_Name, appli_form.Department, appli_form.Reason, appli_form.Appli_Time, appli_form.Last_Time, appli_form.Apli_Total, appli_form.Reason_Mark, appli_form.Review_ID_Key, appli_form.Appli_Date, appli_form.Review_Date, appli_form.Check_State "
+					+ "FROM appli_form " + "INNER JOIN employee ON appli_form.Emp_Key = employee.Emp_ID "
+					+ "WHERE  MONTH(appli_form.Appli_Date)=MONTH(CURDATE()) AND appli_form.Check_State = 'No_Process'  AND appli_form.Emp_Key=? ";
 		}
 		return Case_Sql;
 	}
@@ -806,7 +735,7 @@ public class SQLSERVER extends SQLOB {
 		SQL_Str = Search_TimeData_Switch(Emp_Lv, Department, KeyValue);
 		Res_SQL(SQL_Str);
 		try {
-			pst = con.prepareStatement(sqlclass.getSql_Str());	
+			pst = con.prepareStatement(sqlclass.getSql_Str());
 			rs = pst.executeQuery();
 
 			if (rs.next()) {
@@ -828,9 +757,9 @@ public class SQLSERVER extends SQLOB {
 		}
 
 	}
-	
-	public String Search_TimeData_Member(ArrayList<String> emplyee_Appli_Data,String Emp_Key,String KeyValue) {
-		SQL_Str = Search_TimeData_Switch(99, "None", KeyValue);
+
+	public String Search_TimeData_Member(ArrayList<String> emplyee_Appli_Data, String Emp_Key, String KeyValue) {
+		SQL_Str = Search_TimeData_Switch(99, Emp_Key, KeyValue);
 		Res_SQL(SQL_Str);
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
@@ -857,7 +786,6 @@ public class SQLSERVER extends SQLOB {
 		}
 
 	}
-	
 
 	// 查詢歷史申請所有log
 	public String SearchEmployee_History(ArrayList<String> SearchEmployee_HistoryString, String Emp_key,
@@ -990,8 +918,8 @@ public class SQLSERVER extends SQLOB {
 	public String Cancel_timeLog(TimeData timeData) {
 
 		SQL_Str = "select * from time_log where Attend_Key=?";
-		String SQL_Str_TimeLog = "insert into time_log(id,Time_Log_Key,Time_Event,Time_Mark,Insert_Time,Old_Time,New_Time,Update_Time,Attend_Key)"
-				+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,?,? FROM time_log;";
+		String SQL_Str_TimeLog = "insert into time_log(id,Time_Log_Key,Time_Event,Time_Mark,Insert_Time,Old_Time,New_Time,Special_Date,Update_Time,Attend_Key)"
+				+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,?,?,? FROM time_log;";
 
 		String Time_LogKey = "";
 		sqlclass.setSql_Str(SQL_Str);
@@ -1053,7 +981,7 @@ public class SQLSERVER extends SQLOB {
 			rs = pst.executeQuery();
 
 			if (rs.next()) {
-				
+
 				timeData.setAttend_Key(rs.getString("Review_ID_Key"));
 				if (Cancel_Review(timeData).equals("Scuess")) {
 
@@ -1143,15 +1071,16 @@ public class SQLSERVER extends SQLOB {
 			close_SQL();
 		}
 	}
-	
 
-	public String Announcement(String Key,String Announcement_String)  { // 公告欄處理
-		String Announcement_Str = (Key.equals("Insert"))?"insert into announcement(id,Title,Context,Create_Time,Create_Name)"
-				+ "select ifNull(max(id),0)+1,?,?,?,? FROM announcement" :"Delete  from announcement where id=?";
+	public String Announcement(String Key, String Announcement_String) { // 公告欄處理
+		String Announcement_Str = (Key.equals("Insert"))
+				? "insert into announcement(id,Title,Context,Create_Time,Create_Name)"
+						+ "select ifNull(max(id),0)+1,?,?,?,? FROM announcement"
+				: "Delete  from announcement where id=?";
 		Res_SQL(Announcement_Str);
 		try {
-			if(Key.equals("Insert")) {
-				String Announcement_Spllite[]=Announcement_String.split(",");
+			if (Key.equals("Insert")) {
+				String Announcement_Spllite[] = Announcement_String.split(",");
 				System.out.println("字串" + Announcement_String);
 
 				pst = con.prepareStatement(sqlclass.getSql_Str());
@@ -1159,11 +1088,10 @@ public class SQLSERVER extends SQLOB {
 				pst.setString(2, Announcement_Spllite[2]);
 				pst.setDate(3, Date_Time());
 				pst.setString(4, Announcement_Spllite[0]);
-			
-				
-			}else if(Key.equals("Delete")) {
+
+			} else if (Key.equals("Delete")) {
 				pst = con.prepareStatement(sqlclass.getSql_Str());
-				pst.setInt(1,Integer.parseInt(Announcement_String));
+				pst.setInt(1, Integer.parseInt(Announcement_String));
 			}
 			pst.executeUpdate();
 			pst.clearParameters();
@@ -1179,27 +1107,25 @@ public class SQLSERVER extends SQLOB {
 		}
 
 	}
-	
 
-	
 	public <T> T Announcement_Init_Data() throws JsonProcessingException { // 初始化布告欄要帶出的資料
 		SQL_Str = "select * from announcement";
-		String Announ_Str="";
+		String Announ_Str = "";
 		Res_SQL(SQL_Str);
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
 			rs = pst.executeQuery();
 			if (rs.next()) {
-  
-				do {	
-					Announ_Str=String.format(
+
+				do {
+					Announ_Str = String.format(
 							"{\"id\": \"%d\",\"Title\": \"%s\", \"Context\": \"%s\", \"Create_Time\": \"%s\", \"Create_Name\": \"%s\"}",
-							rs.getInt("id"), rs.getString("Title"), rs.getString("Context"), rs.getString("Create_Time"),
-							rs.getString("Create_Name"));
-					if(!Announcement_List.contains(Announ_Str)) {
+							rs.getInt("id"), rs.getString("Title"), rs.getString("Context"),
+							rs.getString("Create_Time"), rs.getString("Create_Name"));
+					if (!Announcement_List.contains(Announ_Str)) {
 						Announcement_List.add(Announ_Str);
 					}
-	
+
 				} while (rs.next());
 			}
 			return (T) Announcement_List;
@@ -1214,7 +1140,7 @@ public class SQLSERVER extends SQLOB {
 		}
 
 	}
-	
+
 	public <T> T Init_Data() throws JsonProcessingException { // 初始化部門要帶出的資料
 		SQL_Str = "select * from Department";
 		department.Department_List.clear();
