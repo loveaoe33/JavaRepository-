@@ -44,12 +44,15 @@ public class HistoryLog extends SQLOB {
 		return date;
 	}
 
-	public String Get_Employee_Histort(ArrayList<String> SearchEmployee_HistoryString, String Emp_key) {
-		SQL_Str = "select * from appli_form where Emp_Key='E0010' AND Appli_Date BETWEEN '2024-2-01' AND '2024-2-21'"; // 搜尋申請
+	public String Get_Employee_Histort(ArrayList<String> SearchEmployee_HistoryString, String Emp_key,String Start,String End) {
+		SQL_Str = "select * from appli_form where Emp_Key=? AND Appli_Date BETWEEN ? AND ?"; // 搜尋申請
 		Res_SQL(SQL_Str);
 
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
+			pst.setString(1, Emp_key);
+			pst.setString(2, Start);
+			pst.setString(3, End);
 			rs = pst.executeQuery();
 			if (rs.next()) {
 				do {
@@ -72,7 +75,7 @@ public class HistoryLog extends SQLOB {
 
 	}
 
-	public String Get_Employee_Review(ArrayList<String> SearchEmployee_ReviewString, String Emp_key) {
+	public String Get_Employee_Review(ArrayList<String> SearchEmployee_ReviewString, String Emp_key,String Start,String End) {
 		SQL_Str = "SELECT \r\n" + "    appli_form.id, \r\n" + "    appli_form.Emp_Key, \r\n"
 				+ "    employee.Emp_Name, \r\n" + "    appli_form.Department, \r\n" + "    appli_form.Reason, \r\n"
 				+ "\r\n" + "    appli_form.Reason_Mark, \r\n" + "    appli_form.Appli_Date, \r\n"
@@ -83,16 +86,20 @@ public class HistoryLog extends SQLOB {
 				+ "    employee ON appli_form.Emp_Key = employee.Emp_ID \r\n" + "INNER JOIN \r\n"
 				+ "    review_form ON appli_form.Review_ID_Key = review_form.Review_ID_Key \r\n" + "INNER JOIN \r\n"
 				+ "    time_log ON review_form.Review_ID_Key = time_log.Attend_Key \r\n" + "WHERE \r\n"
-				+ "    appli_form.Emp_Key='E0010' AND appli_form.Check_State = 'Process'  AND     appli_form.Review_Date between '2024-2-01' AND '2024-2-21';\r\n"
+				+ "    appli_form.Emp_Key=? AND appli_form.Check_State = 'Process'  AND     appli_form.Review_Date between ? AND ?\r\n"
 				+ ""; // 員工搜尋已審核資料
 		Res_SQL(SQL_Str);
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
+			pst.setString(1, Emp_key);
+			pst.setString(2, Start);
+			pst.setString(3, End);
 			rs = pst.executeQuery();
 			if (rs.next()) {
 				do {
 					SearchEmployee_ReviewString.add(employee.Review_All_JsonString(rs));
 				} while (rs.next());
+
 
 				return "Sucess";
 			}
@@ -108,7 +115,7 @@ public class HistoryLog extends SQLOB {
 
 	}
 
-	public String Get_Depart_History(ArrayList<String> SearchDepart_HistoryString, String Depart) {
+	public String Get_Depart_History(ArrayList<String> SearchDepart_HistoryString, String Depart,String Start,String End) {
 		SQL_Str = "SELECT \r\n" // 依照部門全部
 				+ "\r\n" + "	 employee.Emp_ID,\r\n" + "	employee.Emp_Name,\r\n" + "    department.Department,\r\n"
 				+ "    job_time.Last_Time,\r\n" + "    job_time.Special_Date,\r\n" + "    job_time.Time_Pon_Mark,\r\n"
@@ -119,11 +126,14 @@ public class HistoryLog extends SQLOB {
 				+ "    department ON employee.Department_Key=department.Department_Key\r\n" + "INNER JOIN \r\n"
 				+ "    job_time ON employee.Emp_ID = job_time.Emp_Key\r\n" + "INNER JOIN \r\n"
 				+ "    time_log ON job_time.Time_Log_Key = time_log.Time_Log_Key \r\n" + "\r\n" + "WHERE \r\n"
-				+ "   department.Department='資訊室' AND time_log.Update_Time between '2024-2-01' AND '2024-2-21'; \r\n"
+				+ "   department.Department LIKE %?% AND time_log.Update_Time between ? AND ? \r\n"
 				+ "";
 		Res_SQL(SQL_Str);
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
+			pst.setString(1, Depart);
+			pst.setString(2, Start);
+			pst.setString(3, End);
 			rs = pst.executeQuery();
 			if (rs.next()) {
 				do {
@@ -135,7 +145,7 @@ public class HistoryLog extends SQLOB {
 
 			return "false";
 		} catch (SQLException e) {
-			System.out.println("Get_Employee_Review錯誤" + e.toString());
+			System.out.println("Get_Depart_History錯誤" + e.toString());
 
 			return "false";
 		} finally {
@@ -144,7 +154,8 @@ public class HistoryLog extends SQLOB {
 		}
 	}
 
-	public String All_Histort(ArrayList<String> SearchAll_HistoryString) {
+	public String All_Histort(ArrayList<String> SearchAll_HistoryString,String Start,String End) {
+
 		SQL_Str = "SELECT \r\n" // 直接全部
 				+ "\r\n" + "	 employee.Emp_ID,\r\n" + "	employee.Emp_Name,\r\n" + "    department.Department,\r\n"
 				+ "    job_time.Last_Time,\r\n" + "    job_time.Special_Date,\r\n" + "    job_time.Time_Pon_Mark,\r\n"
@@ -155,11 +166,14 @@ public class HistoryLog extends SQLOB {
 				+ "    department ON employee.Department_Key=department.Department_Key\r\n" + "INNER JOIN \r\n"
 				+ "    job_time ON employee.Emp_ID = job_time.Emp_Key\r\n" + "INNER JOIN \r\n"
 				+ "    time_log ON job_time.Time_Log_Key = time_log.Time_Log_Key \r\n" + "\r\n" + "WHERE \r\n"
-				+ " time_log.Update_Time between '2024-2-01' AND '2024-2-21'; \r\n" + "";
+				+ " time_log.Update_Time between ? AND ? \r\n" + "";
+
 		Res_SQL(SQL_Str);
 
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
+			pst.setString(1, Start);
+			pst.setString(2, End);
 			rs = pst.executeQuery();
 			if (rs.next()) {
 				do {
