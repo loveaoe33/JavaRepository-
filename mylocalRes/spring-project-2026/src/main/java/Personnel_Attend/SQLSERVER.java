@@ -615,7 +615,7 @@ public class SQLSERVER extends SQLOB {
 
 	public String Admin_Search_TimeDataM(ArrayList<String> emplyee_Appli_Data, String Emp_key, String Department,
 			String KeyValue, String Date_Key_Start, String Date_Key_End) {
-		;
+	
 		if (get_Emp_Lv(Emp_key) == 99) {
 			return "false";
 
@@ -681,7 +681,7 @@ public class SQLSERVER extends SQLOB {
 	public String Search_TimeData_Switch(int Emp_Lv, String Department, String KeyValue) {
 		String Case_Sql = "";
 		System.out.print(KeyValue);
-		if (Emp_Lv == 0 && KeyValue.equals("Process")) { // 最高元現抓當月審核資料
+		if (Emp_Lv == 0 && KeyValue.equals("Process")) { // 最高權限抓當月審核資料
 			Case_Sql = "SELECT " + "appli_form.id, " + "appli_form.Emp_Key, " + "employee.Emp_Name, "
 					+ "appli_form.Department, " + "appli_form.Reason, " + "appli_form.Appli_Time, "
 					+ "appli_form.Last_Time, " + "appli_form.Apli_Total, " + "appli_form.Reason_Mark, "
@@ -689,7 +689,7 @@ public class SQLSERVER extends SQLOB {
 					+ "appli_form.Check_State, " + "review_form.Review_ID_Key,  " + "review_form.Review_Result "
 					+ "FROM " + "appli_form " + "INNER JOIN " + "employee ON appli_form.Emp_Key = employee.Emp_ID "
 					+ "INNER JOIN " + "review_form ON appli_form.Review_ID_Key = review_form.Review_ID_Key " + "WHERE "
-					+ "MONTH(appli_form.Review_Date)=MONTH(CURDATE()) AND appli_form.Check_State = 'Process' AND review_form.Review_Result = 'Pass'  ";
+					+ "MONTH(appli_form.Review_Date)=MONTH(CURDATE()) AND appli_form.Check_State = 'Process'";
 
 		} else if (Emp_Lv == 0 && KeyValue.equals("No_Process")) {//// 部門主管抓當月申請資料
 			Case_Sql = "SELECT appli_form.id,appli_form.Emp_Key, employee.Emp_Name, appli_form.Department, appli_form.Reason, appli_form.Appli_Time, appli_form.Last_Time, appli_form.Apli_Total, appli_form.Reason_Mark, appli_form.Review_ID_Key, appli_form.Appli_Date, appli_form.Review_Date, appli_form.Check_State "
@@ -705,12 +705,12 @@ public class SQLSERVER extends SQLOB {
 					+ "FROM " + "appli_form " + "INNER JOIN " + "employee ON appli_form.Emp_Key = employee.Emp_ID "
 					+ "INNER JOIN " + "review_form ON appli_form.Review_ID_Key = review_form.Review_ID_Key " + "WHERE "
 					+ "appli_form.Department = '" + Department + "' AND "
-					+ "MONTH(appli_form.Review_Date)=MONTH(CURDATE()) AND appli_form.Check_State = 'Process'  AND review_form.Review_Result = 'Pass' ";
+					+ "MONTH(appli_form.Review_Date)=MONTH(CURDATE()) AND appli_form.Check_State = 'Process' ";
 
 		} else if (Emp_Lv == 1 && KeyValue.equals("No_Process")) { // 部門主管抓當月申請資料
 			Case_Sql = "SELECT appli_form.id,appli_form.Emp_Key, employee.Emp_Name, appli_form.Department, appli_form.Reason, appli_form.Appli_Time, appli_form.Last_Time, appli_form.Apli_Total, appli_form.Reason_Mark, appli_form.Review_ID_Key, appli_form.Appli_Date, appli_form.Review_Date, appli_form.Check_State "
 					+ "FROM appli_form " + "INNER JOIN employee ON appli_form.Emp_Key = employee.Emp_ID "
-					+ "WHERE MONTH(appli_form.Appli_Date)=MONTH(CURDATE()) AND appli_form.Check_State = 'No_Process' AND appli_form.Department='"
+					+ "WHERE MONTH(appli_form.Appli_Date)=MONTH(CURDATE()) AND appli_form.Check_State = 'No_Process' AND appli_form.Department=? "
 					+ Department + "'";
 		} else if (Emp_Lv == 99 && KeyValue.equals("Process")) { // 員工抓當月審核資料
 			Case_Sql = "SELECT " + "appli_form.id, " + "appli_form.Emp_Key, " + "employee.Emp_Name, "
@@ -740,7 +740,13 @@ public class SQLSERVER extends SQLOB {
 
 			if (rs.next()) {
 				do {
-					emplyee_Appli_Data.add(employee.Appli_JsonString(rs));
+					if(KeyValue.equals("Process")) {
+						emplyee_Appli_Data.add(employee.Review_JsonString(rs));
+
+					}else {
+						emplyee_Appli_Data.add(employee.Appli_JsonString(rs));
+
+					}
 				} while (rs.next());
 
 				return "Sucess";
@@ -769,8 +775,15 @@ public class SQLSERVER extends SQLOB {
 
 			if (rs.next()) {
 				do {
-					emplyee_Appli_Data.add(employee.Appli_JsonString(rs));
-				} while (rs.next());
+					
+					if(KeyValue.equals("Process")) {
+						emplyee_Appli_Data.add(employee.Review_JsonString(rs));
+
+					}else {
+						emplyee_Appli_Data.add(employee.Appli_JsonString(rs));
+
+					}
+			   } while (rs.next());
 
 				return "Sucess";
 			}

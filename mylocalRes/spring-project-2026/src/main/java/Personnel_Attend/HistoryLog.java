@@ -45,7 +45,11 @@ public class HistoryLog extends SQLOB {
 	}
 
 	public String Get_Employee_Histort(ArrayList<String> SearchEmployee_HistoryString, String Emp_key,String Start,String End) {
-		SQL_Str = "select * from appli_form where Emp_Key=? AND Appli_Date BETWEEN ? AND ?"; // 搜尋申請
+		SQL_Str = 	"SELECT appli_form.id,appli_form.Emp_Key, employee.Emp_Name, appli_form.Department, appli_form.Reason, appli_form.Appli_Time, appli_form.Last_Time, appli_form.Apli_Total, appli_form.Reason_Mark, appli_form.Review_ID_Key, appli_form.Appli_Date, appli_form.Review_Date, appli_form.Check_State "
+				+ "FROM appli_form " + "INNER JOIN employee ON appli_form.Emp_Key = employee.Emp_ID "
+				+ "where Emp_Key=? AND Appli_Date BETWEEN ? AND ?";//申請範圍
+	
+		
 		Res_SQL(SQL_Str);
 
 		try {
@@ -76,18 +80,20 @@ public class HistoryLog extends SQLOB {
 	}
 
 	public String Get_Employee_Review(ArrayList<String> SearchEmployee_ReviewString, String Emp_key,String Start,String End) {
-		SQL_Str = "SELECT \r\n" + "    appli_form.id, \r\n" + "    appli_form.Emp_Key, \r\n"
-				+ "    employee.Emp_Name, \r\n" + "    appli_form.Department, \r\n" + "    appli_form.Reason, \r\n"
-				+ "\r\n" + "    appli_form.Reason_Mark, \r\n" + "    appli_form.Appli_Date, \r\n"
-				+ "    appli_form.Review_Date, \r\n" + "    review_form.Review_Result,\r\n"
-				+ "    time_log.Time_Mark,\r\n" + "    time_log.Insert_Time,\r\n" + "	time_log.Old_Time,\r\n"
-				+ "    time_log.New_Time,\r\n" + "	time_log.Update_Time\r\n" + "\r\n" + "\r\n" + "FROM \r\n"
-				+ "    appli_form \r\n" + "INNER JOIN \r\n"
-				+ "    employee ON appli_form.Emp_Key = employee.Emp_ID \r\n" + "INNER JOIN \r\n"
-				+ "    review_form ON appli_form.Review_ID_Key = review_form.Review_ID_Key \r\n" + "INNER JOIN \r\n"
-				+ "    time_log ON review_form.Review_ID_Key = time_log.Attend_Key \r\n" + "WHERE \r\n"
-				+ "    appli_form.Emp_Key=? AND appli_form.Check_State = 'Process'  AND     appli_form.Review_Date between ? AND ?\r\n"
-				+ ""; // 員工搜尋已審核資料
+		
+		
+		SQL_Str = "SELECT " + "appli_form.id, " + "appli_form.Emp_Key, " + "employee.Emp_Name, "
+				+ "appli_form.Department, " + "appli_form.Reason, " + "appli_form.Appli_Time, "
+				+ "appli_form.Last_Time, " + "appli_form.Apli_Total, " + "appli_form.Reason_Mark, "
+				+ "appli_form.Review_ID_Key, " + "appli_form.Appli_Date, " + "appli_form.Review_Date, "
+				+ "appli_form.Check_State, " + "review_form.Review_ID_Key,  " + "review_form.Review_Result "
+				+ "FROM " + "appli_form " + "INNER JOIN " + "employee ON appli_form.Emp_Key = employee.Emp_ID "
+				+ "INNER JOIN " + "review_form ON appli_form.Review_ID_Key = review_form.Review_ID_Key " + "WHERE "
+				+ "appli_form.Emp_Key=? AND appli_form.Check_State = 'Process'  AND     appli_form.Review_Date between ? AND ?\r\n";
+		
+		
+		
+		
 		Res_SQL(SQL_Str);
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
@@ -97,7 +103,7 @@ public class HistoryLog extends SQLOB {
 			rs = pst.executeQuery();
 			if (rs.next()) {
 				do {
-					SearchEmployee_ReviewString.add(employee.Review_All_JsonString(rs));
+					SearchEmployee_ReviewString.add(employee.Review_JsonString(rs));
 				} while (rs.next());
 
 
@@ -116,6 +122,7 @@ public class HistoryLog extends SQLOB {
 	}
 
 	public String Get_Depart_History(ArrayList<String> SearchDepart_HistoryString, String Depart,String Start,String End) {
+		String [] Depart_Splite =Depart.split("_");
 		SQL_Str = "SELECT \r\n" // 依照部門全部
 				+ "\r\n" + "	 employee.Emp_ID,\r\n" + "	employee.Emp_Name,\r\n" + "    department.Department,\r\n"
 				+ "    job_time.Last_Time,\r\n" + "    job_time.Special_Date,\r\n" + "    job_time.Time_Pon_Mark,\r\n"
@@ -126,12 +133,12 @@ public class HistoryLog extends SQLOB {
 				+ "    department ON employee.Department_Key=department.Department_Key\r\n" + "INNER JOIN \r\n"
 				+ "    job_time ON employee.Emp_ID = job_time.Emp_Key\r\n" + "INNER JOIN \r\n"
 				+ "    time_log ON job_time.Time_Log_Key = time_log.Time_Log_Key \r\n" + "\r\n" + "WHERE \r\n"
-				+ "   department.Department LIKE %?% AND time_log.Update_Time between ? AND ? \r\n"
+				+ "   department.Department LIKE ? AND time_log.Update_Time between ? AND ? \r\n"
 				+ "";
 		Res_SQL(SQL_Str);
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
-			pst.setString(1, Depart);
+			pst.setString(1, Depart_Splite[0]);
 			pst.setString(2, Start);
 			pst.setString(3, End);
 			rs = pst.executeQuery();
