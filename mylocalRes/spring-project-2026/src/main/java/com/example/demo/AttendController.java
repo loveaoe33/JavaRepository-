@@ -612,12 +612,15 @@ public class AttendController<Json> {
 
 	@CrossOrigin
 	@PostMapping("AttendController/SearchDepart_TimeData_Log") // 查詢日期範圍部門log
-	public <T> T SearchDepart_TimeData_Log(@RequestBody JSONObject Depart_Post_Object) {
+	public <T> T SearchDepart_TimeData_Log(@RequestBody JSONObject Depart_Post_Object) throws JsonMappingException, JsonProcessingException {
 		Object DepartSelect = Depart_Post_Object.get("Member_Object");
 		int Emp_Lv = sqlserver.get_Emp_Lv(((JSONObject) DepartSelect).getString("Emp_Key"));
-
 		HistoryLog Log = new HistoryLog(new SQLClass());
 		ArrayList<String> Emplyee_Excel_Data = new ArrayList();
+		ArrayList<JsonNode> Ret_Data_S = new ArrayList();
+		JsonNode jsonNode = null;
+		ObjectMapper objectMapper = new ObjectMapper();
+
 		if (Emp_Lv != 99 && (Emp_Lv == 0 || Emp_Lv == 1)) {
 			try {
 				lock.lock();
@@ -625,7 +628,14 @@ public class AttendController<Json> {
 				if (Log.Get_Depart_History(Emplyee_Excel_Data, ((JSONObject) DepartSelect).getString("Depart"),
 						((JSONObject) DepartSelect).getString("Start"), ((JSONObject) DepartSelect).getString("End"))
 						.equals("Sucess")) {
-					return (T) Emplyee_Excel_Data;
+					
+					for (String str : Emplyee_Excel_Data) {
+
+						jsonNode = objectMapper.readTree(str);
+						Ret_Data_S.add(jsonNode);
+					}
+					
+					return (T) Ret_Data_S;
 				} else {
 					return (T) "找無資料";
 				}
@@ -641,17 +651,24 @@ public class AttendController<Json> {
 
 	@CrossOrigin
 	@PostMapping("AttendController/SearchDepart_TimeData_AllLog") // 查詢所有log
-	public <T> T SearchDepart_TimeData_AllLog(@RequestBody JSONObject ALL_Post_Object) {
+	public <T> T SearchDepart_TimeData_AllLog(@RequestBody JSONObject ALL_Post_Object) throws JsonMappingException, JsonProcessingException {
 		Object AllSelect = ALL_Post_Object.get("Member_Object");
 		int Emp_Lv = sqlserver.get_Emp_Lv(((JSONObject) AllSelect).getString("Emp_Key"));
 		HistoryLog Log = new HistoryLog(new SQLClass());
 		ArrayList<String> Emplyee_Excel_Data = new ArrayList();
+		ArrayList<JsonNode> Ret_Data_S = new ArrayList();
+		JsonNode jsonNode = null;
+		ObjectMapper objectMapper = new ObjectMapper();
 		if (Emp_Lv != 99 && Emp_Lv == 0) {
 			try {
 				lock.lock();
 				if (Log.All_Histort(Emplyee_Excel_Data, ((JSONObject) AllSelect).getString("Start"),
 						((JSONObject) AllSelect).getString("End")).equals("Sucess")) {
-					return (T) Emplyee_Excel_Data;
+					for (String str : Emplyee_Excel_Data) {
+						jsonNode = objectMapper.readTree(str);
+						Ret_Data_S.add(jsonNode);
+					}
+					return (T) Ret_Data_S;
 				} else {
 					return (T) "找無資料";
 				}

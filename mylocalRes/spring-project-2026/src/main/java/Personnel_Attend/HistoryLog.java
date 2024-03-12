@@ -81,15 +81,27 @@ public class HistoryLog extends SQLOB {
 
 	public String Get_Employee_Review(ArrayList<String> SearchEmployee_ReviewString, String Emp_key,String Start,String End) {
 		
+//		
+//		SQL_Str = "SELECT " + "appli_form.id, " + "appli_form.Emp_Key, " + "employee.Emp_Name, "
+//				+ "appli_form.Department, " + "appli_form.Reason, " + "appli_form.Appli_Time, "
+//				+ "appli_form.Last_Time, " + "appli_form.Apli_Total, " + "appli_form.Reason_Mark, "
+//				+ "appli_form.Review_ID_Key, " + "appli_form.Appli_Date, " + "appli_form.Review_Date, "
+//				+ "appli_form.Check_State, " + "review_form.Review_ID_Key,  " + "review_form.Review_Result "
+//				+ "FROM " + "appli_form " + "INNER JOIN " + "employee ON appli_form.Emp_Key = employee.Emp_ID "
+//				+ "INNER JOIN " + "review_form ON appli_form.Review_ID_Key = review_form.Review_ID_Key " + "WHERE "
+//				+ "appli_form.Emp_Key=? AND appli_form.Check_State = 'Process'  AND     appli_form.Review_Date between ? AND ?\r\n";
+		
 		
 		SQL_Str = "SELECT " + "appli_form.id, " + "appli_form.Emp_Key, " + "employee.Emp_Name, "
 				+ "appli_form.Department, " + "appli_form.Reason, " + "appli_form.Appli_Time, "
 				+ "appli_form.Last_Time, " + "appli_form.Apli_Total, " + "appli_form.Reason_Mark, "
 				+ "appli_form.Review_ID_Key, " + "appli_form.Appli_Date, " + "appli_form.Review_Date, "
-				+ "appli_form.Check_State, " + "review_form.Review_ID_Key,  " + "review_form.Review_Result "
+				+ "appli_form.Check_State, " + "review_form.Review_ID_Key,  " + "review_form.Review_Result, "
+				+ " time_log.Time_Mark "
 				+ "FROM " + "appli_form " + "INNER JOIN " + "employee ON appli_form.Emp_Key = employee.Emp_ID "
-				+ "INNER JOIN " + "review_form ON appli_form.Review_ID_Key = review_form.Review_ID_Key " + "WHERE "
-				+ "appli_form.Emp_Key=? AND appli_form.Check_State = 'Process'  AND     appli_form.Review_Date between ? AND ?\r\n";
+				+ "INNER JOIN " + "review_form ON appli_form.Review_ID_Key = review_form.Review_ID_Key "
+				+ "INNER JOIN time_log ON review_form.Review_ID_Key=time_log.Attend_Key "
+				+ "WHERE appli_form.Emp_Key=? AND appli_form.Check_State = 'Process'  AND time_log.Time_Mark!='Cancel'  AND     appli_form.Review_Date between ? AND ?\r\n";
 		
 		
 		
@@ -122,19 +134,35 @@ public class HistoryLog extends SQLOB {
 	}
 
 	public String Get_Depart_History(ArrayList<String> SearchDepart_HistoryString, String Depart,String Start,String End) {
-		String [] Depart_Splite =Depart.split("_");
-		SQL_Str = "SELECT \r\n" // 依照部門全部
-				+ "\r\n" + "	 employee.Emp_ID,\r\n" + "	employee.Emp_Name,\r\n" + "    department.Department,\r\n"
-				+ "    job_time.Last_Time,\r\n" + "    job_time.Special_Date,\r\n" + "    job_time.Time_Pon_Mark,\r\n"
-				+ "    job_time.Update_Time,\r\n" + "	time_log.Time_Event,\r\n" + "    time_log.Time_Mark,\r\n"
-				+ "    time_log.Insert_Time,\r\n" + "	time_log.Old_Time,\r\n" + "    time_log.New_Time,\r\n"
-				+ "	time_log.Update_Time,\r\n" + "    time_log.Attend_Key\r\n" + "\r\n" + "\r\n" + "FROM \r\n"
-				+ "    employee \r\n" + "INNER JOIN\r\n"
-				+ "    department ON employee.Department_Key=department.Department_Key\r\n" + "INNER JOIN \r\n"
-				+ "    job_time ON employee.Emp_ID = job_time.Emp_Key\r\n" + "INNER JOIN \r\n"
-				+ "    time_log ON job_time.Time_Log_Key = time_log.Time_Log_Key \r\n" + "\r\n" + "WHERE \r\n"
-				+ "   department.Department LIKE ? AND time_log.Update_Time between ? AND ? \r\n"
-				+ "";
+		String [] Depart_Splite =Depart.split("_");   //做到這
+		SQL_Str = "SELECT " +
+	            "employee.Emp_ID, " +
+	            "employee.Emp_Name, " +
+	            "department.Department, " +
+	            "job_time.Last_Time, " +
+	            "job_time.Special_Date, " +
+	            "job_time.Time_Pon_Mark, " +
+	            "job_time.Update_Time, " +
+	            "time_log.Time_Event, " +
+	            "time_log.Time_Mark, " +
+	            "time_log.Insert_Time, " +
+	            "time_log.Old_Time, " +
+	            "time_log.New_Time, " +
+	            "time_log.Update_Time, " +
+	            "time_log.Attend_Key " +
+	        "FROM " +
+	            "employee " +
+	        "INNER JOIN " +
+	            "department ON employee.Department_Key = department.Department_Key " +
+	        "INNER JOIN " +
+	            "job_time ON employee.Emp_ID = job_time.Emp_Key " +
+	        "INNER JOIN " +
+	            "time_log ON job_time.Time_Log_Key = time_log.Time_Log_Key " +
+	        "WHERE " +
+	            "department.Department LIKE ? " +
+	            "AND time_log.Update_Time BETWEEN ? AND ?";
+
+
 		Res_SQL(SQL_Str);
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
@@ -168,13 +196,18 @@ public class HistoryLog extends SQLOB {
 				+ "    job_time.Last_Time,\r\n" + "    job_time.Special_Date,\r\n" + "    job_time.Time_Pon_Mark,\r\n"
 				+ "    job_time.Update_Time,\r\n" + "	time_log.Time_Event,\r\n" + "    time_log.Time_Mark,\r\n"
 				+ "    time_log.Insert_Time,\r\n" + "	time_log.Old_Time,\r\n" + "    time_log.New_Time,\r\n"
-				+ "	time_log.Update_Time,\r\n" + "    time_log.Attend_Key\r\n" + "\r\n" + "\r\n" + "FROM \r\n"
+				+ "	time_log.Update_Time,\r\n" + "    time_log.Attend_Key\r\n" +   "    time_log.Time_Mark\r\n" +"\r\n" + "\r\n" + "FROM \r\n"
 				+ "    employee \r\n" + "INNER JOIN\r\n"
 				+ "    department ON employee.Department_Key=department.Department_Key\r\n" + "INNER JOIN \r\n"
 				+ "    job_time ON employee.Emp_ID = job_time.Emp_Key\r\n" + "INNER JOIN \r\n"
 				+ "    time_log ON job_time.Time_Log_Key = time_log.Time_Log_Key \r\n" + "\r\n" + "WHERE \r\n"
 				+ " time_log.Update_Time between ? AND ? \r\n" + "";
 
+		
+
+		
+		
+		
 		Res_SQL(SQL_Str);
 
 		try {

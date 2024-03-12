@@ -66,8 +66,8 @@ public class Employee {
 	public String Appli_JsonString(ResultSet rs) throws SQLException {  //抓取時間內特定帳戶申請紀錄
 
 		return String.format(
-				"{\"Emp_Key\": \"%s\",\"Emp_Name\": \"%s\", \"Department\": \"%s\", \"Reason\": \"%s\",\"Reason_Mark\": \"%s\", \"Appli_Time\":\"%f\", \"Last_Time\":\"%f\", \"Apli_Total\": \"%f\", \"Appli_Date\": \"%s\", \"Check_State\": \"%s\"}",
-				rs.getString("Emp_Key"),rs.getString("Emp_Name"),rs.getString("Department"),
+				"{\"id\": \"%d\",\"Emp_Key\": \"%s\",\"Emp_Name\": \"%s\", \"Department\": \"%s\", \"Reason\": \"%s\",\"Reason_Mark\": \"%s\", \"Appli_Time\":\"%f\", \"Last_Time\":\"%f\", \"Apli_Total\": \"%f\", \"Appli_Date\": \"%s\", \"Check_State\": \"%s\"}",
+				rs.getInt("id"),rs.getString("Emp_Key"),rs.getString("Emp_Name"),rs.getString("Department"),
 				rs.getString("Reason"), rs.getString("Reason_Mark"),rs.getDouble("Appli_Time"), rs.getDouble("Last_Time"),
 				rs.getDouble("Apli_Total"),rs.getDate("Appli_Date"), rs.getString("Check_State"));
 	}
@@ -75,10 +75,10 @@ public class Employee {
 	public String Review_JsonString(ResultSet rs) throws SQLException {  //抓取時間內所有審核
 
 		return String.format(
-				"{\"Emp_Key\": \"%s\",\"Emp_Name\": \"%s\", \"Department\": \"%s\", \"Reason\": \"%s\",\"Reason_Mark\": \"%s\", \"Appli_Time\":\"%f\", \"Last_Time\":\"%f\", \"Apli_Total\": \"%f\", \"Appli_Date\": \"%s\", \"Check_State\": \"%s\", \"Review_Result\": \"%s\"}",
-				rs.getString("Emp_Key"),rs.getString("Emp_Name"),rs.getString("Department"),
+				"{\"id\": \"%d\",\"Emp_Key\": \"%s\",\"Emp_Name\": \"%s\", \"Department\": \"%s\", \"Reason\": \"%s\",\"Reason_Mark\": \"%s\", \"Appli_Time\":\"%f\", \"Last_Time\":\"%f\", \"Apli_Total\": \"%f\", \"Appli_Date\": \"%s\", \"Check_State\": \"%s\", \"Review_Result\": \"%s\", \"Time_Mark\": \"%s\"}",
+				rs.getInt("id"),rs.getString("Emp_Key"),rs.getString("Emp_Name"),rs.getString("Department"),
 				rs.getString("Reason"), rs.getString("Reason_Mark"),rs.getDouble("Appli_Time"), rs.getDouble("Last_Time"),
-				rs.getDouble("Apli_Total"),rs.getDate("Appli_Date"), rs.getString("Check_State"),rs.getString("Review_Result"));
+				rs.getDouble("Apli_Total"),rs.getDate("Appli_Date"), rs.getString("Check_State"),rs.getString("Review_Result"),rs.getString("Time_Mark"));
 	}
 	
 	
