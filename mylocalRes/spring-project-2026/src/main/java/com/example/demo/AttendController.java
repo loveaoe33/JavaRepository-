@@ -202,7 +202,7 @@ public class AttendController<Json> {
 					.Reason(((JSONObject) Appli_Object).getString("Reason")).Appli_Time(Time).Last_Time(0).Apli_Total(0)
 					.Reason_Mark(((JSONObject) Appli_Object).getString("ReasonMark")).Review_ID_Key(null)
 					.Appli_Date(null).Review_Date(null).Check_State("No_Process").build();
-			return sqlserver.Attend_TimeData(appli_form);
+			return sqlserver.Appli_Check(appli_form);
 		} finally {
 			lock.unlock();
 		}

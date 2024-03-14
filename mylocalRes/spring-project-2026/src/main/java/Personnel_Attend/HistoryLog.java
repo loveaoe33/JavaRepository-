@@ -152,7 +152,8 @@ public class HistoryLog extends SQLOB {
 	            "time_log ON job_time.Time_Log_Key = time_log.Time_Log_Key " +
 	        "WHERE " +
 	            "department.Department = ? " +
-	            "AND time_log.Update_Time BETWEEN ? AND ?";
+	            "AND time_log.Update_Time BETWEEN ? AND ? order by \r\n"
+	            + "	employee.Emp_ID ASC, time_log.Update_Time DESC";
 
 
 		Res_SQL(SQL_Str);
@@ -206,7 +207,9 @@ public class HistoryLog extends SQLOB {
 	        "INNER JOIN " +
 	            "time_log ON job_time.Time_Log_Key = time_log.Time_Log_Key " +
 	        "WHERE " +
-	            "time_log.Update_Time BETWEEN ? AND ?";
+	            "time_log.Update_Time BETWEEN ? AND ? order by \r\n"
+	            + "	employee.Emp_ID ASC, time_log.Update_Time DESC";
+	        
 		
 
 		
