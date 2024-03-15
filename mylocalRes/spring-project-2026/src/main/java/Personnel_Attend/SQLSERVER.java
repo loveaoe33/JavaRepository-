@@ -445,6 +445,49 @@ public class SQLSERVER extends SQLOB {
 
 		}
 	}
+	
+	public String Appli_Edit_Print(int id,String Emp_Key) {  //編輯取出
+		Result=null;
+		SQL_Str="select * from appli_form where id=? AND Emp_Key=? AND Check_State='No_Process'";
+		Res_SQL(SQL_Str);
+		try {
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			pst.setInt(1, id);
+			pst.setString(2, Emp_Key);
+		
+			rs=pst.executeQuery();
+			Result=(rs.next())?employee.Appli_Edit_JsonString(rs):"false";
+		}catch(SQLException e) {
+			System.out.println("Appli_Edit錯誤" + e.getMessage());
+			Result="false";
+
+		}finally {
+			close_SQL();
+		}
+		return Result;
+	}
+	
+	public String Appli_Edit(Appli_form appli_form_Par) {  //編輯
+		Result=null;
+		SQL_Str="Update appli_form SET Reason=? Appli_Time=?,Apli_Total=?,Reason_Mark=?,Appli_Date=? where id=?";
+
+		try {
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			pst.setString(1, appli_form_Par.getReason());
+			pst.setDouble(1, appli_form_Par.getAppli_Time());
+			pst.setDouble(1, appli_form_Par.getApli_Total());
+			pst.setDate(4, Date_Time());
+			pst.executeUpdate();
+			Result="Sucess";
+		}catch(SQLException e) {
+			System.out.println("Appli_Edit錯誤" + e.getMessage());
+			Result="false";
+
+		}finally {
+			close_SQL();
+		}
+		return Result;
+	}
 
 	public String Appli_Check(Appli_form appli_form_Par) {
 		Result = null;

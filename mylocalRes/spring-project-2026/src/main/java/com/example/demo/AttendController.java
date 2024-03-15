@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -207,6 +208,24 @@ public class AttendController<Json> {
 			lock.unlock();
 		}
 
+	}
+	
+
+    
+	@CrossOrigin
+	@GetMapping("AttendController/Edit_Print") // 取出申請單內容
+	public String Edit_Print(@RequestParam("id") int id,@RequestParam("Emp_Key") String Emp_Key) {
+		return sqlserver.Appli_Edit_Print(id,Emp_Key);  //取出申請單內容
+	}
+	
+	public String Edit_Appli() {   //更改申請單
+		try {
+			lock.lock();
+
+		}finally {
+			lock.unlock();
+		}
+		return null;
 	}
 
 	@CrossOrigin

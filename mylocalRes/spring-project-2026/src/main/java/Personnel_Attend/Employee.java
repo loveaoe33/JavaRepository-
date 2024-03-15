@@ -71,6 +71,14 @@ public class Employee {
 				rs.getString("Reason"), rs.getString("Reason_Mark"),rs.getDouble("Appli_Time"), rs.getDouble("Last_Time"),
 				rs.getDouble("Apli_Total"),rs.getDate("Appli_Date"), rs.getString("Check_State"));
 	}
+	public String Appli_Edit_JsonString(ResultSet rs) throws SQLException {  //抓取時間內特定帳戶申請紀錄
+
+		return String.format(
+				"{\"id\": \"%d\",\"Emp_Key\": \"%s\", \"Department\": \"%s\", \"Reason\": \"%s\", \"Appli_Time\":\"%f\", \"Last_Time\":\"%f\", \"Apli_Total\": \"%f\", \"Reason_Mark\": \"%s\",\"Appli_Date\": \"%s\", \"Check_State\": \"%s\"}",
+				rs.getInt("id"),rs.getString("Emp_Key"),rs.getString("Department"),
+				rs.getString("Reason"),rs.getDouble("Appli_Time"), rs.getDouble("Last_Time"),
+				rs.getDouble("Apli_Total"), rs.getString("Reason_Mark"),rs.getDate("Appli_Date"), rs.getString("Check_State"));
+	}
 	
 	public String Review_JsonString(ResultSet rs) throws SQLException {  //抓取時間內所有審核
 
