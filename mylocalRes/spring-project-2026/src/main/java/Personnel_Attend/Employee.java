@@ -120,10 +120,19 @@ public class Employee {
 	public String getEmployee_JsonString(ResultSet rs) throws SQLException {
 
 		return String.format(
-				"{\"id\": \"%d\",\"Emp_ID\": \"%s\", \"Emp_Name\": \"%s\", \"Department_Key\": \"%s\", \"Account_Lv\": \"%d\" }",
-				rs.getInt("id"), rs.getString("Emp_ID"), rs.getString("Emp_Name"), rs.getString("Department_Key"),
+				"{\"Emp_ID\": \"%s\", \"Emp_Name\": \"%s\", \"Department_Key\": \"%s\", \"Account_Lv\": \"%d\", \"Last_Time\": \"%f\", \"Special_Date\": \"%f\" }",
+				rs.getString("Emp_ID"), rs.getString("Emp_Name"), rs.getString("Department_Key"),
+				rs.getInt("Account_Lv"),rs.getDouble("Last_Time"),rs.getDouble("Special_Date"));
+	}
+	
+	public String getDepartEmployee_JsonString(ResultSet rs) throws SQLException {
+
+		return String.format(
+				"{\"id\": \"%d\",\"Emp_ID\": \"%s\", \"Emp_Name\": \"%s\", \"Department_Key\": \"%s\", \"Account_Lv\": \"%d\"}",
+				rs.getInt("id"),rs.getString("Emp_ID"), rs.getString("Emp_Name"), rs.getString("Department_Key"),
 				rs.getInt("Account_Lv"));
 	}
+	
 	public String getJobTime_JsonString(ResultSet rs) throws SQLException {
 
 		return String.format(

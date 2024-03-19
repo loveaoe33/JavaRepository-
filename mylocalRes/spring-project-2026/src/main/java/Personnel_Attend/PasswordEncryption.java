@@ -26,7 +26,5 @@ public class PasswordEncryption {
 		boolean x=verifyPsasword(password,HashPassword);
         System.out.println("PasswordBolean: " + x);
         return x;
-
-		
 	}
 }

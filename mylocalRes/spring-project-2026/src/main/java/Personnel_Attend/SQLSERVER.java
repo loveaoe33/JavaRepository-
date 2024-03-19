@@ -360,7 +360,7 @@ public class SQLSERVER extends SQLOB {
 	}
 
 	public String Login_Employee(Employee employee_Par) {
-		SQL_Str = "select * from employee where Emp_ID=?";
+		SQL_Str = "select employee.Emp_ID,employee.Password,employee.Emp_Name,employee.Department_Key,employee.Account_Lv,job_time.Last_Time,job_time.Special_Date from employee INNER JOIN  job_time ON employee.Emp_ID =job_time.Emp_Key WHERE employee.Emp_ID=?";
 		Result = "false";
 		Res_SQL(SQL_Str);
 		try {
@@ -1134,7 +1134,7 @@ public class SQLSERVER extends SQLOB {
 
 				do {
 
-					employee.Emp_List.add(employee.getEmployee_JsonString(rs));
+					employee.Emp_List.add(employee.getDepartEmployee_JsonString(rs));
 
 				} while (rs.next());
 				return (T) employee.Emp_List;

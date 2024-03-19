@@ -96,7 +96,16 @@ public class AttendController<Json> {
 		}
 
 	}
-
+//	@CrossOrigin
+//	@GetMapping("AttendController/test") // 新增部門OK
+//	public String test() {
+//        Object obj = new Object();
+//        obj
+//
+//		return null;
+//		
+//		
+//	}
 	@CrossOrigin
 	@PostMapping("AttendController/Insert_Department") // 新增部門OK
 	public String Insert_Department(@RequestBody JSONObject Depart_POST) {
@@ -301,12 +310,13 @@ public class AttendController<Json> {
 	}
 
 	@CrossOrigin
-	@GetMapping("AttendController/Login_Employee") // 帳號登入
-	public JsonNode Login_Employee() throws JsonMappingException, JsonProcessingException {
+	@PostMapping("AttendController/Login_Employee") // 帳號登入
+	public JsonNode Login_Employee(@RequestBody JSONObject LoginObject) throws JsonMappingException, JsonProcessingException {
 //		PassEncry.Password_Check();
-
+        String Account=((JSONObject) LoginObject.get("Login_Object")).getString("Account");
+        String Password=((JSONObject) LoginObject.get("Login_Object")).getString("Password");
 		JsonNode jsonNode = null;
-		Employee employee = Employee.builder().Emp_ID("E0012").Password("love20720").build();
+		Employee employee = Employee.builder().Emp_ID("E0010").Password("love20720").build();
 
 		try {
 			lock.lock();
