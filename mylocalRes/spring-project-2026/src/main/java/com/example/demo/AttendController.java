@@ -316,7 +316,7 @@ public class AttendController<Json> {
         String Account=((JSONObject) LoginObject.get("Login_Object")).getString("Account");
         String Password=((JSONObject) LoginObject.get("Login_Object")).getString("Password");
 		JsonNode jsonNode = null;
-		Employee employee = Employee.builder().Emp_ID("E0010").Password("love20720").build();
+		Employee employee = Employee.builder().Emp_ID("E0010").Password("123").build();
 
 		try {
 			lock.lock();
@@ -336,16 +336,23 @@ public class AttendController<Json> {
 	}
 
 	@CrossOrigin
-	@GetMapping("AttendController/Update_Employee") // 更改帳號密碼更新
-	public String Change_Employee() throws JsonMappingException, JsonProcessingException {
+	@PostMapping("AttendController/Update_Employee") // 更改帳號密碼更新
+	public String Change_Employee(@RequestBody JSONObject Update_Objects) throws JsonMappingException, JsonProcessingException {
 //		PassEncry.Password_Check();
 		try {
 			lock.lock();
-			Employee employee = Employee.builder().Emp_ID("E0012").Password("love20320").build();
-			return sqlserver.Update_Employee(employee);
+			Object Update_Object = Update_Objects.get("Update_Object_Post");
+			Employee employee = Employee.builder().Emp_ID(((JSONObject) Update_Object).getJSONObject("_rawValue").getString("Emp_ID")).Password(((JSONObject) Update_Object).getJSONObject("_rawValue").getString("NewPassword")).build();
+			return sqlserver.Update_Employee(employee,((JSONObject) Update_Object).getJSONObject("_rawValue").getString("oldPassword"));
 		} finally {
 			lock.unlock();
 		}
+	}
+	
+	@CrossOrigin
+	@GetMapping("AttendController/Super_Change") // 更改帳號密碼更新
+	public String Super_Change() {
+		return sqlserver.Super_Update_Employee("E0010","123");
 	}
 
 	@CrossOrigin

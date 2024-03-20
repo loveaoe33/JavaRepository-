@@ -337,17 +337,68 @@ public class SQLSERVER extends SQLOB {
 			return Result;
 		}
 	}
+    public String Select_Password(String Emp_ID) {
+		Result = null;
+    	SQL_Str = "select Password from Employee  where Emp_ID=?";
+		Res_SQL(SQL_Str);
+		try {
+		
+				pst = con.prepareStatement(sqlclass.getSql_Str());
+				pst.setString(1, Emp_ID);
+				rs=pst.executeQuery();
+				if(rs.next())
+				{
+					Result=rs.getString("Password");
+				}else {
+					Result = "false";
 
-	public String Update_Employee(Employee employee_Par) {
+				}
+		} catch (SQLException e) {
+			Result = "false";
+			System.out.println("Select_Password錯誤" + e.getMessage());
+		} finally {
+			close_SQL();
+			return Result;
+
+		}
+
+    }
+    
+    public String Super_Update_Employee(String Emp_ID,String NewPassword) {
 		SQL_Str = "Update Employee SET Password=? where Emp_ID=?";
 		Res_SQL(SQL_Str);
 		Result = null;
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
-			pst.setString(1, PassEncry.hashedPassword(employee_Par.getPassword()));
-			pst.setString(2, employee_Par.getEmp_ID());
+			pst.setString(1, PassEncry.hashedPassword(NewPassword));
+			pst.setString(2, Emp_ID);
 			pst.executeUpdate();
 			Result = "Sucess";
+		}catch(SQLException e) {
+			Result = "false";
+			System.out.println("Update_Employee錯誤" + e.getMessage());
+		}finally {
+			close_SQL();
+			return Result;
+		}
+
+    }
+	public String Update_Employee(Employee employee_Par,String oldPassword) {
+		String HashPassword=Select_Password(employee_Par.getEmp_ID());
+		SQL_Str = "Update Employee SET Password=? where Emp_ID=?";
+		Res_SQL(SQL_Str);
+		Result = null;
+		try {
+			if( PassEncry.Password_Check(oldPassword, HashPassword)) {
+				Result="false";
+			}else {
+				pst = con.prepareStatement(sqlclass.getSql_Str());
+				pst.setString(1, PassEncry.hashedPassword(employee_Par.getPassword()));
+				pst.setString(2, employee_Par.getEmp_ID());
+				pst.executeUpdate();
+				Result = "Sucess";
+			}
+	
 		} catch (SQLException e) {
 			Result = "false";
 			System.out.println("Update_Employee錯誤" + e.getMessage());
