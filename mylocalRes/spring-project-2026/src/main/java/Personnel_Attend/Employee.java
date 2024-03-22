@@ -66,7 +66,7 @@ public class Employee {
 	public String Appli_JsonString(ResultSet rs) throws SQLException {  //抓取時間內特定帳戶申請紀錄
 
 		return String.format(
-				"{\"id\": \"%d\",\"Emp_Key\": \"%s\",\"Emp_Name\": \"%s\", \"Department\": \"%s\", \"Reason\": \"%s\",\"Reason_Mark\": \"%s\", \"Appli_Time\":\"%f\", \"Last_Time\":\"%f\", \"Apli_Total\": \"%f\", \"Appli_Date\": \"%s\", \"Check_State\": \"%s\"}",
+				"{\"id\": \"%d\",\"Emp_Key\": \"%s\",\"Emp_Name\": \"%s\", \"Department\": \"%s\", \"Reason\": \"%s\",\"Reason_Mark\": \"%s\", \"Appli_Time\":\"%.2f\", \"Last_Time\":\"%.2f\", \"Apli_Total\": \"%.2f\", \"Appli_Date\": \"%s\", \"Check_State\": \"%s\"}",
 				rs.getInt("id"),rs.getString("Emp_Key"),rs.getString("Emp_Name"),rs.getString("Department"),
 				rs.getString("Reason"), rs.getString("Reason_Mark"),rs.getDouble("Appli_Time"), rs.getDouble("Last_Time"),
 				rs.getDouble("Apli_Total"),rs.getDate("Appli_Date"), rs.getString("Check_State"));
@@ -74,7 +74,7 @@ public class Employee {
 	public String Appli_Edit_JsonString(ResultSet rs) throws SQLException {  //抓取時間內特定帳戶申請紀錄
 
 		return String.format(
-				"{\"id\": \"%d\",\"Emp_Key\": \"%s\", \"Department\": \"%s\", \"Reason\": \"%s\", \"Appli_Time\":\"%f\", \"Last_Time\":\"%f\", \"Apli_Total\": \"%f\", \"Reason_Mark\": \"%s\",\"Appli_Date\": \"%s\", \"Check_State\": \"%s\"}",
+				"{\"id\": \"%d\",\"Emp_Key\": \"%s\", \"Department\": \"%s\", \"Reason\": \"%s\", \"Appli_Time\":\"%.2f\", \"Last_Time\":\"%.2f\", \"Apli_Total\": \"%.2f\", \"Reason_Mark\": \"%s\",\"Appli_Date\": \"%s\", \"Check_State\": \"%s\"}",
 				rs.getInt("id"),rs.getString("Emp_Key"),rs.getString("Department"),
 				rs.getString("Reason"),rs.getDouble("Appli_Time"), rs.getDouble("Last_Time"),
 				rs.getDouble("Apli_Total"), rs.getString("Reason_Mark"),rs.getDate("Appli_Date"), rs.getString("Check_State"));
@@ -83,7 +83,7 @@ public class Employee {
 	public String Review_JsonString(ResultSet rs) throws SQLException {  //抓取時間內所有審核
 
 		return String.format(
-				"{\"id\": \"%d\",\"Emp_Key\": \"%s\",\"Emp_Name\": \"%s\", \"Department\": \"%s\", \"Reason\": \"%s\",\"Reason_Mark\": \"%s\", \"Appli_Time\":\"%f\", \"Last_Time\":\"%f\", \"Apli_Total\": \"%f\", \"Appli_Date\": \"%s\", \"Check_State\": \"%s\", \"Review_Result\": \"%s\", \"Time_Mark\": \"%s\"}",
+				"{\"id\": \"%d\",\"Emp_Key\": \"%s\",\"Emp_Name\": \"%s\", \"Department\": \"%s\", \"Reason\": \"%s\",\"Reason_Mark\": \"%s\", \"Appli_Time\":\"%.2f\", \"Last_Time\":\"%.2f\", \"Apli_Total\": \"%.2f\", \"Appli_Date\": \"%s\", \"Check_State\": \"%s\", \"Review_Result\": \"%s\", \"Time_Mark\": \"%s\"}",
 				rs.getInt("id"),rs.getString("Emp_Key"),rs.getString("Emp_Name"),rs.getString("Department"),
 				rs.getString("Reason"), rs.getString("Reason_Mark"),rs.getDouble("Appli_Time"), rs.getDouble("Last_Time"),
 				rs.getDouble("Apli_Total"),rs.getDate("Appli_Date"), rs.getString("Check_State"),rs.getString("Review_Result"),rs.getString("Time_Mark"));
@@ -100,7 +100,7 @@ public class Employee {
 	public String Time_Log_JsonString(ResultSet rs) throws SQLException {    //抓取Time_Log
 
 		return String.format(
-				"{\"id\": \"%d\",\"Emp_ID\": \"%s\", \"Emp_Name\": \"%s\", \"Time_Event\": \"%s\", \"department\": \"%s\",\"Reason_Mark\": \"%s\",\"Appli_Date\": \"%s\",\"Time_Mark\": \"%s\", \"Last_Time\":\"%f\", \"Insert_Time\":\"%f\", \"Old_Time\":\"%f\",\"New_Time\":\"%f\",\"Update_Time\": \"%s\",\"Review_Manager\": \"%s\", \"Review_Time\": \"%s\", \"Review_Result\": \"%s\"}",
+				"{\"id\": \"%d\",\"Emp_ID\": \"%s\", \"Emp_Name\": \"%s\", \"Time_Event\": \"%s\", \"department\": \"%s\",\"Reason_Mark\": \"%s\",\"Appli_Date\": \"%s\",\"Time_Mark\": \"%s\", \"Last_Time\":\"%.2f\", \"Insert_Time\":\"%.2f\", \"Old_Time\":\"%.2f\",\"New_Time\":\"%.2f\",\"Update_Time\": \"%s\",\"Review_Manager\": \"%s\", \"Review_Time\": \"%s\", \"Review_Result\": \"%s\"}",
 				rs.getInt("id"), rs.getString("Emp_ID"), rs.getString("Emp_Name"), rs.getString("Time_Event"),
 				rs.getString("department"), rs.getString("Reason_Mark"), rs.getDate("Appli_Date"),
 				rs.getString("Time_Mark"), rs.getDouble("Last_Time"), rs.getDouble("Insert_Time"),
@@ -112,7 +112,7 @@ public class Employee {
 	
 	public String getEmployeeHistory_JsonString(ResultSet rs) throws SQLException {   //抓取歷年log
 		return String.format(
-				"{\"Emp_ID\": \"%s\",\"Emp_Name\": \"%s\",\"Department\": \"%s\", \"Last_Time\": \"%f\", \"Special_Date\": \"%f\", \"Time_Pon_Mark\": \"%s\", \"Update_Time\": \"%s\", \"Time_Event\": \"%s\", \"Time_Mark\": \"%s\", \"Insert_Time\": \"%f\", \"Old_Time\": \"%f\", \"New_Time\": \"%f\", \"Update_Time\": \"%s\", \"Attend_Key\": \"%s\"}",
+				"{\"Emp_ID\": \"%s\",\"Emp_Name\": \"%s\",\"Department\": \"%s\", \"Last_Time\": \"%.2f\", \"Special_Date\": \"%.2f\", \"Time_Pon_Mark\": \"%s\", \"Update_Time\": \"%s\", \"Time_Event\": \"%s\", \"Time_Mark\": \"%s\", \"Insert_Time\": \"%.2f\", \"Old_Time\": \"%.2f\", \"New_Time\": \"%.2f\", \"Update_Time\": \"%s\", \"Attend_Key\": \"%s\"}",
 				rs.getString("Emp_ID"), rs.getString("Emp_Name"), rs.getString("Department"), rs.getDouble("Last_Time"), rs.getDouble("Special_Date"), rs.getString("Time_Pon_Mark"), rs.getString("Update_Time"), rs.getString("Time_Event"), rs.getString("Time_Mark"), rs.getDouble("Insert_Time"), rs.getDouble("Old_Time"), rs.getDouble("New_Time"), rs.getString("Update_Time"), rs.getString("Attend_Key"));
 	}
 	
@@ -120,8 +120,8 @@ public class Employee {
 	public String getEmployee_JsonString(ResultSet rs) throws SQLException {
 
 		return String.format(
-				"{\"Emp_ID\": \"%s\", \"Emp_Name\": \"%s\", \"Department_Key\": \"%s\", \"Account_Lv\": \"%d\", \"Last_Time\": \"%f\", \"Special_Date\": \"%f\" }",
-				rs.getString("Emp_ID"), rs.getString("Emp_Name"), rs.getString("Department_Key"),
+				"{\"Emp_ID\": \"%s\", \"Emp_Name\": \"%s\", \"Department_Key\": \"%s\", \"Account_Lv\": \"%d\", \"Last_Time\": \"%.2f\", \"Special_Date\": \"%.2f\" }",
+				rs.getString("Emp_ID"), rs.getString("Emp_Name"), rs.getString("Department"),
 				rs.getInt("Account_Lv"),rs.getDouble("Last_Time"),rs.getDouble("Special_Date"));
 	}
 	
@@ -136,7 +136,7 @@ public class Employee {
 	public String getJobTime_JsonString(ResultSet rs) throws SQLException {
 
 		return String.format(
-				"{\"Emp_Key\": \"%s\",\"Last_Time\": \"%f\", \"Special_Date\": \"%f\", \"Update_Time\": \"%s\"}",
+				"{\"Emp_Key\": \"%s\",\"Last_Time\": \"%.2f\", \"Special_Date\": \"%.2f\", \"Update_Time\": \"%s\"}",
 				rs.getString("Emp_Key"), rs.getDouble("Last_Time"), rs.getDouble("Special_Date"), rs.getString("Update_Time"));
 	}
 	

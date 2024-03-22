@@ -389,8 +389,8 @@ public class SQLSERVER extends SQLOB {
 		Res_SQL(SQL_Str);
 		Result = null;
 		try {
-			if( PassEncry.Password_Check(oldPassword, HashPassword)) {
-				Result="false";
+			if( PassEncry.Password_Check(oldPassword, HashPassword)!=true) {
+				Result = "fail";
 			}else {
 				pst = con.prepareStatement(sqlclass.getSql_Str());
 				pst.setString(1, PassEncry.hashedPassword(employee_Par.getPassword()));
@@ -411,7 +411,7 @@ public class SQLSERVER extends SQLOB {
 	}
 
 	public String Login_Employee(Employee employee_Par) {
-		SQL_Str = "select employee.Emp_ID,employee.Password,employee.Emp_Name,employee.Department_Key,employee.Account_Lv,job_time.Last_Time,job_time.Special_Date from employee INNER JOIN  job_time ON employee.Emp_ID =job_time.Emp_Key WHERE employee.Emp_ID=?";
+		SQL_Str = "select employee.Emp_ID,employee.Password,employee.Emp_Name,department.Department,employee.Account_Lv,job_time.Last_Time,job_time.Special_Date from employee  INNER JOIN department on employee.Department_Key=department.Department_Key  INNER JOIN  job_time ON employee.Emp_ID =job_time.Emp_Key WHERE employee.Emp_ID=?";
 		Result = "false";
 		Res_SQL(SQL_Str);
 		try {
@@ -507,7 +507,7 @@ public class SQLSERVER extends SQLOB {
 			pst.setString(2, Emp_Key);
 		
 			rs=pst.executeQuery();
-			Result=(rs.next())?employee.Appli_Edit_JsonString(rs):"false";
+			Result=(rs.next())?employee.Appli_Edit_JsonString(rs):"fail";
 		}catch(SQLException e) {
 			System.out.println("Appli_Edit錯誤" + e.getMessage());
 			Result="false";
@@ -519,24 +519,33 @@ public class SQLSERVER extends SQLOB {
 	}
 	
 	public String Appli_Edit(Appli_form appli_form_Par) {  //編輯
-		Result=null;
-		SQL_Str="Update appli_form SET Reason=? Appli_Time=?,Apli_Total=?,Reason_Mark=?,Appli_Date=? where id=?";
 
-		try {
-			pst = con.prepareStatement(sqlclass.getSql_Str());
-			pst.setString(1, appli_form_Par.getReason());
-			pst.setDouble(1, appli_form_Par.getAppli_Time());
-			pst.setDouble(1, appli_form_Par.getApli_Total());
-			pst.setDate(4, Date_Time());
-			pst.executeUpdate();
-			Result="Sucess";
-		}catch(SQLException e) {
-			System.out.println("Appli_Edit錯誤" + e.getMessage());
-			Result="false";
+        if(Employee_LstTime(appli_form_Par).equals("Sucess")) {
+    		Result=null;
+    		SQL_Str = "UPDATE appli_form SET Reason=?, Appli_Time=?, Apli_Total=?, Reason_Mark=?, Appli_Date=? WHERE id=? AND Check_State='No_Process'";
+    		Res_SQL(SQL_Str);
 
-		}finally {
-			close_SQL();
-		}
+    		try {
+    			pst = con.prepareStatement(sqlclass.getSql_Str());
+    			pst.setString(1, appli_form_Par.getReason());
+    			pst.setDouble(2, appli_form_Par.getAppli_Time());
+    			pst.setDouble(3, appli_form_Par.getApli_Total());
+    			pst.setString(4, appli_form_Par.getReason_Mark());
+    			pst.setDate(5, Date_Time());
+    			pst.setInt(6, appli_form_Par.getId());
+    			pst.executeUpdate();
+    			Result="Sucess";
+    		}catch(SQLException e) {
+    			System.out.println("Appli_Edit錯誤" + e.getMessage());
+    			Result="fail";
+
+    		}finally {
+    			close_SQL();
+    		}
+        }else {
+        	Result="fail";
+        }
+
 		return Result;
 	}
 
@@ -654,6 +663,7 @@ public class SQLSERVER extends SQLOB {
 				appli_form.setAppli_Time(rs.getDouble("Appli_Time"));
 				appli_form.setLast_Time(rs.getDouble("Last_Time"));
 				appli_form.setApli_Total(rs.getDouble("Apli_Total"));
+				timeData.setInsert_Time(rs.getDouble("Appli_Time"));
 
 			}
 			Result = Insert_TimeData_Update(appli_form, timeData);
@@ -1143,7 +1153,7 @@ public class SQLSERVER extends SQLOB {
 //		return null;
 //	}
 
-	public int get_Emp_Lv(String Emp_Key) {
+	public int get_Emp_Lv(String Emp_Key) {  //取得登入者權限等級
 		SQL_Str = "select Account_Lv from employee where Emp_ID=?";
 		Res_SQL(SQL_Str);
 
@@ -1239,7 +1249,9 @@ public class SQLSERVER extends SQLOB {
 	}
 
 	public <T> T Announcement_Init_Data() throws JsonProcessingException { // 初始化布告欄要帶出的資料
+		
 		SQL_Str = "select * from announcement";
+		
 		String Announ_Str = "";
 		Res_SQL(SQL_Str);
 		try {
@@ -1271,9 +1283,13 @@ public class SQLSERVER extends SQLOB {
 
 	}
 
-	public <T> T Init_Data() throws JsonProcessingException { // 初始化部門要帶出的資料
-		SQL_Str = "select * from Department";
+	public <T> T Init_Data(String Depart,String Emp_Key) throws JsonProcessingException { // 初始化部門要帶出的資料
 		department.Department_List.clear();
+		if(get_Emp_Lv( Emp_Key)==1) {
+			SQL_Str = "select * from department where Department='" + Depart +"'";
+		}else if(get_Emp_Lv( Emp_Key)==0){
+			SQL_Str = "select * from department";
+		}
 		Res_SQL(SQL_Str);
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());

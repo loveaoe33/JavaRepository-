@@ -86,11 +86,11 @@ public class AttendController<Json> {
 	}
 
 	@CrossOrigin
-	@PostMapping("AttendController/Init") // 初始化帶出
-	public <T> T Init() throws JsonProcessingException {
+	@GetMapping("AttendController/Init") // 初始化帶出
+	public <T> T Init(@RequestParam("Emp_Key") String Emp_Key,@RequestParam("Depart") String Depart) throws JsonProcessingException {
 		try {
 			lock.lock();
-			return sqlserver.Init_Data();
+			return sqlserver.Init_Data(Depart,Emp_Key);
 		} finally {
 			lock.unlock();
 		}
@@ -224,17 +224,37 @@ public class AttendController<Json> {
 	@CrossOrigin
 	@GetMapping("AttendController/Edit_Print") // 取出申請單內容
 	public String Edit_Print(@RequestParam("id") int id,@RequestParam("Emp_Key") String Emp_Key) {
-		return sqlserver.Appli_Edit_Print(id,Emp_Key);  //取出申請單內容
-	}
-	
-	public String Edit_Appli() {   //更改申請單
 		try {
 			lock.lock();
-
+			return sqlserver.Appli_Edit_Print(id,Emp_Key);  //取出申請單內容
 		}finally {
 			lock.unlock();
 		}
-		return null;
+	}
+	
+	@CrossOrigin
+	@PostMapping("AttendController/Edit_Appli") // 更新申請單內容
+	public String Edit_Appli(@RequestBody JSONObject Appli_Object_Post) {   //更改申請單
+		try {
+			lock.lock();
+			
+			Object Appli_Object = Appli_Object_Post.get("Appli_Object");
+
+			Double Time = (((JSONObject) Appli_Object).getString("Reason").equals("Public_Holi")
+					|| ((JSONObject) Appli_Object).getString("Reason").equals("Over_Time"))
+							? ((JSONObject) Appli_Object).getDouble("Appli_Time")
+							: -(((JSONObject) Appli_Object).getDouble("Appli_Time"));
+
+			Appli_form appli_form = Appli_form.builder().id(((JSONObject) Appli_Object).getInt("Appli_id")).Emp_Key(((JSONObject) Appli_Object).getString("Emp_ID"))
+					.Department(((JSONObject) Appli_Object).getString("DepartMent"))
+					.Reason(((JSONObject) Appli_Object).getString("Reason")).Appli_Time(Time).Last_Time(0).Apli_Total(0)
+					.Reason_Mark(((JSONObject) Appli_Object).getString("ReasonMark")).Review_ID_Key(null)
+					.Appli_Date(null).Review_Date(null).Check_State("No_Process").build();
+					
+			return sqlserver.Appli_Edit(appli_form);  //更新申請單內容
+		}finally {
+			lock.unlock();
+		}
 	}
 
 	@CrossOrigin
@@ -283,7 +303,7 @@ public class AttendController<Json> {
 		String Appli_Employee = ((JSONObject) Attend_TimeData).getString("Appli_Employee"); // 申請人
 		String Review_ID_Key = String.format("%s_%s_%s", Manager, Appli_Employee, currenDate); // Key規則 "管理人"_"申請者"_時間戳
 		String State = ((JSONObject) Attend_TimeData).getString("State"); // 審核狀態
-		int Appli_Time = ((JSONObject) Attend_TimeData).getInt("Appli_Time"); // 申請時間
+//		int Appli_Time = ((JSONObject) Attend_TimeData).getInt("Appli_Time"); // 申請時間
 		String Time_Log_Key = sqlserver.Get_TimeKey(Appli_Employee);// 申請人時間主鍵
 
 		try {
@@ -297,7 +317,7 @@ public class AttendController<Json> {
 
 				TimeData timeData = TimeData.builder().Emp_Key(Appli_Employee).Last_Time(0).Time_Pon_Mark("")
 						.Time_Log_Key(Time_Log_Key).Update_Time(date).Time_Event(Time_Event).Time_Mark(Mark)
-						.Insert_Time(Appli_Time).Old_Time(0).New_Time(0).Update_Time(date).Attend_Key(Review_ID_Key)
+						.Insert_Time(0).Old_Time(0).New_Time(0).Update_Time(date).Attend_Key(Review_ID_Key)
 						.build();
 
 				return sqlserver.Update_Review(appli_form, timeData);
@@ -350,7 +370,7 @@ public class AttendController<Json> {
 	}
 	
 	@CrossOrigin
-	@GetMapping("AttendController/Super_Change") // 更改帳號密碼更新
+	@GetMapping("AttendController/Super_Change") // 超級更新
 	public String Super_Change() {
 		return sqlserver.Super_Update_Employee("E0010","123");
 	}
