@@ -29,6 +29,8 @@ public class SQLSERVER extends SQLOB {
 	private String Result = null;
 	private String SQL_Str = null;
 	static ArrayList<String> Announcement_List = new ArrayList();
+	static ArrayList<String> PassCode_List = new ArrayList();
+
 
 	@Autowired
 	public SQLSERVER(SQLClass sqlclass, Department department, Employee employee, TimeData timeData,
@@ -143,7 +145,7 @@ public class SQLSERVER extends SQLOB {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.out.println("部門新增錯誤" + e.getMessage());
-			Result = "false";
+			Result = "fail";
 		} finally {
 			close_SQL();
 			return Result;
@@ -337,22 +339,22 @@ public class SQLSERVER extends SQLOB {
 			return Result;
 		}
 	}
-    public String Select_Password(String Emp_ID) {
+
+	public String Select_Password(String Emp_ID) {
 		Result = null;
-    	SQL_Str = "select Password from Employee  where Emp_ID=?";
+		SQL_Str = "select Password from Employee  where Emp_ID=?";
 		Res_SQL(SQL_Str);
 		try {
-		
-				pst = con.prepareStatement(sqlclass.getSql_Str());
-				pst.setString(1, Emp_ID);
-				rs=pst.executeQuery();
-				if(rs.next())
-				{
-					Result=rs.getString("Password");
-				}else {
-					Result = "false";
 
-				}
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			pst.setString(1, Emp_ID);
+			rs = pst.executeQuery();
+			if (rs.next()) {
+				Result = rs.getString("Password");
+			} else {
+				Result = "false";
+
+			}
 		} catch (SQLException e) {
 			Result = "false";
 			System.out.println("Select_Password錯誤" + e.getMessage());
@@ -362,9 +364,9 @@ public class SQLSERVER extends SQLOB {
 
 		}
 
-    }
-    
-    public String Super_Update_Employee(String Emp_ID,String NewPassword) {
+	}
+
+	public String Super_Update_Employee(String Emp_ID, String NewPassword) {
 		SQL_Str = "Update Employee SET Password=? where Emp_ID=?";
 		Res_SQL(SQL_Str);
 		Result = null;
@@ -374,31 +376,32 @@ public class SQLSERVER extends SQLOB {
 			pst.setString(2, Emp_ID);
 			pst.executeUpdate();
 			Result = "Sucess";
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			Result = "false";
 			System.out.println("Update_Employee錯誤" + e.getMessage());
-		}finally {
+		} finally {
 			close_SQL();
 			return Result;
 		}
 
-    }
-	public String Update_Employee(Employee employee_Par,String oldPassword) {
-		String HashPassword=Select_Password(employee_Par.getEmp_ID());
+	}
+
+	public String Update_Employee(Employee employee_Par, String oldPassword) {
+		String HashPassword = Select_Password(employee_Par.getEmp_ID());
 		SQL_Str = "Update Employee SET Password=? where Emp_ID=?";
 		Res_SQL(SQL_Str);
 		Result = null;
 		try {
-			if( PassEncry.Password_Check(oldPassword, HashPassword)!=true) {
+			if (PassEncry.Password_Check(oldPassword, HashPassword) != true) {
 				Result = "fail";
-			}else {
+			} else {
 				pst = con.prepareStatement(sqlclass.getSql_Str());
 				pst.setString(1, PassEncry.hashedPassword(employee_Par.getPassword()));
 				pst.setString(2, employee_Par.getEmp_ID());
 				pst.executeUpdate();
 				Result = "Sucess";
 			}
-	
+
 		} catch (SQLException e) {
 			Result = "false";
 			System.out.println("Update_Employee錯誤" + e.getMessage());
@@ -496,55 +499,55 @@ public class SQLSERVER extends SQLOB {
 
 		}
 	}
-	
-	public String Appli_Edit_Print(int id,String Emp_Key) {  //編輯取出
-		Result=null;
-		SQL_Str="select * from appli_form where id=? AND Emp_Key=? AND Check_State='No_Process'";
+
+	public String Appli_Edit_Print(int id, String Emp_Key) { // 編輯取出
+		Result = null;
+		SQL_Str = "select * from appli_form where id=? AND Emp_Key=? AND Check_State='No_Process'";
 		Res_SQL(SQL_Str);
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
 			pst.setInt(1, id);
 			pst.setString(2, Emp_Key);
-		
-			rs=pst.executeQuery();
-			Result=(rs.next())?employee.Appli_Edit_JsonString(rs):"fail";
-		}catch(SQLException e) {
-			System.out.println("Appli_Edit錯誤" + e.getMessage());
-			Result="false";
 
-		}finally {
+			rs = pst.executeQuery();
+			Result = (rs.next()) ? employee.Appli_Edit_JsonString(rs) : "fail";
+		} catch (SQLException e) {
+			System.out.println("Appli_Edit錯誤" + e.getMessage());
+			Result = "false";
+
+		} finally {
 			close_SQL();
 		}
 		return Result;
 	}
-	
-	public String Appli_Edit(Appli_form appli_form_Par) {  //編輯
 
-        if(Employee_LstTime(appli_form_Par).equals("Sucess")) {
-    		Result=null;
-    		SQL_Str = "UPDATE appli_form SET Reason=?, Appli_Time=?, Apli_Total=?, Reason_Mark=?, Appli_Date=? WHERE id=? AND Check_State='No_Process'";
-    		Res_SQL(SQL_Str);
+	public String Appli_Edit(Appli_form appli_form_Par) { // 編輯
 
-    		try {
-    			pst = con.prepareStatement(sqlclass.getSql_Str());
-    			pst.setString(1, appli_form_Par.getReason());
-    			pst.setDouble(2, appli_form_Par.getAppli_Time());
-    			pst.setDouble(3, appli_form_Par.getApli_Total());
-    			pst.setString(4, appli_form_Par.getReason_Mark());
-    			pst.setDate(5, Date_Time());
-    			pst.setInt(6, appli_form_Par.getId());
-    			pst.executeUpdate();
-    			Result="Sucess";
-    		}catch(SQLException e) {
-    			System.out.println("Appli_Edit錯誤" + e.getMessage());
-    			Result="fail";
+		if (Employee_LstTime(appli_form_Par).equals("Sucess")) {
+			Result = null;
+			SQL_Str = "UPDATE appli_form SET Reason=?, Appli_Time=?, Apli_Total=?, Reason_Mark=?, Appli_Date=? WHERE id=? AND Check_State='No_Process'";
+			Res_SQL(SQL_Str);
 
-    		}finally {
-    			close_SQL();
-    		}
-        }else {
-        	Result="fail";
-        }
+			try {
+				pst = con.prepareStatement(sqlclass.getSql_Str());
+				pst.setString(1, appli_form_Par.getReason());
+				pst.setDouble(2, appli_form_Par.getAppli_Time());
+				pst.setDouble(3, appli_form_Par.getApli_Total());
+				pst.setString(4, appli_form_Par.getReason_Mark());
+				pst.setDate(5, Date_Time());
+				pst.setInt(6, appli_form_Par.getId());
+				pst.executeUpdate();
+				Result = "Sucess";
+			} catch (SQLException e) {
+				System.out.println("Appli_Edit錯誤" + e.getMessage());
+				Result = "fail";
+
+			} finally {
+				close_SQL();
+			}
+		} else {
+			Result = "fail";
+		}
 
 		return Result;
 	}
@@ -836,7 +839,7 @@ public class SQLSERVER extends SQLOB {
 			Case_Sql = "SELECT appli_form.id,appli_form.Emp_Key, employee.Emp_Name, appli_form.Department, appli_form.Reason, appli_form.Appli_Time, appli_form.Last_Time, appli_form.Apli_Total, appli_form.Reason_Mark, appli_form.Review_ID_Key, appli_form.Appli_Date, appli_form.Review_Date, appli_form.Check_State "
 					+ "FROM appli_form " + "INNER JOIN employee ON appli_form.Emp_Key = employee.Emp_ID "
 					+ "WHERE MONTH(appli_form.Appli_Date)=MONTH(CURDATE()) AND appli_form.Check_State = 'No_Process' AND appli_form.Department='"
-					+ Department + "'";
+					+ Department + "' AND  employee.Account_Lv!=0";
 		} else if (Emp_Lv == 99 && KeyValue.equals("Process")) { // 員工抓當月審核資料
 			Case_Sql = "SELECT " + "appli_form.id, " + "appli_form.Emp_Key, " + "employee.Emp_Name, "
 					+ "appli_form.Department, " + "appli_form.Reason, " + "appli_form.Appli_Time, "
@@ -1153,7 +1156,7 @@ public class SQLSERVER extends SQLOB {
 //		return null;
 //	}
 
-	public int get_Emp_Lv(String Emp_Key) {  //取得登入者權限等級
+	public int get_Emp_Lv(String Emp_Key) { // 取得登入者權限等級
 		SQL_Str = "select Account_Lv from employee where Emp_ID=?";
 		Res_SQL(SQL_Str);
 
@@ -1172,14 +1175,6 @@ public class SQLSERVER extends SQLOB {
 			close_SQL();
 
 		}
-	}
-
-	public void Admin_Change_Employee() {
-
-	}
-
-	public void Change_Employee() {
-
 	}
 
 	public <T> T getEmployee(String Depart) { // 部門員工
@@ -1213,16 +1208,14 @@ public class SQLSERVER extends SQLOB {
 	}
 
 	public String Announcement(String Key, String Announcement_String) { // 公告欄處理
-		String Announcement_Str = (Key.equals("Insert"))
+		SQL_Str= (Key.equals("Insert"))
 				? "insert into announcement(id,Title,Context,Create_Time,Create_Name)"
 						+ "select ifNull(max(id),0)+1,?,?,?,? FROM announcement"
 				: "Delete  from announcement where id=?";
-		Res_SQL(Announcement_Str);
+		Res_SQL(SQL_Str);
 		try {
 			if (Key.equals("Insert")) {
 				String Announcement_Spllite[] = Announcement_String.split(",");
-				System.out.println("字串" + Announcement_String);
-
 				pst = con.prepareStatement(sqlclass.getSql_Str());
 				pst.setString(1, Announcement_Spllite[1]);
 				pst.setString(2, Announcement_Spllite[2]);
@@ -1247,11 +1240,107 @@ public class SQLSERVER extends SQLOB {
 		}
 
 	}
+	
+	public String PassCode(String Key, String PassCode_String) throws JsonProcessingException {  //通行碼處理
+		SQL_Str = (Key.equals("Insert"))
+				? "insert into pass_code(id,Depart,Passcode,CreateDate,CreateName)"
+						+ "select ifNull(max(id),0)+1,?,?,?,? FROM pass_code"
+				: "Delete  from pass_code where id=?";
+		Res_SQL(SQL_Str);
+		try {
+			if (Key.equals("Insert")) {
+				String PassCode_Spllite[] = PassCode_String.split(",");
+				System.out.println("字串" + PassCode_String);
+
+				pst = con.prepareStatement(sqlclass.getSql_Str());
+				pst.setString(1, PassCode_Spllite[0]);
+				pst.setString(2, PassCode_Spllite[1]);
+				pst.setDate(3, Date_Time());
+				pst.setString(4, PassCode_Spllite[2]);
+
+			} else if (Key.equals("Delete")) {
+				pst = con.prepareStatement(sqlclass.getSql_Str());
+				pst.setInt(1, Integer.parseInt(PassCode_String));
+
+			}
+			pst.executeUpdate();
+			pst.clearParameters();
+			return "Sucess";
+		} catch (SQLException e) {
+			System.out.println("PassCode錯誤" + e.getMessage());
+			return "fail";
+
+		} finally {
+
+			close_SQL();
+
+		}
+
+	}
+	
+	
+	public String PassCodeCheck(String DepartKey, String PassCode_String) throws JsonProcessingException {  //通行碼處理
+		SQL_Str="select * from pass_code where Depart=?";
+		Res_SQL(SQL_Str);
+		try {
+			if (rs.next()) {
+		         
+                if(PassCode_String==rs.getString("PassCode") ) {
+    				return "Sucess";
+
+                }else {
+    				return "fail";
+                }
+			}
+			return "fail";
+		} catch (SQLException e) {
+			System.out.println("PassCode錯誤" + e.getMessage());
+			return "fail";
+
+		} finally {
+			close_SQL();
+		}
+
+	}
+	
+	
+
+	public <T> T PassCode_Init_Data() throws JsonProcessingException {  //初始化通行碼要帶出的資料
+		PassCode_List.clear();
+		String PassCode_Str = "";
+		SQL_Str="select * from pass_code ";
+		Res_SQL(SQL_Str);
+		try {
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			rs = pst.executeQuery();
+			if (rs.next()) {
+
+				do {
+					PassCode_Str = String.format(
+							"{\"id\": \"%d\",\"Depart\": \"%s\", \"PassCode\": \"%s\", \"CreateDate\": \"%s\", \"CreateName\": \"%s\"}",
+							rs.getInt("id"), rs.getString("Depart"), rs.getString("PassCode"),
+							rs.getString("CreateDate"), rs.getString("CreateName"));
+					PassCode_List.add(PassCode_Str);
+				} while (rs.next());
+			}
+			return (T) PassCode_List;
+		} catch (SQLException e) {
+			System.out.println("PassCode_Init_Data錯誤" + e.getMessage());
+			return (T) "fail";
+
+		} finally {
+
+			close_SQL();
+
+		}
+		
+	}
+
 
 	public <T> T Announcement_Init_Data() throws JsonProcessingException { // 初始化布告欄要帶出的資料
-		
+		Announcement_List.clear();
 		SQL_Str = "select * from announcement";
-		
+
 		String Announ_Str = "";
 		Res_SQL(SQL_Str);
 		try {
@@ -1264,10 +1353,7 @@ public class SQLSERVER extends SQLOB {
 							"{\"id\": \"%d\",\"Title\": \"%s\", \"Context\": \"%s\", \"Create_Time\": \"%s\", \"Create_Name\": \"%s\"}",
 							rs.getInt("id"), rs.getString("Title"), rs.getString("Context"),
 							rs.getString("Create_Time"), rs.getString("Create_Name"));
-					if (!Announcement_List.contains(Announ_Str)) {
-						Announcement_List.add(Announ_Str);
-					}
-
+					Announcement_List.add(Announ_Str);
 				} while (rs.next());
 			}
 			return (T) Announcement_List;
@@ -1283,11 +1369,17 @@ public class SQLSERVER extends SQLOB {
 
 	}
 
-	public <T> T Init_Data(String Depart,String Emp_Key) throws JsonProcessingException { // 初始化部門要帶出的資料
+	public String Update_Employee() {
+
+		return null;
+	}
+     
+	
+	public <T> T Init_Data(String Depart, String Emp_Key) throws JsonProcessingException { // 初始化部門要帶出的資料
 		department.Department_List.clear();
-		if(get_Emp_Lv( Emp_Key)==1) {
-			SQL_Str = "select * from department where Department='" + Depart +"'";
-		}else if(get_Emp_Lv( Emp_Key)==0){
+		if (get_Emp_Lv(Emp_Key) == 1) {
+			SQL_Str = "select * from department where Department='" + Depart + "'";
+		} else if (get_Emp_Lv(Emp_Key) == 0) {
 			SQL_Str = "select * from department";
 		}
 		Res_SQL(SQL_Str);

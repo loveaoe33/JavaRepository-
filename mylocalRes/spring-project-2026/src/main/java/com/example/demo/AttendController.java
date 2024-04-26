@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,6 +28,8 @@ import Personnel_Attend.PasswordEncryption;
 import Personnel_Attend.SQLClass;
 import Personnel_Attend.SQLSERVER;
 import Personnel_Attend.TimeData;
+import Personnel_Attend.UserApi;
+import Personnel_Attend.WindowApplication;
 import Personnel_Attend.testServer;
 import net.sf.json.JSONObject;
 import java.time.LocalDate;
@@ -49,8 +52,10 @@ public class AttendController<Json> {
 	private final HistoryLog historylog;
 	private final Appli_form appli_form;
 	private final PasswordEncryption PassEncry;
+	private final WindowApplication window;
 	private HashMap<Integer, JsonNode> Ret_Data = new HashMap();
 	private final Lock lock = new ReentrantLock();
+	
 
 //	public AttendController(testServer test) {
 //		this.test=test;
@@ -75,14 +80,16 @@ public class AttendController<Json> {
 
 	@Autowired
 	public AttendController(SQLSERVER sqlserver, HistoryLog historylog, Department department, Employee employee,
-			TimeData timeData, Appli_form appli_form, PasswordEncryption PassEncry) {
+			TimeData timeData, Appli_form appli_form, PasswordEncryption PassEncry,WindowApplication window) {
 		this.department = department;
 		this.sqlserver = sqlserver;
 		this.historylog = historylog;
 		this.employee = employee;
 		this.timeData = timeData;
 		this.appli_form = appli_form;
+		this.window=window;
 		this.PassEncry = PassEncry;
+		
 	}
 
 	@CrossOrigin
@@ -336,7 +343,7 @@ public class AttendController<Json> {
         String Account=((JSONObject) LoginObject.get("Login_Object")).getString("Account");
         String Password=((JSONObject) LoginObject.get("Login_Object")).getString("Password");
 		JsonNode jsonNode = null;
-		Employee employee = Employee.builder().Emp_ID("E0010").Password("123").build();
+		Employee employee = Employee.builder().Emp_ID(Account).Password(Password).build();
 
 		try {
 			lock.lock();
@@ -354,6 +361,85 @@ public class AttendController<Json> {
 		}
 
 	}
+	
+	
+	@CrossOrigin
+	@GetMapping("AttendController/test2") // 帳號登入
+	public String Login_Employee2() throws JsonMappingException, JsonProcessingException {
+           return "123";
+
+	}
+	
+	@CrossOrigin
+	@PostMapping("AttendController/Login_C_Employee") // Application的帳號登入
+	public JsonNode Login_Employee3(@RequestBody String content) throws JsonMappingException, JsonProcessingException {
+		ObjectMapper mapper=new ObjectMapper();
+		UserApi user=mapper.readValue(content, UserApi.class);
+		JsonNode jsonNode = null;
+
+		System.out.println("帳號"+user.getAccount()+"密碼:"+user.getPassword());
+		Employee employee = Employee.builder().Emp_ID(user.getAccount()).Password(user.getPassword()).build();
+
+		try {
+			lock.lock();
+			ObjectMapper objectMapper = new ObjectMapper();
+			if (sqlserver.Login_Employee(employee).equals("false")) {
+				System.out.println(sqlserver.Login_Employee(employee));
+				jsonNode = null;
+			} else {
+				System.out.println("xx");
+				jsonNode = objectMapper.readTree(sqlserver.Login_Employee(employee));
+			}
+			System.out.println("jsonNoda"+jsonNode);
+
+			return jsonNode;
+		} finally {
+			lock.unlock();
+		}
+		
+
+	}
+	
+	
+	
+	
+	
+	@CrossOrigin
+	@PostMapping("AttendController/Update_Employee  ") // Application的員工資料更新
+	public JsonNode Update_Employee(@RequestBody String content) throws JsonMappingException, JsonProcessingException {
+
+
+		try {
+			
+		} finally {
+			lock.unlock();
+		}
+		return null;
+		
+
+	}
+	
+	@CrossOrigin
+	@PostMapping("AttendController/Mapping_Employee  ") // Application的Employee映射
+	public JsonNode Mapping_Employee(@RequestBody String content) throws JsonMappingException, JsonProcessingException {
+
+
+		try {
+			 UserApi MappingData=UserApi.builder().Emp_ID(content).OrigName(content).MapNamp(content).OrigDepart(content).MapDepart(content).CreateName(content).CreateDate(null).build();
+			 String Result;
+		} finally {
+			lock.unlock();
+		}
+		return null;
+		
+
+	}
+	
+	
+	
+	
+	
+	
 
 	@CrossOrigin
 	@PostMapping("AttendController/Update_Employee") // 更改帳號密碼更新
@@ -747,6 +833,9 @@ public class AttendController<Json> {
 			lock.unlock();
 		}
 	}
+	
+	
+	
 
 	@CrossOrigin
 	@PostMapping("AttendController/Announcement_Post") // 布告欄資料
@@ -771,5 +860,54 @@ public class AttendController<Json> {
 		}
 
 	}
+	
+	
+	@CrossOrigin
+	@GetMapping("AttendController/checkPasscode") // 比對Passcode
+	public String checkPasscode(@RequestParam("Depart") String Depart,@RequestParam("PassCode") String PassCode) throws JsonProcessingException {
+		String[] DepartSplit=Depart.split("_");
+		return sqlserver.PassCodeCheck(DepartSplit[0], PassCode);
+	}
+	
+	
+	@CrossOrigin
+	@GetMapping("AttendController/getPasscode") // 初始化Passcode
+	public <T> T getPasscode() throws JsonProcessingException {
+		try {
+			lock.lock();
+			
+			return sqlserver.PassCode_Init_Data();
+
+		}finally {
+			lock.unlock();
+		}
+	}
+	
+	@CrossOrigin
+	@PostMapping("AttendController/Passcode") // 處理Passcode
+	public String Passcode(@RequestBody JSONObject PassCode_Post) throws JsonProcessingException {
+		Object PassCode_Object = PassCode_Post.get("PassObject_Post");
+
+		String Insert_Str = "";
+		try {
+			lock.lock();
+			if (((JSONObject) PassCode_Object).getString("State_Key").equals("Insert")) {
+				String[] DepartSplit=((JSONObject) PassCode_Object).getString("Depart_Select").split("_");
+				Insert_Str = String.format("%s,%s,%s", DepartSplit[0],
+						((JSONObject) PassCode_Object).getString("Pass_Code"),
+						((JSONObject) PassCode_Object).getString("Create_Name"));
+				return sqlserver.PassCode("Insert", Insert_Str);
+			} else if (((JSONObject) PassCode_Object).getString("State_Key").equals("Delete")) {
+				return sqlserver.PassCode("Delete",
+						((JSONObject) PassCode_Object).getString("Pass_Id"));
+			}
+			return "fail";
+		} finally {
+			lock.unlock();
+		}
+		
+	}
+	
+
 
 }
