@@ -117,7 +117,7 @@ public class Employee {
 	}
 	
 	
-	public String getEmployee_JsonString(ResultSet rs) throws SQLException {
+	public String getEmployee_JsonString(ResultSet rs) throws SQLException { //人資系統員工資料
 
 		return String.format(
 				"{\"Emp_ID\": \"%s\", \"Emp_Name\": \"%s\", \"Department_Key\": \"%s\", \"Account_Lv\": \"%d\", \"Last_Time\": \"%.2f\", \"Special_Date\": \"%.2f\" }",
@@ -125,12 +125,33 @@ public class Employee {
 				rs.getInt("Account_Lv"),rs.getDouble("Last_Time"),rs.getDouble("Special_Date"));
 	}
 	
+	
+	public String getAppEmployee_JsonString(ResultSet rs) throws SQLException { //出勤系統員工資料
+
+		return String.format(
+				"{\"Emp_ID\": \"%s\", \"Emp_Name\": \"%s\", \"MapName\": \"%s\", \"OrigDepart\": \"%s\", \"MapDepart\": \"%s\"}",
+				rs.getString("Emp_ID"), rs.getString("Emp_Name"), rs.getString("MapName"),
+				rs.getString("OrigDepart"),rs.getString("MapDepart"));
+	}
+	
+	public String getAppEmployeeData_JsonString(ResultSet rs) throws SQLException { //出勤系統出勤資料
+
+		return String.format(
+				"{\"Depart\": \"%s\", \"Number\": \"%s\", \"EmpName\": \"%s\", \"ResNumber\": \"%s\", \"WorkDate\": \"%s\", \"Min\": \"%s\", \"Mout\": \"%s\", \"Ain\": \"%s\", \"Aout\": \"%s\"}",
+				rs.getString("Depart"), rs.getInt("Number"), rs.getString("EmpName"),
+				rs.getInt("ResNumber"),rs.getDate("WorkDate"),rs.getString("Min"),rs.getString("Mout"),rs.getString("Ain"),rs.getString("Aout"));
+	}
+	
+	
+	
 	public String getDepartEmployee_JsonString(ResultSet rs) throws SQLException {
 
 		return String.format(
-				"{\"id\": \"%d\",\"Emp_ID\": \"%s\", \"Emp_Name\": \"%s\", \"Department_Key\": \"%s\", \"Account_Lv\": \"%d\"}",
+				"{\"id\": \"%d\",\"Emp_ID\": \"%s\", \"Emp_Name\": \"%s\", \"Department_Key\": \"%s\", \"Account_Lv\": \"%d\", \"Create_Time\": \"%s\", \"Create_Name\": \"%s\"}",
 				rs.getInt("id"),rs.getString("Emp_ID"), rs.getString("Emp_Name"), rs.getString("Department_Key"),
-				rs.getInt("Account_Lv"));
+				rs.getInt("Account_Lv"),
+				rs.getDate("Create_Time"),
+				rs.getString("Create_Name"));
 	}
 	
 	public String getJobTime_JsonString(ResultSet rs) throws SQLException {

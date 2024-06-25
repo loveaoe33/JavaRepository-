@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @Builder
 @Component
-@Scope("prototype")
+@Scope("prototype")//每次都會創建新的
 public class SQLClass {
 	private String conn_Str;
 	private String Account;

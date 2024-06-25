@@ -44,6 +44,8 @@ public class SQLSERVER extends SQLOB {
 		this.timeData = timeData;
 		this.appli_form = appli_form;
 		this.PassEncry = PassEncry;
+		System.out.print("A組件:"+sqlclass);
+
 	}
 
 	public void Res_SQL(String Trans_SQLString) {
@@ -1280,12 +1282,22 @@ public class SQLSERVER extends SQLOB {
 	
 	
 	public String PassCodeCheck(String DepartKey, String PassCode_String) throws JsonProcessingException {  //通行碼處理
-		SQL_Str="select * from pass_code where Depart=?";
+		SQL_Str="select * from pass_code where Depart= ? ";
 		Res_SQL(SQL_Str);
+		System.out.println("DepartKey" + DepartKey+"PassCode" + PassCode_String);
+
 		try {
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			pst.setString(1, DepartKey);
+
+            rs=pst.executeQuery();
 			if (rs.next()) {
 		         
-                if(PassCode_String==rs.getString("PassCode") ) {
+				System.out.println(rs.getString("PassCode"));
+
+                if(PassCode_String.equals(rs.getString("PassCode"))) {
+        			System.out.println("2");
+
     				return "Sucess";
 
                 }else {

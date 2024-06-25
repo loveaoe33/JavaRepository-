@@ -20,27 +20,21 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonPropertyOrder
 @Component
-public class UserApi {
-	public String Account;
-	public String Password;
+public class MergeClass {
 	public String Emp_ID;
 	public String Emp_Name;
-	public String MapNamp;
+	public String MapName;
 	public String OrigDepart;
 	public String MapDepart;
 	public String CreateName;
-	public Date CreateDate;
-	public int Account_Lv;
+
 
 	public void init() {
-		this.Password = "";
-		this.Emp_ID = "";
-		this.Emp_Name = "";
-		this.MapNamp = "";
-		this.OrigDepart = "";
-		this.MapDepart = "";
-		this.CreateName = "";
-		this.CreateDate = null;
-		this.Account_Lv = 99;
+		 this.Emp_ID="";
+		 this.Emp_Name="";
+		 this.MapName="";
+		 this.OrigDepart="";
+		 this.MapDepart="";
+		 this.CreateName="";
 	}
 }

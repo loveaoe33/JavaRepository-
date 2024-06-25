@@ -17,6 +17,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.servlet.annotation.MultipartConfig;
 
@@ -36,6 +38,7 @@ import DrugSQL.AbstractSQL;
 import DrugSQL.SQLStringSetting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 @RestController
 public class SensoryController {
 	private AbstractSQL sqlSetting;
@@ -43,58 +46,70 @@ public class SensoryController {
 			+ "select ifNULL(max(id),0)+1,?,?,?,?,?,?,?,? FROM sensorTable";
 	private String SensoryString = "select * from sensorTable ORDER BY id DESC";
 	private String SensoryOneString = "";
-	private String DeleteSensory = "";  
+	private String DeleteSensory = "";
 	private String SQLConnectingSetting = "jdbc:mysql://localhost/drugsql?serverTimezone=UTC";
 	private String SQLAccount = "root";
 	private String SQLPassword = "love20720";
-	private String CheckCode="A0738";
-	private String UpdateString="Update sensorTable SET %S= '%S' where id=%S";
+	private String CheckCode = "A0738";
+	private String UpdateString = "Update sensorTable SET %S= '%S' where id=%S";
 	private static ArrayList<Sensory> SensoryAll = new ArrayList<>();
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());  /*log調用*/
-
+	private final Logger logger = LoggerFactory.getLogger(this.getClass()); /* log調用 */
+	private final Lock lock = new ReentrantLock();
 
 	@CrossOrigin
 	@PostMapping("Sensory/UpLoadFile")
-	public ArrayList<Sensory> upload_file(MultipartFile file,MultipartFile Qr,String SenSoryId) throws IllegalStateException, IOException, NoSuchAlgorithmException, SQLException, ClassNotFoundException   {
-	    if(SensoryAll.isEmpty()||SensoryAll==null){ }else {SensoryAll.clear(); }
-		    String ProcessCode;
-			String userName=System.getProperty("user.name");
+	public ArrayList<Sensory> upload_file(MultipartFile file, MultipartFile Qr, String SenSoryId)
+			throws IllegalStateException, IOException, NoSuchAlgorithmException, SQLException, ClassNotFoundException {
+		try {
+			lock.lock();
+			if (SensoryAll.isEmpty() || SensoryAll == null) {
+			} else {
+				SensoryAll.clear();
+			}
+			String ProcessCode;
+			String userName = System.getProperty("user.name");
 
-		    String FilePath="C:\\Users\\"+ userName+"\\Desktop\\vue\\newvue\\public\\SensoryFile\\";
-		    String QrPath="C:\\Users\\"+ userName+"\\Desktop\\vue\\newvue\\public\\SensoryQr\\";
-		    SimpleDateFormat sdFormate=new SimpleDateFormat("hh:mm:ss");
-		    Date date=new Date();
-		    String StrDate=sdFormate.format(date);
-		    if(sqlSetting==null)
-		    {
-				   sqlSetting = new SQLStringSetting(PostDateString, SQLConnectingSetting, SQLAccount,
-						SQLPassword);
-		    }	    
-		    		    
+			String FilePath = "C:\\Users\\" + userName + "\\Desktop\\vue\\newvue\\public\\SensoryFile\\";
+			String QrPath = "C:\\Users\\" + userName + "\\Desktop\\vue\\newvue\\public\\SensoryQr\\";
+			SimpleDateFormat sdFormate = new SimpleDateFormat("hh:mm:ss");
+			Date date = new Date();
+			String StrDate = sdFormate.format(date);
+			if (sqlSetting == null) {
+				sqlSetting = new SQLStringSetting(PostDateString, SQLConnectingSetting, SQLAccount, SQLPassword);
+			}
 
-	        if(file!=null) {
-			      ProcessCode=FileTrans.FileProcess(file,Qr, SenSoryId, FilePath, UpdateString, PathName.FilePath,StrDate);
-				  sqlSetting.ReSettSQL(ProcessCode, SQLConnectingSetting, SQLAccount, SQLPassword);
-				  SensoryAll=sqlSetting.SQLCase(CaseSQL.UpLoadUrl);
-	        }
-	        if(Qr!=null)
-	        {
-			     ProcessCode=FileTrans.FileProcess(file,Qr, SenSoryId, QrPath, UpdateString, PathName.QrPath,StrDate);
-				 sqlSetting.ReSettSQL(ProcessCode, SQLConnectingSetting, SQLAccount, SQLPassword);
-				 SensoryAll=sqlSetting.SQLCase(CaseSQL.UpLoadUrl);
-	        }
-	        
-	        return SensoryAll;
-	
+			if (file != null) {
+				ProcessCode = FileTrans.FileProcess(file, Qr, SenSoryId, FilePath, UpdateString, PathName.FilePath,
+						StrDate);
+				sqlSetting.ReSettSQL(ProcessCode, SQLConnectingSetting, SQLAccount, SQLPassword);
+				SensoryAll = sqlSetting.SQLCase(CaseSQL.UpLoadUrl);
+			}
+			if (Qr != null) {
+				ProcessCode = FileTrans.FileProcess(file, Qr, SenSoryId, QrPath, UpdateString, PathName.QrPath,
+						StrDate);
+				sqlSetting.ReSettSQL(ProcessCode, SQLConnectingSetting, SQLAccount, SQLPassword);
+				SensoryAll = sqlSetting.SQLCase(CaseSQL.UpLoadUrl);
+			}
+
+			return SensoryAll;
+		} finally {
+			lock.unlock();
+
+		}
+
 	}
-	
-	
+
 	@CrossOrigin()
 	@PostMapping("Sensory/PostData")
 	public ArrayList<Sensory> SensoryPostData(@RequestBody JSONObject SensryPOST)
 			throws SQLException, ClassNotFoundException {
-	    if(SensoryAll.isEmpty()||SensoryAll==null){ }else {SensoryAll.clear(); }
-		SensoryLibra.TransFun(SensryPOST);		
+		try {
+			lock.lock();
+			if (SensoryAll.isEmpty() || SensoryAll == null) {
+			} else {
+				SensoryAll.clear();
+			}
+			SensoryLibra.TransFun(SensryPOST);
 			if (sqlSetting != null) {
 
 				sqlSetting.ReSettSQL(PostDateString, SQLConnectingSetting, SQLAccount, SQLPassword);
@@ -103,18 +118,20 @@ public class SensoryController {
 			} else
 
 			{
-				 sqlSetting = new SQLStringSetting(PostDateString, SQLConnectingSetting, SQLAccount,
-						SQLPassword);
+				sqlSetting = new SQLStringSetting(PostDateString, SQLConnectingSetting, SQLAccount, SQLPassword);
 				SensoryAll = sqlSetting.SQLCase(CaseSQL.PostDate);
 				return SensoryAll;
 
 			}
-		
-	
+
+		} finally {
+
+			lock.unlock();
+
+		}
 
 	}
-	
-	
+
 //	
 //	@CrossOrigin()
 //	@PostMapping("Sensory/Code")
@@ -122,101 +139,159 @@ public class SensoryController {
 //		String Check= DeleCode.equals(CheckCode)?"OK":"NOK";
 //		return Check;
 //	}
-	
+
 	@CrossOrigin()
 	@GetMapping("Sensory/Code/{PassCode}")
-	public Map<String, String> CheckCode( @PathVariable String PassCode) {
-		String Check= PassCode.equals(CheckCode)?"OK":"NOK";
-		Map<String,String> ReTuCheck=new HashMap<>();
-		ReTuCheck.put("ReTuCheck", Check);
-		return ReTuCheck;
+	public Map<String, String> CheckCode(@PathVariable String PassCode) {
+		try {
+
+			lock.lock();
+
+			String Check = PassCode.equals(CheckCode) ? "OK" : "NOK";
+			Map<String, String> ReTuCheck = new HashMap<>();
+			ReTuCheck.put("ReTuCheck", Check);
+			return ReTuCheck;
+		} finally {
+			lock.unlock();
+
+		}
+
 	}
-	
+
 	@CrossOrigin()
 	@PostMapping("Sensory/test")
 	public String test() {
 		return "1234";
 	}
-	
-	   
+
 	@CrossOrigin()
 	@PostMapping("Sensory/DeleteSesory")
-	public ArrayList<Sensory> DeleteSesory(@RequestBody Map<String,Integer> SensoryID) throws SQLException, ClassNotFoundException {
-		int id=SensoryID.get("SensoryID");
-		DeleteSensory = "Delete from sensorTable where id=" + id;
-	    if(SensoryAll.isEmpty()||SensoryAll==null){ }else {SensoryAll.clear(); }
-		if (sqlSetting != null) {
-			sqlSetting.ReSettSQL(DeleteSensory, SQLConnectingSetting, SQLAccount, SQLPassword);
-			SensoryAll = sqlSetting.SQLCase(CaseSQL.DeleteOne);
-			return SensoryAll;
-		} else
+	public ArrayList<Sensory> DeleteSesory(@RequestBody Map<String, Integer> SensoryID)
+			throws SQLException, ClassNotFoundException {
 
-		{
-			 sqlSetting = new SQLStringSetting(DeleteSensory, SQLConnectingSetting, SQLAccount, SQLPassword);
-			SensoryAll = sqlSetting.SQLCase(CaseSQL.DeleteOne);
-			return SensoryAll;
+		try {
+			lock.lock();
+			int id = SensoryID.get("SensoryID");
+			DeleteSensory = "Delete from sensorTable where id=" + id;
+			if (SensoryAll.isEmpty() || SensoryAll == null) {
+			} else {
+				SensoryAll.clear();
+			}
+			if (sqlSetting != null) {
+				sqlSetting.ReSettSQL(DeleteSensory, SQLConnectingSetting, SQLAccount, SQLPassword);
+				SensoryAll = sqlSetting.SQLCase(CaseSQL.DeleteOne);
+				return SensoryAll;
+			} else
+
+			{
+				sqlSetting = new SQLStringSetting(DeleteSensory, SQLConnectingSetting, SQLAccount, SQLPassword);
+				SensoryAll = sqlSetting.SQLCase(CaseSQL.DeleteOne);
+				return SensoryAll;
+			}
+
+		} finally {
+			lock.unlock();
+
 		}
+
 	}
 
 	@CrossOrigin()
 	@PostMapping("Sensory/PrintAllSensory")
 	public ArrayList<Sensory> QuerySensory() throws ClassNotFoundException, SQLException {
-		
-	    if(SensoryAll.isEmpty()||SensoryAll==null){ }else {SensoryAll.clear(); }
-		if (sqlSetting != null) {
-			sqlSetting.ReSettSQL(SensoryString, SQLConnectingSetting, SQLAccount, SQLPassword);
-			SensoryAll = sqlSetting.SQLCase(CaseSQL.Prinall);
-			sqlSetting=null;
-			return SensoryAll;
-		} else
 
-		{
-			sqlSetting = new SQLStringSetting(SensoryString, SQLConnectingSetting, SQLAccount, SQLPassword);
-			SensoryAll = sqlSetting.SQLCase(CaseSQL.Prinall);
-			return SensoryAll;
+		try {
+			lock.lock();
+			if (SensoryAll.isEmpty() || SensoryAll == null) {
+			} else {
+				SensoryAll.clear();
+			}
+			if (sqlSetting != null) {
+				sqlSetting.ReSettSQL(SensoryString, SQLConnectingSetting, SQLAccount, SQLPassword);
+				SensoryAll = sqlSetting.SQLCase(CaseSQL.Prinall);
+				sqlSetting = null;
+				return SensoryAll;
+			} else
+
+			{
+				sqlSetting = new SQLStringSetting(SensoryString, SQLConnectingSetting, SQLAccount, SQLPassword);
+				SensoryAll = sqlSetting.SQLCase(CaseSQL.Prinall);
+				return SensoryAll;
+			}
+
+		} finally {
+			lock.unlock();
+
 		}
+
 	}
 
 	@CrossOrigin()
 	@PostMapping("Sensory/QuerySensoryOne")
-	public ArrayList<Sensory> QuerySensoryOne(@RequestBody Map<String,Integer> SensoryID) throws SQLException, ClassNotFoundException {
-		int id=SensoryID.get("SensoryID");
-		SensoryOneString = "select * from sensorTable where id=" + id;
-	    if(SensoryAll.isEmpty()||SensoryAll==null){ }else {SensoryAll.clear(); }
-		if (sqlSetting != null) {
-			sqlSetting.ReSettSQL(SensoryOneString, SQLConnectingSetting, SQLAccount, SQLPassword);
-			SensoryAll = sqlSetting.SQLCase(CaseSQL.PrintOne);
-			sqlSetting=null;
-			return SensoryAll;
-		} else
+	public ArrayList<Sensory> QuerySensoryOne(@RequestBody Map<String, Integer> SensoryID)
+			throws SQLException, ClassNotFoundException {
 
-		{
-			 sqlSetting = new SQLStringSetting(SensoryOneString, SQLConnectingSetting, SQLAccount,
-					SQLPassword);
-			SensoryAll = sqlSetting.SQLCase(CaseSQL.PrintOne);
-			return SensoryAll;
+		try {
+			lock.lock();
+			int id = SensoryID.get("SensoryID");
+			SensoryOneString = "select * from sensorTable where id=" + id;
+			if (SensoryAll.isEmpty() || SensoryAll == null) {
+			} else {
+				SensoryAll.clear();
+			}
+			if (sqlSetting != null) {
+				sqlSetting.ReSettSQL(SensoryOneString, SQLConnectingSetting, SQLAccount, SQLPassword);
+				SensoryAll = sqlSetting.SQLCase(CaseSQL.PrintOne);
+				sqlSetting = null;
+				return SensoryAll;
+			} else
+
+			{
+				sqlSetting = new SQLStringSetting(SensoryOneString, SQLConnectingSetting, SQLAccount, SQLPassword);
+				SensoryAll = sqlSetting.SQLCase(CaseSQL.PrintOne);
+				return SensoryAll;
+			}
+
+		} finally {
+			lock.unlock();
+
 		}
 
 	}
 
 	@CrossOrigin()
 	@PostMapping("Sensory/QueryArea")
-	public ArrayList<Sensory> QuerySensoryArea(@RequestBody Map<String,String> SensoryArea) throws SQLException, ClassNotFoundException {
-		String SensoryAreaString=SensoryArea.get("SensoryArea");
-		SensoryOneString = SensoryAreaString.contains("所有疫情") ?  "select * from sensorTable  ORDER BY SensorDate DESC" : "select * from sensorTable where SensorKey LIKE '%" + SensoryAreaString + "%' ORDER BY SensorDate DESC";
-	    if(SensoryAll.isEmpty()||SensoryAll==null){ }else {SensoryAll.clear(); }
-		if (sqlSetting != null) {
-			sqlSetting.ReSettSQL(SensoryOneString, SQLConnectingSetting, SQLAccount, SQLPassword);
-			SensoryAll = sqlSetting.SQLCase(CaseSQL.PrinClass);
-			sqlSetting=null;
-			return SensoryAll;
-		} else {
-			 sqlSetting = new SQLStringSetting(SensoryOneString, SQLConnectingSetting, SQLAccount,
-					SQLPassword);
-			SensoryAll = sqlSetting.SQLCase(CaseSQL.PrinClass);
-			return SensoryAll;
+	public ArrayList<Sensory> QuerySensoryArea(@RequestBody Map<String, String> SensoryArea)
+			throws SQLException, ClassNotFoundException {
+
+		try {
+			lock.lock();
+			String SensoryAreaString = SensoryArea.get("SensoryArea");
+			SensoryOneString = SensoryAreaString.contains("所有疫情")
+					? "select * from sensorTable  ORDER BY SensorDate DESC"
+					: "select * from sensorTable where SensorKey LIKE '%" + SensoryAreaString
+							+ "%' ORDER BY SensorDate DESC";
+			if (SensoryAll.isEmpty() || SensoryAll == null) {
+			} else {
+				SensoryAll.clear();
+			}
+			if (sqlSetting != null) {
+				sqlSetting.ReSettSQL(SensoryOneString, SQLConnectingSetting, SQLAccount, SQLPassword);
+				SensoryAll = sqlSetting.SQLCase(CaseSQL.PrinClass);
+				sqlSetting = null;
+				return SensoryAll;
+			} else {
+				sqlSetting = new SQLStringSetting(SensoryOneString, SQLConnectingSetting, SQLAccount, SQLPassword);
+				SensoryAll = sqlSetting.SQLCase(CaseSQL.PrinClass);
+				return SensoryAll;
+
+			}
+
+		} finally {
+			lock.unlock();
 
 		}
+
 	}
 }
 
