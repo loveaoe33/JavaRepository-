@@ -77,7 +77,7 @@ public class WindowApplication extends SQLOB {
 
 	}
 
-	public String updateEmpAccount(String Emp_ID, String Emp_Name, String Department_Key, int Account_Lv) {
+	public String updateEmpAccount(String Emp_ID, String Emp_Name, String Department_Key, int Account_Lv) { // 更改人資系統資料
 		SQL_Str = "UPDATE employee SET Emp_Name=?, Department_Key=?, Account_Lv=? WHERE Emp_ID=? ";
 		Res_SQL(SQL_Str);
 		try {
@@ -99,17 +99,85 @@ public class WindowApplication extends SQLOB {
 		}
 	}
 
-	public boolean checkMapping(String Emp_ID) {
-		SQL_Str = "select * from empmerge where Emp_ID=?";
+	public String Mapping_Employee(UserApi user) { // 新增員工Mapping
+		System.out.println(checkDepartExist(user.getEmp_ID(), "selfDepart"));
+
 		try {
-			pst = con.prepareStatement(sqlclass.getSql_Str());
-			pst.setString(1, Emp_ID);
-			rs = pst.executeQuery();
-			if (rs.next()) {
-				return true;
+			if (checkDepartExist(user.getEmp_ID(), "selfDepart")) {
+				SQL_Str = "UPDATE empmerge SET MapName=?, MapDepart=? ,CreateDate=?,CreateName=? where Emp_ID=?";
+				System.out.print("測試1");
+				Res_SQL(SQL_Str);
+				pst = con.prepareStatement(sqlclass.getSql_Str());
+				System.out.print(sqlclass.getSql_Str());
+
+				pst.setString(1, user.getMapName());
+				pst.setString(2, user.getMapDepart());
+				pst.setDate(3, Date_Time());
+				pst.setString(4, user.getCreateName());
+				pst.setString(5, user.getEmp_ID());
+
+				pst.executeUpdate();
+				pst.clearParameters();
+				return "Update_Sucess";
+			} else {
+				SQL_Str = "insert into empmerge(id,Emp_ID,Emp_Name,MapName,OrigDepart,MapDepart,CreateDate,CreateName)"
+						+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,? FROM empmerge";
+				Res_SQL(SQL_Str);
+				System.out.print("測試2");
+				pst = con.prepareStatement(sqlclass.getSql_Str());
+				pst.setString(1, user.getEmp_ID());
+				pst.setString(2, user.getEmp_Name());
+				pst.setString(3, user.getMapName());
+				pst.setString(4, user.getOrigDepart());
+				pst.setString(5, user.getMapDepart());
+				pst.setDate(6, Date_Time());
+				pst.setString(7, user.getCreateName());
+				pst.executeUpdate();
+				pst.clearParameters();
+				return "Insert_Sucess";
 			}
+		} catch (SQLException e) {
+			System.out.print("測試錯誤" + e.toString());
+			return "SQLfail";
+		} finally {
+			initSelfDepart();
+			close_SQL();
+		}
+	}
+
+	public String Clear_Mapping(String Emp_ID) { // 清除Mapping部門
+		try {
+			if (checkDepartExist(Emp_ID, "selfDepart")) {
+				SQL_Str = "delete * from empmerge where Emp_ID=?";
+				Res_SQL(SQL_Str);
+				pst = con.prepareStatement(sqlclass.getSql_Str());
+				pst.setString(1, Emp_ID);
+				pst.executeUpdate();
+				pst.clearParameters();
+				return "Sucess";
+			}
+			return "fail";
+		} catch (SQLException e) {
+			return "SQLfail";
+
+		} finally {
+			close_SQL();
+		}
+	}
+
+	public boolean UpdateGearing(String Emp_ID, String Depart) {
+		try {
+			SQL_Str = "Update empmerge SET OrigDepart=?,CreateDate=? where Emp_ID=?";
+			Res_SQL(SQL_Str);
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			pst.setString(1, Depart);
+			pst.setDate(2, Date_Time());
+			pst.setString(3, Emp_ID);
+			pst.executeUpdate();
+			pst.clearParameters();
 			return true;
 		} catch (SQLException e) {
+			System.out.println("UpdateGearing錯誤" + e.getMessage());
 			return false;
 
 		} finally {
@@ -117,83 +185,28 @@ public class WindowApplication extends SQLOB {
 		}
 	}
 
-	public String Mapping_Employee(String Emp_ID, String OrigName, String MapName, String OrigDepart, String MpaDepart,
-			String Create_Name) { // 新增員工Mapping
-		try {
-			if (checkMapping(Emp_ID)) {
-				SQL_Str = "insert into empmerge(id,Emp_ID,Emp_Name,MapName,OrigDepart,MpaDepart,Create_Time,Create_Name)"
-						+ "select ifNull(max(id),0)+1,?,?,?,?,?,?,? FROM empmerge";
+	public String UpdateEmployee(String Emp_ID, String ChangeName, String ChangeDepart, int ChangeLevel) {
 
-				Res_SQL(SQL_Str);
-				pst = con.prepareStatement(sqlclass.getSql_Str());
-				pst.setString(1, Emp_ID);
-				pst.setString(2, OrigName);
-				pst.setString(3, MapName);
-				pst.setString(4, OrigDepart);
-				pst.setString(5, MpaDepart);
-				pst.setDate(6, Date_Time());
-				pst.setString(7, Create_Name);
-				pst.executeUpdate();
-				pst.clearParameters();
-				return "Insert_Sucess";
-			} else {
-				SQL_Str = "UPDATE employee SET Emp_ID=?,Emp_Name=?,MapName=?, OrigDepart=?, MpaDepart=? ,Create_Time=?,Create_Name=?";
-				Res_SQL(SQL_Str);
-				pst = con.prepareStatement(sqlclass.getSql_Str());
-				pst.setString(1, Emp_ID);
-				pst.setString(2, OrigName);
-				pst.setString(3, MapName);
-				pst.setString(4, OrigDepart);
-				pst.setString(5, MpaDepart);
-				pst.setDate(6, Date_Time());
-				pst.setString(7, Create_Name);
-				pst.executeUpdate();
-				pst.clearParameters();
-				return "Update_Sucess";
-			}
-		} catch (SQLException e) {
-			return "SQLfail";
-		} finally {
-			close_SQL();
-		}
-	}
-
-	public String Clear_Mapping(String Emp_Key) { // 清除Mapping部門
 		try {
-			if (checkMapping(Emp_Key)) {
-				SQL_Str = "delete * from empmerge where Emp_ID=?";
+			if (checkDepartExist(Emp_ID, "selfDepart") && UpdateGearing(Emp_ID, ChangeDepart)) {
+				SQL_Str = "Update employee SET Emp_Name=?,Department_Key=?,Account_Lv=?,Create_Time=? where Emp_ID=?";
 				Res_SQL(SQL_Str);
 				pst = con.prepareStatement(sqlclass.getSql_Str());
-				pst.setString(1, Emp_Key);
+				pst.setString(1, ChangeName);
+				pst.setString(2, ChangeDepart);
+				pst.setInt(3, ChangeLevel);
+				pst.setDate(4, Date_Time());
+
+				pst.setString(5, Emp_ID);
 				pst.executeUpdate();
 				pst.clearParameters();
+				initSelfDepart();
 				return "Sucess";
 			}
 			return "fail";
 		} catch (SQLException e) {
-			return "SQLfail";
+			System.out.println("UpdateEmployee錯誤" + e.getMessage());
 
-		} finally {
-			close_SQL();
-		}
-	}
-
-	public String UpdateEmployee(String MapName, String MpaDepart, String Emp_Key) {
-
-		try {
-			if (checkMapping(Emp_Key)) {
-				SQL_Str = "Update empmerge SET MapName=?,MpaDepart=? where Emp_ID=?";
-				Res_SQL(SQL_Str);
-				pst = con.prepareStatement(sqlclass.getSql_Str());
-				pst.setString(1, MapName);
-				pst.setString(2, MpaDepart);
-				pst.setString(3, Emp_Key);
-				pst.executeUpdate();
-				pst.clearParameters();
-				return "Sucess";
-			}
-			return "fail";
-		} catch (SQLException e) {
 			return "SQLfail";
 
 		} finally {
@@ -281,6 +294,7 @@ public class WindowApplication extends SQLOB {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
 			pst.setString(1, Depart);
 			rs = pst.executeQuery();
+			System.out.println("getEmployeeX");
 
 			if (rs.next()) {
 
@@ -360,11 +374,9 @@ public class WindowApplication extends SQLOB {
 				do {
 					mapDepart.put(rs.getString("Emp_ID"), rs.getString("MapDepart"));
 				} while (rs.next());
-				
+
 			}
-		
-					
-			
+
 		} catch (SQLException e) {
 			System.out.println("initEmpDepart錯誤" + e.getMessage());
 		} finally {
@@ -381,7 +393,11 @@ public class WindowApplication extends SQLOB {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
 			rs = pst.executeQuery();
 			if (rs.next()) {
-				selfDepart.put(rs.getString("Emp_ID"), rs.getString("MapDepart"));
+
+				do {
+					selfDepart.put(rs.getString("Emp_ID"), rs.getString("MapDepart"));
+				} while (rs.next());
+
 			}
 		} catch (SQLException e) {
 			System.out.println("initSelfDepart錯誤" + e.getMessage());
@@ -390,46 +406,50 @@ public class WindowApplication extends SQLOB {
 		}
 	}
 
-	public boolean checkDepartExist(String Emp_ID) {
-		System.out.println("checkDepartExist" +mapDepart.get(Emp_ID));
+	public boolean checkDepartExist(String Emp_ID, String Depart_Switch) { // 確認管轄部門與是否Mapping
+		if (Depart_Switch.equals("mapDepart")) {
+			return (mapDepart.get(Emp_ID) != "" && mapDepart.get(Emp_ID) != null) ? true : false;
 
-		return (mapDepart.get(Emp_ID) != "" &&  mapDepart.get(Emp_ID) != null) ? true : false;
+		} else if (Depart_Switch.equals("selfDepart")) {
+
+			return (selfDepart.get(Emp_ID) != "" && selfDepart.get(Emp_ID) != null) ? true : false;
+		}
+		return false;
 	}
 
 	public String selectDepartEmp(String Emp_ID) { // 取得管轄權部門
-		if (checkDepartExist(Emp_ID)) {
+		if (checkDepartExist(Emp_ID, "mapDepart")) {
 			return mapDepart.get(Emp_ID);
-		} else {
+		} else if (checkDepartExist(Emp_ID, "selfDepart")) {
 			return selfDepart.get(Emp_ID);
+		} else {
+			return "none";
 		}
 
 	}
 
-	public String Update_Post_MapDepart(String DepartString,String Emp_ID) throws SQLException {
-		System.out.println(checkDepartExist(Emp_ID));
-
-		if (checkDepartExist(Emp_ID)) {
-			SQL_Str = "Update mapdepart SET MapDepart=? WHERE Emp_ID=?";
-			Res_SQL(SQL_Str);
-			pst = con.prepareStatement(sqlclass.getSql_Str());
-			pst.setString(1, DepartString);
-			pst.setString(2, Emp_ID);
-			System.out.println("A");
-
-		} else {
-			SQL_Str = "insert into mapdepart(id,Emp_ID,MapDepart)" + "select ifNull(max(id),0)+1,?,? FROM mapdepart";
-			Res_SQL(SQL_Str);
-			pst = con.prepareStatement(sqlclass.getSql_Str());
-			pst.setString(1, Emp_ID);
-			pst.setString(2, DepartString);
-			System.out.println("B");
-
-		}
+	public String Update_Post_MapDepart(String DepartString, String Emp_ID) throws SQLException {// 更新管轄權部門
 		try {
-			
+			if (checkDepartExist(Emp_ID, "mapDepart")) {
+				SQL_Str = "Update mapdepart SET MapDepart=? WHERE Emp_ID=?";
+				Res_SQL(SQL_Str);
+				pst = con.prepareStatement(sqlclass.getSql_Str());
+				pst.setString(1, DepartString);
+				pst.setString(2, Emp_ID);
+				System.out.println("A");
+
+			} else {
+				SQL_Str = "insert into mapdepart(id,Emp_ID,MapDepart)"
+						+ "select ifNull(max(id),0)+1,?,? FROM mapdepart";
+				Res_SQL(SQL_Str);
+				pst = con.prepareStatement(sqlclass.getSql_Str());
+				pst.setString(1, Emp_ID);
+				pst.setString(2, DepartString);
+				System.out.println("B");
+
+			}
 			pst.executeUpdate();
 			pst.clearParameters();
-			System.out.println("C");
 
 			initEmpDepart();
 			return "Sucess";
@@ -546,7 +566,55 @@ public class WindowApplication extends SQLOB {
 		}
 		return null;
 	}
+    public boolean clearSQL() {
+    	try {
+    		SQL_Str = "Delete from time_table";
+    		Res_SQL(SQL_Str);
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+    		pst.executeUpdate();
+    		pst.clearParameters();
 
+        	return true;
+    		
+    	}catch(SQLException e) {
+			System.out.println("clearSQL錯誤" + e.getMessage());
+    		return false;
+    	}finally {
+    		
+			close_SQL();
+
+    	}
+
+    }
+	public String insertExcel(ArrayList<String> dataList) {
+		try {
+			if (dataList != null && !dataList.isEmpty() &&clearSQL()) {
+				SQL_Str = "insert into time_table(id,jsonString,insert_time)" + "select ifNull(max(id),0)+1,?,? FROM time_table";
+				Res_SQL(SQL_Str);
+				pst = con.prepareStatement(sqlclass.getSql_Str());
+				con.setAutoCommit(false);
+				for (String i : dataList) {
+					pst.setString(1, i);
+					pst.setDate(2, Date_Time());
+					pst.addBatch();
+				}
+				pst.executeBatch(); // 執行批量操作
+				con.commit();
+				pst.clearParameters();
+				System.out.println("insertExcel"+"5");
+
+				return "Sucess";
+			} else {
+				return "fail";
+			}
+
+		} catch (SQLException e) {
+			System.out.println("insertExcel錯誤" + e.getMessage());
+			return "SQLfail";
+		} finally {
+			close_SQL();
+		}
+	}
 //	public String selectDepData(ArrayList<String> SearchData,String Depart,String MonthSwitch,Date Start,Date End) {
 //		SQL_Str=seleSQL("","mapdepart");
 //

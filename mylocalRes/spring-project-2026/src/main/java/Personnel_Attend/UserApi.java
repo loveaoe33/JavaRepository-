@@ -25,7 +25,7 @@ public class UserApi {
 	public String Password;
 	public String Emp_ID;
 	public String Emp_Name;
-	public String MapNamp;
+	public String MapName;
 	public String OrigDepart;
 	public String MapDepart;
 	public String CreateName;
@@ -36,7 +36,7 @@ public class UserApi {
 		this.Password = "";
 		this.Emp_ID = "";
 		this.Emp_Name = "";
-		this.MapNamp = "";
+		this.MapName = "";
 		this.OrigDepart = "";
 		this.MapDepart = "";
 		this.CreateName = "";

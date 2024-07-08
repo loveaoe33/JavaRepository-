@@ -356,7 +356,6 @@ public class AttendController<Json> {
 		try {
 			lock.lock();
 			if (sqlserver.Login_Employee(employee).equals("false")) {
-				System.out.println(sqlserver.Login_Employee(employee));
 				return "fail";
 			} else {
 				return sqlserver.Login_Employee(employee);
@@ -384,7 +383,6 @@ public class AttendController<Json> {
 			UserApi user=Windowmapper.readValue(content, UserApi.class);
 			Employee employee = Employee.builder().Emp_ID(user.getAccount()).Password(user.getPassword()).build();
 			if (sqlserver.Login_Employee(employee).equals("false")) {
-				System.out.println(sqlserver.Login_Employee(employee));
                return "fail";
 		} else {
 				return sqlserver.Login_Employee(employee);
@@ -416,21 +414,7 @@ public class AttendController<Json> {
 
 	}
 	
-	@CrossOrigin
-	@PostMapping("AttendController/Mapping_Employee  ") // Application的Employee映射
-	public JsonNode Mapping_Employee(@RequestBody String content) throws JsonMappingException, JsonProcessingException {
 
-
-		try {
-			 UserApi MappingData=UserApi.builder().Emp_ID(content).Emp_Name(content).MapNamp(content).OrigDepart(content).MapDepart(content).CreateName(content).CreateDate(null).build();
-			 String Result;
-		} finally {
-			lock.unlock();
-		}
-		return null;
-		
-
-	}
 	
 	
 	
@@ -567,87 +551,87 @@ public class AttendController<Json> {
 
 	}
 
-	@CrossOrigin
-	@GetMapping("AttendController/SearchEmployee_History") // 查詢歷史申請All log 未處理
-	public HashMap SearchEmployee_History() throws JsonMappingException, JsonProcessingException {
-
-		try {
-			lock.lock();
-			ArrayList<String> SearchEmployee_History = new ArrayList();
-			HashMap<Integer, JsonNode> Ret_Data_H = new HashMap();
-			JsonNode jsonNode = null;
-			int Key = 0;
-			if (sqlserver.SearchEmployee_History(SearchEmployee_History, "E0010", "資訊室").equals("Sucess")) {
-				ObjectMapper objectMapper = new ObjectMapper();
-				for (String str : SearchEmployee_History) {
-					Key++;
-					jsonNode = objectMapper.readTree(str);
-					Ret_Data_H.put(Key, jsonNode);
-				}
-				return Ret_Data_H;
-			}
-
-			return null;
-		} finally {
-			lock.unlock();
-		}
-
-	}
-
-	@CrossOrigin
-	@GetMapping("AttendController/SearchEmployee_HistoryM") // 查詢歷史申請月份log 未處理
-	public HashMap SearchEmployee_HistoryM() throws JsonMappingException, JsonProcessingException {
-
-		try {
-			lock.lock();
-			ArrayList<String> SearchEmployee_HistoryM = new ArrayList();
-			JsonNode jsonNode = null;
-			Ret_Data.clear();
-			int Key = 0;
-			if (sqlserver.SearchEmployee_HistoryM(SearchEmployee_HistoryM, "E0010", "資訊室", "2024-01-01", "2024-01-03")
-					.equals("Sucess")) {
-				ObjectMapper objectMapper = new ObjectMapper();
-				for (String str : SearchEmployee_HistoryM) {
-					Key++;
-					jsonNode = objectMapper.readTree(str);
-					Ret_Data.put(Key, jsonNode);
-				}
-				return Ret_Data;
-			}
-
-			return null;
-		} finally {
-			lock.unlock();
-		}
-
-	}
-
-	@GetMapping("AttendController/Excel_All_TimeData_Post") // 所有員工報表輸出   未處理
-	public HashMap Excel_All_TimeData_Post() throws JsonMappingException, JsonProcessingException {
-		JsonNode jsonNode = null;
-
-		try {
-			lock.lock();
-			HashMap<Integer, JsonNode> Ret_Data_M = new HashMap();
-
-			int Key = 0;
-			String Emp_Key = "E0010";
-			ArrayList<String> Emplyee_Excel_Data = new ArrayList();
-			if (sqlserver.Excel_All_TimeData_Post(Emplyee_Excel_Data, "E00105", "資訊室").equals("Sucess")) {
-				ObjectMapper objectMapper = new ObjectMapper();
-				for (String str : Emplyee_Excel_Data) {
-					Key++;
-					jsonNode = objectMapper.readTree(str);
-					Ret_Data_M.put(Key, jsonNode);
-				}
-				return Ret_Data_M;
-			}
-			return null;
-		} finally {
-			lock.unlock();
-		}
-
-	}
+//	@CrossOrigin
+//	@GetMapping("AttendController/SearchEmployee_History") // 查詢歷史申請All log 未處理
+//	public HashMap SearchEmployee_History() throws JsonMappingException, JsonProcessingException {
+//
+//		try {
+//			lock.lock();
+//			ArrayList<String> SearchEmployee_History = new ArrayList();
+//			HashMap<Integer, JsonNode> Ret_Data_H = new HashMap();
+//			JsonNode jsonNode = null;
+//			int Key = 0;
+//			if (sqlserver.SearchEmployee_History(SearchEmployee_History, "E0010", "資訊室").equals("Sucess")) {
+//				ObjectMapper objectMapper = new ObjectMapper();
+//				for (String str : SearchEmployee_History) {
+//					Key++;
+//					jsonNode = objectMapper.readTree(str);
+//					Ret_Data_H.put(Key, jsonNode);
+//				}
+//				return Ret_Data_H;
+//			}
+//
+//			return null;
+//		} finally {
+//			lock.unlock();
+//		}
+//
+//	}
+//
+//	@CrossOrigin
+//	@GetMapping("AttendController/SearchEmployee_HistoryM") // 查詢歷史申請月份log 未處理
+//	public HashMap SearchEmployee_HistoryM() throws JsonMappingException, JsonProcessingException {
+//
+//		try {
+//			lock.lock();
+//			ArrayList<String> SearchEmployee_HistoryM = new ArrayList();
+//			JsonNode jsonNode = null;
+//			Ret_Data.clear();
+//			int Key = 0;
+//			if (sqlserver.SearchEmployee_HistoryM(SearchEmployee_HistoryM, "E0010", "資訊室", "2024-01-01", "2024-01-03")
+//					.equals("Sucess")) {
+//				ObjectMapper objectMapper = new ObjectMapper();
+//				for (String str : SearchEmployee_HistoryM) {
+//					Key++;
+//					jsonNode = objectMapper.readTree(str);
+//					Ret_Data.put(Key, jsonNode);
+//				}
+//				return Ret_Data;
+//			}
+//
+//			return null;
+//		} finally {
+//			lock.unlock();
+//		}
+//
+//	}
+//
+//	@GetMapping("AttendController/Excel_All_TimeData_Post") // 所有員工報表輸出   未處理
+//	public HashMap Excel_All_TimeData_Post() throws JsonMappingException, JsonProcessingException {
+//		JsonNode jsonNode = null;
+//
+//		try {
+//			lock.lock();
+//			HashMap<Integer, JsonNode> Ret_Data_M = new HashMap();
+//
+//			int Key = 0;
+//			String Emp_Key = "E0010";
+//			ArrayList<String> Emplyee_Excel_Data = new ArrayList();
+//			if (sqlserver.Excel_All_TimeData_Post(Emplyee_Excel_Data, "E00105", "資訊室").equals("Sucess")) {
+//				ObjectMapper objectMapper = new OAbjectMapper();
+//				for (String str : Emplyee_Excel_Data) {
+//					Key++;
+//					jsonNode = objectMapper.readTree(str);
+//					Ret_Data_M.put(Key, jsonNode);
+//				}
+//				return Ret_Data_M;
+//			}
+//			return null;
+//		} finally {
+//			lock.unlock();
+//		}
+//
+//	}
 
 	@CrossOrigin
 	@PostMapping("AttendController/Cancel_Appli") // 取消審核資料 appli的id、管理員、TimeLogKey
@@ -987,9 +971,9 @@ public class AttendController<Json> {
 	@GetMapping("AttendController/App_Select_MapDepart") // 取得管轄權部門 OK
 	public String App_Select_DepartEmp(@RequestParam String content) throws JsonMappingException, JsonProcessingException, UnsupportedEncodingException {
 		content=URLDecoder.decode(content,"UTF-8");
-		try {
-	        System.out.print("輸出:"+content);
+		System.out.print(content);
 
+		try {
 			lock.lock();
 			userApi=Windowmapper.readValue(content, UserApi.class);
 			if(window.selectDepartEmp(userApi.getEmp_ID())==null) {
@@ -1007,11 +991,10 @@ public class AttendController<Json> {
 	
 	
 	@CrossOrigin
-	@GetMapping("AttendController/App_GetMapEmployee") // 帶出map的部門員工 OK
+	@GetMapping("AttendController/App_GetMapEmployee") // json字串 帶出map的部門員工 OK
 	public <T> T App_GetMapEmployee(@RequestParam("content")  String content) throws JsonProcessingException, UnsupportedEncodingException {
 		ArrayList<String> empList=new ArrayList<String>();
 		content=URLDecoder.decode(content,"UTF-8");
-        System.out.print("輸出:"+content);
 		try {
 			lock.lock();
 			userApi=Windowmapper.readValue(content, UserApi.class);
@@ -1019,6 +1002,10 @@ public class AttendController<Json> {
 		} finally {
 			lock.unlock();
 		}
+		
+		
+		
+		
 		
 	}
 	@CrossOrigin
@@ -1028,19 +1015,33 @@ public class AttendController<Json> {
 	}
 	
 	@CrossOrigin
-	@PostMapping("AttendController/App_Mapping_Employee") // 新增員工資料Mapping OK
-	public String App_Mapping_Employee(@RequestBody JSONObject Mapping_Post) {
-		return window.Mapping_Employee(null, null, null, null, null, null);
+	@PostMapping("AttendController/App_Mapping_Employee") //json檔 新增員工資料Mapping OK
+	public String App_Mapping_Employee(@RequestBody String Mapping_Post) throws JsonMappingException, JsonProcessingException {
+		System.out.println(Mapping_Post);
+		userApi=Windowmapper.readValue(Mapping_Post, UserApi.class);
+
+		return window.Mapping_Employee(userApi);
 	}
 
 	@CrossOrigin
-	@PostMapping("AttendController/Update_Mapping_Employee") // 更新員工資料Mapping OK
-	public String Update_Mapping_Employee(@RequestBody JSONObject Update_Post) {
-		return window.UpdateEmployee("E0010", null, null);
+	@PostMapping("AttendController/Update_Pesonnel_Employee") // 更新員工資料 OK
+	public String Update_Mapping_Employee(@RequestBody JSONObject Update_Post) throws JsonMappingException, JsonProcessingException {
+		return window.UpdateEmployee((String) Update_Post.get("Emp_ID"),(String) Update_Post.get("ChangeName"),(String) Update_Post.get("ChangeDepart"), Integer.parseInt((String) Update_Post.get("ChangeLevel")));
 	}
 	
 	
 	
+	
+	@CrossOrigin
+	@PostMapping("AttendController/postExcelData") // 寫入出勤 insertExcel
+	public String postExcelData(@RequestBody String excelData) throws JsonMappingException, JsonProcessingException {
+		ArrayList<String> dataList=new ArrayList<String>();
+		dataList=Windowmapper.readValue(excelData, ArrayList.class);
+		System.out.print(excelData);
+		return window.insertExcel(dataList);
+		
+
+	}
 	
 	@CrossOrigin
 	@GetMapping("AttendController/One_DepartEmpData") // 撈出單部門所有出勤 OK
