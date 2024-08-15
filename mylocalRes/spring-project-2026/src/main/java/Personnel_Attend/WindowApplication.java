@@ -1,16 +1,24 @@
 package Personnel_Attend;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class WindowApplication extends SQLOB {
@@ -20,13 +28,17 @@ public class WindowApplication extends SQLOB {
 	private Date date = new Date(0);
 	private HashMap<String, String> mapDepart = new HashMap<String, String>();
 	private HashMap<String, String> selfDepart = new HashMap<String, String>();
+	private ArrayList<String> localPersonnel=new ArrayList<String>();
+	private ObjectMapper Windowmapper = new ObjectMapper();
+
 
 	public WindowApplication(SQLClass sqlclass, Employee employee) {
 		super(sqlclass);
 		this.employee = employee;
 		this.sqlclass = sqlclass;
-		initEmpDepart(); // 儲存員工管轄權部門
-		initSelfDepart();// 儲存員工已Mapping資料
+		Init_EmpDepart(); // 儲存員工管轄權部門
+		Init_SelfDepart();// 儲存員工已Mapping資料
+		Init_localPersonnel();//儲存當月出勤紀錄
 		System.out.print("B組件:" + sqlclass);
 		// TODO Auto-generated constructor stub
 	}
@@ -41,7 +53,30 @@ public class WindowApplication extends SQLOB {
 			System.out.println("字串更新失敗" + e.getMessage());
 		}
 	}
+    public void Init_localPersonnel() {
+		SQL_Str = "select * from time_table ";
+		localPersonnel.clear();
+		Res_SQL(SQL_Str);
+		try {
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			rs = pst.executeQuery();
+			if (rs.next()) {
+				do {
+					localPersonnel.add(rs.getString("jsonString"));
+				} while (rs.next());
+			}
+		} catch (SQLException e) {
+			System.out.println("Init_localPersonnel錯誤" + e.getMessage());
+		} finally {
+			close_SQL();
+		}
+    }
+    
+   
+    
+    
 
+    	
 	public Date Date_Time() {
 		LocalDateTime currenDate = LocalDateTime.now();
 		Timestamp timestamp = Timestamp.valueOf(currenDate);
@@ -140,7 +175,7 @@ public class WindowApplication extends SQLOB {
 			System.out.print("測試錯誤" + e.toString());
 			return "SQLfail";
 		} finally {
-			initSelfDepart();
+		Init_SelfDepart();
 			close_SQL();
 		}
 	}
@@ -200,7 +235,7 @@ public class WindowApplication extends SQLOB {
 				pst.setString(5, Emp_ID);
 				pst.executeUpdate();
 				pst.clearParameters();
-				initSelfDepart();
+				Init_SelfDepart();
 				return "Sucess";
 			}
 			return "fail";
@@ -287,15 +322,20 @@ public class WindowApplication extends SQLOB {
 		}
 	}
 
-	public <T> T getMapEmployee(ArrayList<String> empList, String Depart) { // 帶出出勤系統Mapping資料
-		SQL_Str = "select * from empmerge where MapDepart=?";
+	public <T> T getMapEmployee(ArrayList<String> empList, String Depart,String Emp_ID,int Account_Lv) { // 帶出出勤系統Mapping資料
+		String paramName="";
+		if(Account_Lv>=2) {
+			SQL_Str="select * from empmerge where Emp_ID=?";
+			paramName=Emp_ID;
+		}else if(Account_Lv<2){
+			SQL_Str="select * from empmerge where MapDepart=?";
+			paramName=Depart;
+		}
 		Res_SQL(SQL_Str);
 		try {
 			pst = con.prepareStatement(sqlclass.getSql_Str());
-			pst.setString(1, Depart);
+			pst.setString(1, paramName);
 			rs = pst.executeQuery();
-			System.out.println("getEmployeeX");
-
 			if (rs.next()) {
 
 				do {
@@ -357,13 +397,13 @@ public class WindowApplication extends SQLOB {
 		} catch (SQLException e) {
 			return "SQLfail";
 		} finally {
-			initEmpDepart();
+			Init_EmpDepart();
 			close_SQL();
 		}
 
 	}
 
-	public void initEmpDepart() { // 暫存放入管轄權資料
+	public void Init_EmpDepart() { // 暫存放入管轄權資料
 		mapDepart.clear();
 		SQL_Str = "select * from mapdepart";
 		Res_SQL(SQL_Str);
@@ -378,13 +418,13 @@ public class WindowApplication extends SQLOB {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("initEmpDepart錯誤" + e.getMessage());
+			System.out.println("Init_EmpDepart錯誤" + e.getMessage());
 		} finally {
 			close_SQL();
 		}
 	}
 
-	public void initSelfDepart() // 暫存放入selfDepart資料
+	public void Init_SelfDepart() // 暫存放入selfDepart資料
 	{
 
 		SQL_Str = "select *  from empmerge";
@@ -400,7 +440,7 @@ public class WindowApplication extends SQLOB {
 
 			}
 		} catch (SQLException e) {
-			System.out.println("initSelfDepart錯誤" + e.getMessage());
+			System.out.println("Init_SelfDepart錯誤" + e.getMessage());
 		} finally {
 			close_SQL();
 		}
@@ -417,8 +457,8 @@ public class WindowApplication extends SQLOB {
 		return false;
 	}
 
-	public String selectDepartEmp(String Emp_ID) { // 取得管轄權部門
-		if (checkDepartExist(Emp_ID, "mapDepart")) {
+	public String selectDepartEmp(String Emp_ID,int Account_Lv) { // 取得管轄權部門
+		if (checkDepartExist(Emp_ID, "mapDepart") && Account_Lv<2) {
 			return mapDepart.get(Emp_ID);
 		} else if (checkDepartExist(Emp_ID, "selfDepart")) {
 			return selfDepart.get(Emp_ID);
@@ -451,7 +491,7 @@ public class WindowApplication extends SQLOB {
 			pst.executeUpdate();
 			pst.clearParameters();
 
-			initEmpDepart();
+			Init_EmpDepart();
 			return "Sucess";
 		} catch (SQLException e) {
 			System.out.println("Update_Post_MapDepart錯誤" + e.getMessage());
@@ -489,15 +529,77 @@ public class WindowApplication extends SQLOB {
 //		
 //	}
 
-	public String selectEmpData(ArrayList<String> SearchData, String Emp_Key, String Month_Switch, Date Start, Date End,
-			String Level) {
-		SQL_Str = (Month_Switch == "local")
-				? "select * from  time_table where User_Key=? AND MONTH(MapDepart.TimeRecord)=MONTH(CURDATE())"
-				: "select * from  time_table where User_Key=? AND  Appli_Date BETWEEN '" + Start + "'  AND '" + End
-						+ "'";
-		Res_SQL(SQL_Str);
+//	public String selectEmpData(ArrayList<String> SearchData, String Emp_Key, String Month_Switch, Date Start, Date End
+//			) {
+//		SQL_Str = (Month_Switch == "local")
+//				? "select * from  time_table where User_Key=? AND MONTH(MapDepart.TimeRecord)=MONTH(CURDATE())"
+//				: "select * from  time_table where User_Key=? AND  Appli_Date BETWEEN '" + Start + "'  AND '" + End
+//						+ "'";
+//		if(selfDepart.get(Emp_Key)!=null) {
+//			Res_SQL(SQL_Str);
+//			try {
+//				pst = con.prepareStatement(sqlclass.getSql_Str());
+//				pst.setString(1, selfDepart.get(Emp_Key));
+//				rs = pst.executeQuery();
+//				if (rs.next()) {
+//					do {
+//						SearchData.add(employee.getAppEmployeeData_JsonString(rs));
+//					} while (rs.next());
+//
+//					return "Sucess";
+//				}
+//
+//			} catch (SQLException e) {
+//
+//			} finally {
+//				close_SQL();
+//			}
+//			
+//		}
+//		return "None data";
+//	}
+
+	public String allEmpData(ArrayList<String> SearchData, String Month_Switch,String SelectData,String Depart,String Emp,String Start,
+			String End) {
+	
+
 		try {
+		if(Month_Switch.equals("LocalDate" )&& Start.equals("") && End.equals("")) {
+			SQL_Str="select * from  time_table where  MONTH(time_stamp)=MONTH(CURDATE())";
+			Res_SQL(SQL_Str);
 			pst = con.prepareStatement(sqlclass.getSql_Str());
+		}else if(Month_Switch.equals("RangeDate" )&& SelectData.equals("Emp")){
+			DateTimeFormatter formatetr=DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			Date startDate=Date.valueOf(LocalDate.parse(Start));
+			Date endDate=Date.valueOf(LocalDate.parse(End));
+			System.out.println("輸出1" + startDate);
+
+	        // 提取月份寫法
+			// SQL_Str="select * from  time_table where  name=?  MONTH(time_stamp) BETWEEN  startMonth=? AND endMonth=?" ;
+			SQL_Str="select * from  time_table where  name=? AND time_stamp BETWEEN  ? AND ?" ;
+			Res_SQL(SQL_Str);
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+	        pst.setString(1, Emp);
+	        pst.setDate(2, startDate);
+	        pst.setDate(3, endDate);
+
+		}else if(Month_Switch.equals("RangeDate" )&& SelectData.equals("Depart")){
+			DateTimeFormatter formatetr=DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			Date startDate=Date.valueOf(LocalDate.parse(Start));
+			Date endDate=Date.valueOf(LocalDate.parse(End));
+			System.out.println("輸出2" + startDate);
+
+	        // 提取月份
+            // SQL_Str="select * from  time_table where  depart=?  MONTH(time_stamp) BETWEEN  startMonth=? AND endMonth=?" ;
+			SQL_Str="select * from  time_table where  depart=?  AND time_stamp BETWEEN  ? AND ?" ;
+			Res_SQL(SQL_Str);
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+	        pst.setString(1, Depart);
+	        pst.setDate(2, startDate);
+	        pst.setDate(3, endDate);
+	      }else {
+			return "fail";
+		}
 			rs = pst.executeQuery();
 			if (rs.next()) {
 				do {
@@ -506,66 +608,41 @@ public class WindowApplication extends SQLOB {
 
 				return "Sucess";
 			}
-
 		} catch (SQLException e) {
-
+			System.out.println("allEmpData錯誤" + e.getMessage());
+            return "fail";
 		} finally {
 			close_SQL();
 		}
-		return null;
+		return "none";
+	
 	}
 
-	public String oneDepartEmpData(ArrayList<String> SearchData, String Emp_Key, String Month_Switch, Date Start,
-			Date End, String Level) {
-		SQL_Str = (Month_Switch == "local")
-				? "select * from  time_table where MapDepart=? AND MONTH(MapDepart.TimeRecord)=MONTH(CURDATE())"
-				: "select * from  time_table where MapDepart=? AND  Appli_Date BETWEEN '" + Start + "'  AND '" + End
-						+ "'";
-		Res_SQL(SQL_Str);
-		try {
-			pst = con.prepareStatement(sqlclass.getSql_Str());
-			rs = pst.executeQuery();
-			if (rs.next()) {
-				do {
-					SearchData.add(employee.getAppEmployeeData_JsonString(rs));
-				} while (rs.next());
-
-				return "Sucess";
-			}
-
-		} catch (SQLException e) {
-
-		} finally {
-			close_SQL();
-		}
-		return null;
-	}
-
-	public String selectAllData(ArrayList<String> SearchData, String Emp_Key, String Month_Switch, Date Start, Date End,
-			String Level) {
-		SQL_Str = (Month_Switch == "local")
-				? "select * from  time_table where MapDepart=? AND MONTH(MapDepart.TimeRecord)=MONTH(CURDATE())"
-				: "select * from  time_table where MapDepart=? AND  Appli_Date BETWEEN '" + Start + "'  AND '" + End
-						+ "'";
-		Res_SQL(SQL_Str);
-		try {
-			pst = con.prepareStatement(sqlclass.getSql_Str());
-			rs = pst.executeQuery();
-			if (rs.next()) {
-				do {
-					SearchData.add(employee.getAppEmployeeData_JsonString(rs));
-				} while (rs.next());
-
-				return "Sucess";
-			}
-
-		} catch (SQLException e) {
-
-		} finally {
-			close_SQL();
-		}
-		return null;
-	}
+//	public String selectAllData(ArrayList<String> SearchData,String Month_Switch, Date Start, Date End
+//			) {
+//		SQL_Str = (Month_Switch == "local")
+//				? "select * from  time_table where MONTH(MapDepart.TimeRecord)=MONTH(CURDATE())"
+//				: "select * from  time_table where Appli_Date BETWEEN '" + Start + "'  AND '" + End
+//						+ "'";
+//		Res_SQL(SQL_Str);
+//		try {
+//			pst = con.prepareStatement(sqlclass.getSql_Str());
+//			rs = pst.executeQuery();
+//			if (rs.next()) {
+//				do {
+//					SearchData.add(employee.getAppEmployeeData_JsonString(rs));
+//				} while (rs.next());
+//
+//				return "Sucess";
+//			}
+//
+//		} catch (SQLException e) {
+//
+//		} finally {
+//			close_SQL();
+//		}
+//		return null;
+//	}
     public boolean clearSQL() {
     	try {
     		SQL_Str = "Delete from time_table";
@@ -586,22 +663,28 @@ public class WindowApplication extends SQLOB {
     	}
 
     }
-	public String insertExcel(ArrayList<String> dataList) {
+	public String insertExcel(ArrayList<String> dataList) throws JsonMappingException, JsonProcessingException {
 		try {
 			if (dataList != null && !dataList.isEmpty() &&clearSQL()) {
-				SQL_Str = "insert into time_table(id,jsonString,insert_time)" + "select ifNull(max(id),0)+1,?,? FROM time_table";
+				SQL_Str = "insert into time_table(id,depart,name,jsonString,time_stamp,insert_time)" + "select ifNull(max(id),0)+1,?,?,?,?,? FROM time_table";
 				Res_SQL(SQL_Str);
 				pst = con.prepareStatement(sqlclass.getSql_Str());
 				con.setAutoCommit(false);
 				for (String i : dataList) {
-					pst.setString(1, i);
-					pst.setDate(2, Date_Time());
+					JsonNode rootdata=Windowmapper.readTree(i);
+					JsonNode dateNodeDate=rootdata.get("Date");
+					JsonNode dateNodeDepart=rootdata.get("Department");
+					JsonNode dateNodeName=rootdata.get("Name");
+					pst.setString(1, dateNodeDepart.asText());
+					pst.setString(2, dateNodeName.asText());
+					pst.setString(3, i);
+					pst.setString(4, dateNodeDate.asText());
+					pst.setDate(5, Date_Time());
 					pst.addBatch();
 				}
 				pst.executeBatch(); // 執行批量操作
 				con.commit();
 				pst.clearParameters();
-				System.out.println("insertExcel"+"5");
 
 				return "Sucess";
 			} else {

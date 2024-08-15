@@ -21,6 +21,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import Personnel_Attend.Appli_form;
 import Personnel_Attend.Department;
@@ -44,6 +46,7 @@ import java.util.HashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.sql.Date;
+
 
 @ComponentScan("Personnel_Attend")
 @RestController
@@ -971,15 +974,14 @@ public class AttendController<Json> {
 	@GetMapping("AttendController/App_Select_MapDepart") // 取得管轄權部門 OK
 	public String App_Select_DepartEmp(@RequestParam String content) throws JsonMappingException, JsonProcessingException, UnsupportedEncodingException {
 		content=URLDecoder.decode(content,"UTF-8");
-		System.out.print(content);
 
 		try {
 			lock.lock();
 			userApi=Windowmapper.readValue(content, UserApi.class);
-			if(window.selectDepartEmp(userApi.getEmp_ID())==null) {
+			if(window.selectDepartEmp(userApi.getEmp_ID(),userApi.getAccount_Lv())==null) {
 				return "none";
 			}else {
-				return window.selectDepartEmp(userApi.getEmp_ID());
+				return window.selectDepartEmp(userApi.getEmp_ID(),userApi.getAccount_Lv());
 			}
 		} finally {
 			lock.unlock();
@@ -997,8 +999,10 @@ public class AttendController<Json> {
 		content=URLDecoder.decode(content,"UTF-8");
 		try {
 			lock.lock();
+			System.out.print("取得員工"+content);
+
 			userApi=Windowmapper.readValue(content, UserApi.class);
-			return window.getMapEmployee(empList, userApi.getMapDepart());
+			return window.getMapEmployee(empList, userApi.getMapDepart(),userApi.getEmp_ID(),userApi.getAccount_Lv());
 		} finally {
 			lock.unlock();
 		}
@@ -1034,40 +1038,31 @@ public class AttendController<Json> {
 	
 	@CrossOrigin
 	@PostMapping("AttendController/postExcelData") // 寫入出勤 insertExcel
-	public String postExcelData(@RequestBody String excelData) throws JsonMappingException, JsonProcessingException {
+	public  <T> T  postExcelData(@RequestBody String excelData) throws JsonMappingException, JsonProcessingException {
 		ArrayList<String> dataList=new ArrayList<String>();
 		dataList=Windowmapper.readValue(excelData, ArrayList.class);
-		System.out.print(excelData);
-		return window.insertExcel(dataList);
+		return (T) window.insertExcel(dataList);
 		
 
 	}
 	
 	@CrossOrigin
-	@GetMapping("AttendController/One_DepartEmpData") // 撈出單部門所有出勤 OK
-	public String One_DepartEmpData(@RequestParam("Emp_Key") String Emp_Key,@RequestParam("Month_Switch") String Month_Switch,@RequestParam("Start") String Start,@RequestParam("End") String End) {
+	@GetMapping("AttendController/Select_All_AttendData") // 撈出所有出勤 /本月或區間OK
+	public  <T> T One_DepartEmpData(@RequestParam String content) throws UnsupportedEncodingException {
 		ArrayList<String> dataList=new ArrayList<String>();
-		return window.oneDepartEmpData(dataList, Emp_Key, Month_Switch, null, null, "Admin");
+		Gson gson=new Gson();
+		content=URLDecoder.decode(content,"UTF-8");
+		JsonObject data=gson.fromJson(content, JsonObject.class);
+		System.out.print(content);
+        if(window.allEmpData(dataList, data.get("Key").getAsString(),  data.get("SelectData").getAsString(), data.get("Depart").getAsString(),data.get("SelectEmp").getAsString(),data.get("Start_Date").getAsString(),data.get("End_Date").getAsString()).equals("fail")   ) {
+        	return (T) "fail";
+        }else {
+        	return (T) dataList;
+        }
 
 	}
 	
-	@CrossOrigin
-	@GetMapping("AttendController/Select_AllData") //取得管轄權部門所有出勤OK
-	public String Select_AllData(@RequestParam("Emp_Key") String Emp_Key,@RequestParam("Month_Switch") String Month_Switch,@RequestParam("Start") String Start,@RequestParam("End") String End) {
-		ArrayList<String> dataList=new ArrayList<String>();
-		return window.selectAllData(dataList, Emp_Key, Month_Switch, null, null, "Admin");
-	}
-	
 
-
-	
-	@CrossOrigin
-	@GetMapping("AttendController/Select_EmpData") // 取得單筆資料/本月或區間OK
-	public String Select_EmpData(@RequestParam("Emp_Key") String Emp_Key,@RequestParam("Month_Switch") String Month_Switch,@RequestParam("Start") String Start,@RequestParam("End") String End) {
-		ArrayList<String> dataList=new ArrayList<String>();
-		return window.selectEmpData(dataList, Emp_Key, Month_Switch,null, null, "Admin");
-	}
-	
 
 	
 	

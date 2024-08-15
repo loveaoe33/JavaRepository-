@@ -6,10 +6,12 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.collections.map.HashedMap;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
 import DrugSQL.AbstractSQL;
@@ -19,6 +21,8 @@ import SensoryModel.FileTrans;
 import SensoryModel.Sensory;
 import SensoryModel.FileTrans.PathName;
 
+
+@Repository
 public class PersonnelDAO {
 	private AbstractSQL sqlSetting;
 
@@ -32,6 +36,7 @@ public class PersonnelDAO {
 	SimpleDateFormat sdFormate = new SimpleDateFormat("hh:mm:ss");
 	Date date = new Date();
 	private final Lock lock = new ReentrantLock();
+	private final HashMap<Integer,String> initArticle=new HashMap<Integer,String>();//暫存初始化文章
 //	private String Insert_Employee_String = "insert into Employee(id,Account,Password,ArticleClass,AccountLevel,AccountLevel,CreateDate) "
 //			+ "select ifNULL(max(id),0)+1,?,?,?,?,?,? FROM Employee"; // 員工新增
 //	private String Insert_Article_String = "insert into Article(id,EmpClass,ArticleClass,ArticleTitle,ArticleContext,ArticleEmpl,ArticleFileUrl,ArticleView,ArticleLv,ArticleCreate,ArticleLock) "
@@ -49,6 +54,10 @@ public class PersonnelDAO {
 
 	public static PersonnelDAO getInstance_SingleSQL() {
 		return SingleClass;
+	}
+	
+	public void InitArticle() {
+
 	}
 
 	public ArrayList<T_Class> upload_file(MultipartFile file, MultipartFile Qr, String ArticleId)

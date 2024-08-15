@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 //import Personnel.EmployeeModel;
 
-@Service
+@Repository
 public class SQLSERVER extends SQLOB {
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	private final SQLClass sqlclass;

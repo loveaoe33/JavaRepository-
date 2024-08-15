@@ -121,7 +121,7 @@ public class SQLStringSetting extends AbstractSQL {
 			{
 
 				while (rs.next()) {
-					// 必須產生不同記憶體位置 否則會改到同筆資料
+					// 必須產生不同記憶體位置 否則會改到同筆資料   必須改
 					Sensory CallBackData = new Sensory("", "", "", "", "");
 					CallBackData.setId(rs.getInt("id"));
 					CallBackData.setSensorContext(rs.getString("SensorContext"));
@@ -155,7 +155,7 @@ public class SQLStringSetting extends AbstractSQL {
 		try {
 			stat = con.createStatement();
 			rs = stat.executeQuery(SQLString);
-			ArrayList<Sensory> DataArray = new ArrayList<>();
+			ArrayList<Sensory> DataArray = new ArrayList<>();  //必須改
 
 			if (!rs.next()) {
 
@@ -240,10 +240,10 @@ public class SQLStringSetting extends AbstractSQL {
 		try {
 			stat = con.createStatement();
 			rs = stat.executeQuery(SQLString);
-			ArrayList<Sensory> DataArray = new ArrayList<>();
+			ArrayList<Sensory> DataArray = new ArrayList<>(); //必須改
 
 			while (rs.next()) {
-				Sensory CallBackData = new Sensory("", "", "", "", "");
+				Sensory CallBackData = new Sensory("", "", "", "", ""); //必須改
 				CallBackData.setId(rs.getInt("id"));
 				CallBackData.setSensorContext(rs.getString("SensorContext"));
 				CallBackData.setSensorEmp(rs.getString("SensorEmp"));

@@ -137,9 +137,8 @@ public class Employee {
 	public String getAppEmployeeData_JsonString(ResultSet rs) throws SQLException { //出勤系統出勤資料
 
 		return String.format(
-				"{\"Depart\": \"%s\", \"Number\": \"%s\", \"EmpName\": \"%s\", \"ResNumber\": \"%s\", \"WorkDate\": \"%s\", \"Min\": \"%s\", \"Mout\": \"%s\", \"Ain\": \"%s\", \"Aout\": \"%s\"}",
-				rs.getString("Depart"), rs.getInt("Number"), rs.getString("EmpName"),
-				rs.getInt("ResNumber"),rs.getDate("WorkDate"),rs.getString("Min"),rs.getString("Mout"),rs.getString("Ain"),rs.getString("Aout"));
+				"{\"id\": \"%s\", \"jsonString\": \"%s\", \"insert_time\": \"%s\"}",
+rs.getInt("id"),rs.getString("jsonString").replaceAll("\r\n", "").replace('"', '\''), rs.getDate("insert_time"));
 	}
 	
 	
