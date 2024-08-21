@@ -47,7 +47,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.sql.Date;
 
-
 @ComponentScan("Personnel_Attend")
 @RestController
 public class AttendController<Json> {
@@ -61,10 +60,10 @@ public class AttendController<Json> {
 	private final WindowApplication window;
 	private final MergeClass mergeclass;
 	private HashMap<Integer, JsonNode> Ret_Data = new HashMap();
-	private ObjectMapper Windowmapper=new ObjectMapper();
+	private ObjectMapper Windowmapper = new ObjectMapper();
 	private UserApi userApi;
 	private final Lock lock = new ReentrantLock();
-	
+	private final Lock lockWindow = new ReentrantLock();
 
 //	public AttendController(testServer test) {
 //		this.test=test;
@@ -89,31 +88,34 @@ public class AttendController<Json> {
 
 	@Autowired
 	public AttendController(SQLSERVER sqlserver, HistoryLog historylog, Department department, Employee employee,
-			TimeData timeData, Appli_form appli_form, PasswordEncryption PassEncry,WindowApplication window,MergeClass mergeclass,UserApi userApi) {
+			TimeData timeData, Appli_form appli_form, PasswordEncryption PassEncry, WindowApplication window,
+			MergeClass mergeclass, UserApi userApi) {
 		this.department = department;
 		this.sqlserver = sqlserver;
 		this.historylog = historylog;
 		this.employee = employee;
 		this.timeData = timeData;
 		this.appli_form = appli_form;
-		this.window=window;
+		this.window = window;
 		this.PassEncry = PassEncry;
-		this.mergeclass=mergeclass;
-		this.userApi=userApi;
-		
+		this.mergeclass = mergeclass;
+		this.userApi = userApi;
+
 	}
 
 	@CrossOrigin
 	@GetMapping("AttendController/Init") // 初始化帶出
-	public <T> T Init(@RequestParam("Emp_Key") String Emp_Key,@RequestParam("Depart") String Depart) throws JsonProcessingException {
+	public <T> T Init(@RequestParam("Emp_Key") String Emp_Key, @RequestParam("Depart") String Depart)
+			throws JsonProcessingException {
 		try {
 			lock.lock();
-			return sqlserver.Init_Data(Depart,Emp_Key);
+			return sqlserver.Init_Data(Depart, Emp_Key);
 		} finally {
 			lock.unlock();
 		}
 
 	}
+
 //	@CrossOrigin
 //	@GetMapping("AttendController/test") // 新增部門OK
 //	public String test() {
@@ -236,26 +238,24 @@ public class AttendController<Json> {
 		}
 
 	}
-	
 
-    
 	@CrossOrigin
 	@GetMapping("AttendController/Edit_Print") // 取出申請單內容
-	public String Edit_Print(@RequestParam("id") int id,@RequestParam("Emp_Key") String Emp_Key) {
+	public String Edit_Print(@RequestParam("id") int id, @RequestParam("Emp_Key") String Emp_Key) {
 		try {
 			lock.lock();
-			return sqlserver.Appli_Edit_Print(id,Emp_Key);  //取出申請單內容
-		}finally {
+			return sqlserver.Appli_Edit_Print(id, Emp_Key); // 取出申請單內容
+		} finally {
 			lock.unlock();
 		}
 	}
-	
+
 	@CrossOrigin
 	@PostMapping("AttendController/Edit_Appli") // 更新申請單內容
-	public String Edit_Appli(@RequestBody JSONObject Appli_Object_Post) {   //更改申請單
+	public String Edit_Appli(@RequestBody JSONObject Appli_Object_Post) { // 更改申請單
 		try {
 			lock.lock();
-			
+
 			Object Appli_Object = Appli_Object_Post.get("Appli_Object");
 
 			Double Time = (((JSONObject) Appli_Object).getString("Reason").equals("Public_Holi")
@@ -263,14 +263,15 @@ public class AttendController<Json> {
 							? ((JSONObject) Appli_Object).getDouble("Appli_Time")
 							: -(((JSONObject) Appli_Object).getDouble("Appli_Time"));
 
-			Appli_form appli_form = Appli_form.builder().id(((JSONObject) Appli_Object).getInt("Appli_id")).Emp_Key(((JSONObject) Appli_Object).getString("Emp_ID"))
+			Appli_form appli_form = Appli_form.builder().id(((JSONObject) Appli_Object).getInt("Appli_id"))
+					.Emp_Key(((JSONObject) Appli_Object).getString("Emp_ID"))
 					.Department(((JSONObject) Appli_Object).getString("DepartMent"))
 					.Reason(((JSONObject) Appli_Object).getString("Reason")).Appli_Time(Time).Last_Time(0).Apli_Total(0)
 					.Reason_Mark(((JSONObject) Appli_Object).getString("ReasonMark")).Review_ID_Key(null)
 					.Appli_Date(null).Review_Date(null).Check_State("No_Process").build();
-					
-			return sqlserver.Appli_Edit(appli_form);  //更新申請單內容
-		}finally {
+
+			return sqlserver.Appli_Edit(appli_form); // 更新申請單內容
+		} finally {
 			lock.unlock();
 		}
 	}
@@ -335,8 +336,7 @@ public class AttendController<Json> {
 
 				TimeData timeData = TimeData.builder().Emp_Key(Appli_Employee).Last_Time(0).Time_Pon_Mark("")
 						.Time_Log_Key(Time_Log_Key).Update_Time(date).Time_Event(Time_Event).Time_Mark(Mark)
-						.Insert_Time(0).Old_Time(0).New_Time(0).Update_Time(date).Attend_Key(Review_ID_Key)
-						.build();
+						.Insert_Time(0).Old_Time(0).New_Time(0).Update_Time(date).Attend_Key(Review_ID_Key).build();
 
 				return sqlserver.Update_Review(appli_form, timeData);
 			}
@@ -349,10 +349,11 @@ public class AttendController<Json> {
 
 	@CrossOrigin
 	@PostMapping("AttendController/Login_Employee") // 帳號登入
-	public String Login_Employee(@RequestBody JSONObject LoginObject) throws JsonMappingException, JsonProcessingException {
+	public String Login_Employee(@RequestBody JSONObject LoginObject)
+			throws JsonMappingException, JsonProcessingException {
 //		PassEncry.Password_Check();
-        String Account=((JSONObject) LoginObject.get("Login_Object")).getString("Account");
-        String Password=((JSONObject) LoginObject.get("Login_Object")).getString("Password");
+		String Account = ((JSONObject) LoginObject.get("Login_Object")).getString("Account");
+		String Password = ((JSONObject) LoginObject.get("Login_Object")).getString("Password");
 		JsonNode jsonNode = null;
 		Employee employee = Employee.builder().Emp_ID(Account).Password(Password).build();
 
@@ -368,81 +369,69 @@ public class AttendController<Json> {
 		}
 
 	}
-	
-	
+
 	@CrossOrigin
 	@GetMapping("AttendController/test2") // 帳號登入
 	public String Login_Employee2() throws JsonMappingException, JsonProcessingException {
-           return "123";
+		return "123";
 
 	}
-	
+
 	@CrossOrigin
 	@PostMapping("AttendController/Login_C_Employee") // Application的帳號登入
 	public String Login_Employee3(@RequestBody String content) throws JsonMappingException, JsonProcessingException {
 
 		try {
-			lock.lock();
-			UserApi user=Windowmapper.readValue(content, UserApi.class);
+			lockWindow.lock();
+			UserApi user = Windowmapper.readValue(content, UserApi.class);
 			Employee employee = Employee.builder().Emp_ID(user.getAccount()).Password(user.getPassword()).build();
 			if (sqlserver.Login_Employee(employee).equals("false")) {
-               return "fail";
-		} else {
+				return "fail";
+			} else {
 				return sqlserver.Login_Employee(employee);
 			}
 
 		} finally {
-			lock.unlock();
+			lockWindow.unlock();
 		}
-		
 
 	}
-	
-	
-	
-	
-	
+
 	@CrossOrigin
 	@PostMapping("AttendController/Update_Employee  ") // Application的員工資料更新
 	public JsonNode Update_Employee(@RequestBody String content) throws JsonMappingException, JsonProcessingException {
 
-
 		try {
-			
+			lockWindow.lock();
 		} finally {
-			lock.unlock();
+			lockWindow.unlock();
 		}
 		return null;
-		
 
 	}
-	
-
-	
-	
-	
-	
-	
-	
 
 	@CrossOrigin
 	@PostMapping("AttendController/Update_Employee") // 更改帳號密碼更新
-	public String Change_Employee(@RequestBody JSONObject Update_Objects) throws JsonMappingException, JsonProcessingException {
+	public String Change_Employee(@RequestBody JSONObject Update_Objects)
+			throws JsonMappingException, JsonProcessingException {
 //		PassEncry.Password_Check();
 		try {
 			lock.lock();
 			Object Update_Object = Update_Objects.get("Update_Object_Post");
-			Employee employee = Employee.builder().Emp_ID(((JSONObject) Update_Object).getJSONObject("_rawValue").getString("Emp_ID")).Password(((JSONObject) Update_Object).getJSONObject("_rawValue").getString("NewPassword")).build();
-			return sqlserver.Update_Employee(employee,((JSONObject) Update_Object).getJSONObject("_rawValue").getString("oldPassword"));
+			Employee employee = Employee.builder()
+					.Emp_ID(((JSONObject) Update_Object).getJSONObject("_rawValue").getString("Emp_ID"))
+					.Password(((JSONObject) Update_Object).getJSONObject("_rawValue").getString("NewPassword")).build();
+			return sqlserver.Update_Employee(employee,
+					((JSONObject) Update_Object).getJSONObject("_rawValue").getString("oldPassword"));
 		} finally {
 			lock.unlock();
 		}
 	}
-	
+
 	@CrossOrigin
 	@GetMapping("AttendController/Super_Change") // 超級更新
 	public String Super_Change() {
-		return sqlserver.Super_Update_Employee("E0010","123");
+		return sqlserver.Super_Update_Employee("E0010", "123");
 	}
 
 	@CrossOrigin
@@ -738,7 +727,8 @@ public class AttendController<Json> {
 
 	@CrossOrigin
 	@PostMapping("AttendController/SearchDepart_TimeData_Log") // 查詢日期範圍部門log
-	public <T> T SearchDepart_TimeData_Log(@RequestBody JSONObject Depart_Post_Object) throws JsonMappingException, JsonProcessingException {
+	public <T> T SearchDepart_TimeData_Log(@RequestBody JSONObject Depart_Post_Object)
+			throws JsonMappingException, JsonProcessingException {
 		Object DepartSelect = Depart_Post_Object.get("Member_Object");
 		int Emp_Lv = sqlserver.get_Emp_Lv(((JSONObject) DepartSelect).getString("Emp_Key"));
 		HistoryLog Log = new HistoryLog(new SQLClass());
@@ -754,13 +744,13 @@ public class AttendController<Json> {
 				if (Log.Get_Depart_History(Emplyee_Excel_Data, ((JSONObject) DepartSelect).getString("Depart"),
 						((JSONObject) DepartSelect).getString("Start"), ((JSONObject) DepartSelect).getString("End"))
 						.equals("Sucess")) {
-					
+
 					for (String str : Emplyee_Excel_Data) {
 
 						jsonNode = objectMapper.readTree(str);
 						Ret_Data_S.add(jsonNode);
 					}
-					
+
 					return (T) Ret_Data_S;
 				} else {
 					return (T) "找無資料";
@@ -777,7 +767,8 @@ public class AttendController<Json> {
 
 	@CrossOrigin
 	@PostMapping("AttendController/SearchDepart_TimeData_AllLog") // 查詢所有log
-	public <T> T SearchDepart_TimeData_AllLog(@RequestBody JSONObject ALL_Post_Object) throws JsonMappingException, JsonProcessingException {
+	public <T> T SearchDepart_TimeData_AllLog(@RequestBody JSONObject ALL_Post_Object)
+			throws JsonMappingException, JsonProcessingException {
 		Object AllSelect = ALL_Post_Object.get("Member_Object");
 		int Emp_Lv = sqlserver.get_Emp_Lv(((JSONObject) AllSelect).getString("Emp_Key"));
 		HistoryLog Log = new HistoryLog(new SQLClass());
@@ -817,9 +808,6 @@ public class AttendController<Json> {
 			lock.unlock();
 		}
 	}
-	
-	
-	
 
 	@CrossOrigin
 	@PostMapping("AttendController/Announcement_Post") // 布告欄資料
@@ -844,29 +832,28 @@ public class AttendController<Json> {
 		}
 
 	}
-	
-	
+
 	@CrossOrigin
 	@GetMapping("AttendController/checkPasscode") // 比對Passcode
-	public String checkPasscode(@RequestParam("DepartKey") String Depart,@RequestParam("PassCode") String PassCode) throws JsonProcessingException {
-		String[] DepartSplit=Depart.split("_");
+	public String checkPasscode(@RequestParam("DepartKey") String Depart, @RequestParam("PassCode") String PassCode)
+			throws JsonProcessingException {
+		String[] DepartSplit = Depart.split("_");
 		return sqlserver.PassCodeCheck(DepartSplit[0], PassCode);
 	}
-	
-	
+
 	@CrossOrigin
 	@GetMapping("AttendController/getPasscode") // 初始化Passcode
 	public <T> T getPasscode() throws JsonProcessingException {
 		try {
 			lock.lock();
-			
+
 			return sqlserver.PassCode_Init_Data();
 
-		}finally {
+		} finally {
 			lock.unlock();
 		}
 	}
-	
+
 	@CrossOrigin
 	@PostMapping("AttendController/Passcode") // 處理Passcode
 	public String Passcode(@RequestBody JSONObject PassCode_Post) throws JsonProcessingException {
@@ -876,200 +863,233 @@ public class AttendController<Json> {
 		try {
 			lock.lock();
 			if (((JSONObject) PassCode_Object).getString("State_Key").equals("Insert")) {
-				String[] DepartSplit=((JSONObject) PassCode_Object).getString("Depart_Select").split("_");
+				String[] DepartSplit = ((JSONObject) PassCode_Object).getString("Depart_Select").split("_");
 				Insert_Str = String.format("%s,%s,%s", DepartSplit[0],
 						((JSONObject) PassCode_Object).getString("Pass_Code"),
 						((JSONObject) PassCode_Object).getString("Create_Name"));
 				return sqlserver.PassCode("Insert", Insert_Str);
 			} else if (((JSONObject) PassCode_Object).getString("State_Key").equals("Delete")) {
-				return sqlserver.PassCode("Delete",
-						((JSONObject) PassCode_Object).getString("Pass_Id"));
+				return sqlserver.PassCode("Delete", ((JSONObject) PassCode_Object).getString("Pass_Id"));
 			}
 			return "fail";
 		} finally {
 			lock.unlock();
 		}
-		
+
 	}
-	
-	
-	
-	
+
 	@CrossOrigin
 	@GetMapping("AttendController/App_Select_PersonnelDepart") // 帶出人資系統的部門 OK
-	public  <T> T App_Select_PersonnelDepart(@RequestParam String content) throws JsonProcessingException, UnsupportedEncodingException {
-		content=URLDecoder.decode(content,"UTF-8");
-        try {
-			lock.lock();
-			userApi=Windowmapper.readValue(content, UserApi.class);
-			int Account_Lv=userApi.getAccount_Lv();
-			if(Account_Lv<=1) {
-				ArrayList<String> DepartList=new ArrayList<String>();
+	public <T> T App_Select_PersonnelDepart(@RequestParam String content)
+			throws JsonProcessingException, UnsupportedEncodingException {
+		content = URLDecoder.decode(content, "UTF-8");
+		try {
+			lockWindow.lock();
+			userApi = Windowmapper.readValue(content, UserApi.class);
+			int Account_Lv = userApi.getAccount_Lv();
+			if (Account_Lv <= 1) {
+				ArrayList<String> DepartList = new ArrayList<String>();
 				return window.appInit_Data(DepartList);
-			}else {
+			} else {
 				return (T) "fail";
 			}
-        	
-        }finally {
-			lock.unlock();
 
-        }
-        
+		} finally {
+			lockWindow.unlock();
 
-	
+		}
+
 	}
-	
+
 	@CrossOrigin
 	@GetMapping("AttendController/App_GetPerEmployee") // 帶出人資系統的部門員工 OK
-	public <T> T App_GetPerEmployee(@RequestParam String content) throws JsonProcessingException, UnsupportedEncodingException {
-		content=URLDecoder.decode(content,"UTF-8");
+	public <T> T App_GetPerEmployee(@RequestParam String content)
+			throws JsonProcessingException, UnsupportedEncodingException {
+		content = URLDecoder.decode(content, "UTF-8");
 		try {
-			lock.lock();
-			userApi=Windowmapper.readValue(content, UserApi.class);
-			ArrayList<String> empList=new ArrayList<String>();
+			lockWindow.lock();
+			userApi = Windowmapper.readValue(content, UserApi.class);
+			ArrayList<String> empList = new ArrayList<String>();
 			return window.getEmployee(empList, userApi.getOrigDepart());
-		}	 finally {
-			lock.unlock();
+		} finally {
+			lockWindow.unlock();
 		}
 
 	}
-	
+
 	@CrossOrigin
 	@GetMapping("AttendController/Load_EmpDetail") // 帶出人資系統員工明細 OK
-	public <T> T Load_EmpDetail(@RequestParam String content) throws JsonProcessingException, UnsupportedEncodingException {
-		content=URLDecoder.decode(content,"UTF-8");
+	public <T> T Load_EmpDetail(@RequestParam String content)
+			throws JsonProcessingException, UnsupportedEncodingException {
+		content = URLDecoder.decode(content, "UTF-8");
 		try {
-			lock.lock();
-			userApi=Windowmapper.readValue(content, UserApi.class);
-			ArrayList<String> empList=new ArrayList<String>();
+			lockWindow.lock();
+			userApi = Windowmapper.readValue(content, UserApi.class);
+			ArrayList<String> empList = new ArrayList<String>();
 			return window.getEmployee(empList, userApi.getOrigDepart());
-		}	 finally {
-			lock.unlock();
+		} finally {
+			lockWindow.unlock();
 		}
 
 	}
-	
-	
-	
-	
-	
-	
-	
+
 	@CrossOrigin
 	@PostMapping("AttendController/App_Post_MapDepart") // 新增管轄權部門
-	public String App_Post_MapDepart(@RequestBody JSONObject Juris_Post) throws JsonMappingException, JsonProcessingException, UnsupportedEncodingException, SQLException {
+	public String App_Post_MapDepart(@RequestBody JSONObject Juris_Post)
+			throws JsonMappingException, JsonProcessingException, UnsupportedEncodingException, SQLException {
 		try {
-			lock.lock();
-			return window.Update_Post_MapDepart(Juris_Post.getString("Juris_Insert"),Juris_Post.getString("Emp_ID"));
+			lockWindow.lock();
+			return window.Update_Post_MapDepart(Juris_Post.getString("Juris_Insert"), Juris_Post.getString("Emp_ID"));
 
 		} finally {
-			lock.unlock();
+			lockWindow.unlock();
 		}
-		
-		
-		
+
 	}
-	
+
 	@CrossOrigin
 	@GetMapping("AttendController/App_Select_MapDepart") // 取得管轄權部門 OK
-	public String App_Select_DepartEmp(@RequestParam String content) throws JsonMappingException, JsonProcessingException, UnsupportedEncodingException {
-		content=URLDecoder.decode(content,"UTF-8");
+	public String App_Select_DepartEmp(@RequestParam String content)
+			throws JsonMappingException, JsonProcessingException, UnsupportedEncodingException {
+		content = URLDecoder.decode(content, "UTF-8");
 
 		try {
-			lock.lock();
-			userApi=Windowmapper.readValue(content, UserApi.class);
-			if(window.selectDepartEmp(userApi.getEmp_ID(),userApi.getAccount_Lv())==null) {
+			lockWindow.lock();
+			userApi = Windowmapper.readValue(content, UserApi.class);
+			if (window.selectDepartEmp(userApi.getEmp_ID(), userApi.getAccount_Lv()) == null) {
 				return "none";
-			}else {
-				return window.selectDepartEmp(userApi.getEmp_ID(),userApi.getAccount_Lv());
+			} else {
+				return window.selectDepartEmp(userApi.getEmp_ID(), userApi.getAccount_Lv());
 			}
 		} finally {
-			lock.unlock();
+			lockWindow.unlock();
 		}
-		
-		
-		
+
 	}
-	
-	
+
 	@CrossOrigin
 	@GetMapping("AttendController/App_GetMapEmployee") // json字串 帶出map的部門員工 OK
-	public <T> T App_GetMapEmployee(@RequestParam("content")  String content) throws JsonProcessingException, UnsupportedEncodingException {
-		ArrayList<String> empList=new ArrayList<String>();
-		content=URLDecoder.decode(content,"UTF-8");
+	public <T> T App_GetMapEmployee(@RequestParam("content") String content)
+			throws JsonProcessingException, UnsupportedEncodingException {
+		ArrayList<String> empList = new ArrayList<String>();
+		content = URLDecoder.decode(content, "UTF-8");
 		try {
-			lock.lock();
-			System.out.print("取得員工"+content);
+			lockWindow.lock();
+			System.out.print("取得員工" + content);
 
-			userApi=Windowmapper.readValue(content, UserApi.class);
-			return window.getMapEmployee(empList, userApi.getMapDepart(),userApi.getEmp_ID(),userApi.getAccount_Lv());
+			userApi = Windowmapper.readValue(content, UserApi.class);
+			return window.getMapEmployee(empList, userApi.getMapDepart(), userApi.getEmp_ID(), userApi.getAccount_Lv());
 		} finally {
-			lock.unlock();
+			lockWindow.unlock();
 		}
-		
-		
-		
-		
-		
+
 	}
+
 	@CrossOrigin
 	@GetMapping("AttendController/Clear_Mapping_Employee") // 清除員工資料Mapping OK
 	public String Clear_Mapping_Employee(@RequestBody JSONObject Clear_Post) {
+
+		try {
+
+			lockWindow.lock();
+		} finally {
+			lockWindow.unlock();
+
+		}
 		return window.Clear_Mapping("E0010");
 	}
-	
-	@CrossOrigin
-	@PostMapping("AttendController/App_Mapping_Employee") //json檔 新增員工資料Mapping OK
-	public String App_Mapping_Employee(@RequestBody String Mapping_Post) throws JsonMappingException, JsonProcessingException {
-		System.out.println(Mapping_Post);
-		userApi=Windowmapper.readValue(Mapping_Post, UserApi.class);
 
-		return window.Mapping_Employee(userApi);
+	@CrossOrigin
+	@PostMapping("AttendController/App_Mapping_Employee") // json檔 新增員工資料Mapping OK
+	public String App_Mapping_Employee(@RequestBody String Mapping_Post)
+			throws JsonMappingException, JsonProcessingException {
+		try {
+
+			lockWindow.lock();
+			userApi = Windowmapper.readValue(Mapping_Post, UserApi.class);
+
+			return window.Mapping_Employee(userApi);
+		} finally {
+			lockWindow.unlock();
+
+		}
+
 	}
 
 	@CrossOrigin
 	@PostMapping("AttendController/Update_Pesonnel_Employee") // 更新員工資料 OK
-	public String Update_Mapping_Employee(@RequestBody JSONObject Update_Post) throws JsonMappingException, JsonProcessingException {
-		return window.UpdateEmployee((String) Update_Post.get("Emp_ID"),(String) Update_Post.get("ChangeName"),(String) Update_Post.get("ChangeDepart"), Integer.parseInt((String) Update_Post.get("ChangeLevel")));
+	public String Update_Mapping_Employee(@RequestBody JSONObject Update_Post)
+			throws JsonMappingException, JsonProcessingException {
+		try {
+			lockWindow.lock();
+
+			return window.UpdateEmployee((String) Update_Post.get("Emp_ID"), (String) Update_Post.get("ChangeName"),
+					(String) Update_Post.get("ChangeDepart"),
+					Integer.parseInt((String) Update_Post.get("ChangeLevel")));
+
+		} finally {
+			lockWindow.unlock();
+
+		}
 	}
-	
-	
-	
-	
+
 	@CrossOrigin
 	@PostMapping("AttendController/postExcelData") // 寫入出勤 insertExcel
-	public  <T> T  postExcelData(@RequestBody String excelData) throws JsonMappingException, JsonProcessingException {
-		ArrayList<String> dataList=new ArrayList<String>();
-		dataList=Windowmapper.readValue(excelData, ArrayList.class);
-		return (T) window.insertExcel(dataList);
-		
+	public <T> T postExcelData(@RequestBody String excelData) throws JsonMappingException, JsonProcessingException {
+		try {
+			lockWindow.lock();
+			ArrayList<String> dataList = new ArrayList<String>();
+			dataList = Windowmapper.readValue(excelData, ArrayList.class);
+			return (T) window.insertExcel(dataList);
+		} finally {
+			lockWindow.unlock();
+
+		}
 
 	}
-	
+
 	@CrossOrigin
 	@GetMapping("AttendController/Select_All_AttendData") // 撈出所有出勤 /本月或區間OK
-	public  <T> T One_DepartEmpData(@RequestParam String content) throws UnsupportedEncodingException {
-		ArrayList<String> dataList=new ArrayList<String>();
-		Gson gson=new Gson();
-		content=URLDecoder.decode(content,"UTF-8");
-		JsonObject data=gson.fromJson(content, JsonObject.class);
-		System.out.print(content);
-        if(window.allEmpData(dataList, data.get("Key").getAsString(),  data.get("SelectData").getAsString(), data.get("Depart").getAsString(),data.get("SelectEmp").getAsString(),data.get("Start_Date").getAsString(),data.get("End_Date").getAsString()).equals("fail")   ) {
-        	return (T) "fail";
-        }else {
-        	return (T) dataList;
-        }
+	public <T> T One_DepartEmpData(@RequestParam String content) throws UnsupportedEncodingException {
+		ArrayList<String> dataList = new ArrayList<String>();
+		Gson gson = new Gson();
+		content = URLDecoder.decode(content, "UTF-8");
+		JsonObject data = gson.fromJson(content, JsonObject.class);
+		try {
+			lockWindow.lock();
+			if (window.allEmpData(dataList, data.get("Key").getAsString(), data.get("SelectData").getAsString(),
+					data.get("Depart").getAsString(), data.get("SelectEmp").getAsString(),
+					data.get("Start_Date").getAsString(), data.get("End_Date").getAsString()).equals("fail")) {
+				return (T) "fail";
+			} else {
+				return (T) dataList;
+			}
+		} finally {
+			lockWindow.unlock();
+
+		}
 
 	}
-	
 
+	@CrossOrigin
+	@GetMapping("AttendController/Select_All_JurisData") // 管轄部門區間
+	public <T> T Select_All_JurisData(@RequestParam String content) throws UnsupportedEncodingException {
+		ArrayList<String> dataList = new ArrayList<String>();
+		Gson gson = new Gson();
+		content = URLDecoder.decode(content, "UTF-8");
+		JsonObject data = gson.fromJson(content, JsonObject.class);
+		try {
+			lockWindow.lock();
+			if (window.All_JurisData(dataList, data.get("SelectEmp").getAsString(),
+					data.get("Start_Date").getAsString(), data.get("End_Date").getAsString()).equals("fail")) {
+				return (T) "fail";
+			} else {
+				return (T) dataList;
+			}
+		} finally {
 
-	
-	
+			lockWindow.unlock();
+		}
 
-	
-	
-	
-
-
+	}
 }
