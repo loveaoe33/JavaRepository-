@@ -118,7 +118,7 @@ public class SQLStringSetting extends AbstractSQL {
 
 			} else
 
-			{
+			{	
 
 				while (rs.next()) {
 					// 必須產生不同記憶體位置 否則會改到同筆資料   必須改

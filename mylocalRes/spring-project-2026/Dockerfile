@@ -1,11 +1,14 @@
-# 使用一个基础镜像
+# 使用官方的 OpenJDK 作為基礎映像
 FROM openjdk:17-jdk-slim
 
-# 设置工作目录
+# 設定工作目錄
 WORKDIR /app
 
-# 将构建好的Jar文件复制到工作目录
-COPY target/my-spring-boot-app.jar app.jar
+# 從 target 目錄將 jar 包複製到容器中
+COPY target/spring-project-2026-0.0.1-SNAPSHOT.jar main.jar
 
-# 运行Jar文件
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# 啟動應用程式
+ENTRYPOINT ["java", "-jar", "main.jar"]
+
+# 暴露應用程式運行的端口
+EXPOSE 8080

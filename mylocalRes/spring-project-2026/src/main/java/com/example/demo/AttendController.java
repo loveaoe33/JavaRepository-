@@ -37,6 +37,8 @@ import Personnel_Attend.UserApi;
 import Personnel_Attend.WindowApplication;
 import Personnel_Attend.testServer;
 import net.sf.json.JSONObject;
+import Object.SendMail;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -47,7 +49,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.sql.Date;
 
-@ComponentScan("Personnel_Attend")
+@ComponentScan(basePackages = {"Personnel_Attend","Object"})
+
 @RestController
 public class AttendController<Json> {
 	private final Department department;
@@ -64,7 +67,7 @@ public class AttendController<Json> {
 	private UserApi userApi;
 	private final Lock lock = new ReentrantLock();
 	private final Lock lockWindow = new ReentrantLock();
-
+    private SendMail mail;
 //	public AttendController(testServer test) {
 //		this.test=test;
 //	}
@@ -89,7 +92,7 @@ public class AttendController<Json> {
 	@Autowired
 	public AttendController(SQLSERVER sqlserver, HistoryLog historylog, Department department, Employee employee,
 			TimeData timeData, Appli_form appli_form, PasswordEncryption PassEncry, WindowApplication window,
-			MergeClass mergeclass, UserApi userApi) {
+			MergeClass mergeclass, UserApi userApi,SendMail mail) {
 		this.department = department;
 		this.sqlserver = sqlserver;
 		this.historylog = historylog;
@@ -100,9 +103,17 @@ public class AttendController<Json> {
 		this.PassEncry = PassEncry;
 		this.mergeclass = mergeclass;
 		this.userApi = userApi;
+		this.mail=mail;
+		mail.mailInit("loveaoe33@gmail.com", "AttendPersonnel Service開啟", "狀態:Sucess", "loveaoe33@gmail.com");
+
 
 	}
 
+	@javax.annotation.PreDestroy
+	public void cleanUp() {
+		mail.mailInit("loveaoe33@gmail.com", "AttendPersonnel Service關閉", "狀態:Sucess", "loveaoe33@gmail.com");
+	}
+	
 	@CrossOrigin
 	@GetMapping("AttendController/Init") // 初始化帶出
 	public <T> T Init(@RequestParam("Emp_Key") String Emp_Key, @RequestParam("Depart") String Depart)
@@ -1040,13 +1051,30 @@ public class AttendController<Json> {
 			lockWindow.lock();
 			ArrayList<String> dataList = new ArrayList<String>();
 			dataList = Windowmapper.readValue(excelData, ArrayList.class);
-			return (T) window.insertExcel(dataList);
+			return (T) window.Insert_Excel(dataList);
 		} finally {
 			lockWindow.unlock();
 
 		}
 
 	}
+	
+	
+	@CrossOrigin
+	@PostMapping("AttendController/postExcelDataBackUp") // 寫入出勤備份 insertExcel
+	public <T> T postExcelDataBackUp(@RequestBody String excelData) throws JsonMappingException, JsonProcessingException {
+		try {
+			lockWindow.lock();
+			ArrayList<String> dataList = new ArrayList<String>();
+			dataList = Windowmapper.readValue(excelData, ArrayList.class);
+			return (T) window.Insert_Excel_BackUp(dataList);
+		} finally {
+			lockWindow.unlock();
+
+		}
+
+	}
+	
 
 	@CrossOrigin
 	@GetMapping("AttendController/Select_All_AttendData") // 撈出所有出勤 /本月或區間OK
@@ -1057,7 +1085,7 @@ public class AttendController<Json> {
 		JsonObject data = gson.fromJson(content, JsonObject.class);
 		try {
 			lockWindow.lock();
-			if (window.allEmpData(dataList, data.get("Key").getAsString(), data.get("SelectData").getAsString(),
+			if (window.All_EmpData(dataList, data.get("Key").getAsString(), data.get("SelectData").getAsString(),
 					data.get("Depart").getAsString(), data.get("SelectEmp").getAsString(),
 					data.get("Start_Date").getAsString(), data.get("End_Date").getAsString()).equals("fail")) {
 				return (T) "fail";
@@ -1080,7 +1108,7 @@ public class AttendController<Json> {
 		JsonObject data = gson.fromJson(content, JsonObject.class);
 		try {
 			lockWindow.lock();
-			if (window.All_JurisData(dataList, data.get("SelectEmp").getAsString(),
+			if (window.All_JurisData(dataList,data.get("Emp_Level").getAsString() ,data.get("SelectEmp").getAsString(),
 					data.get("Start_Date").getAsString(), data.get("End_Date").getAsString()).equals("fail")) {
 				return (T) "fail";
 			} else {
@@ -1092,4 +1120,26 @@ public class AttendController<Json> {
 		}
 
 	}
+	
+	
+	@CrossOrigin
+	@GetMapping("AttendController/Get_Router_Cnfig") // 取得IP路由
+	public <T> T Get_Router_Cnfig(@RequestParam String content) throws UnsupportedEncodingException {
+		ArrayList<String> dataList = new ArrayList<String>();
+	
+		content = URLDecoder.decode(content, "UTF-8");
+		try {
+			lockWindow.lock();
+			if (window.Get_Ip_Router()!=null) {
+				return (T) window.Get_Ip_Router();
+			} else {
+				return (T) "fail";
+			}
+		} finally {
+
+			lockWindow.unlock();
+		}
+	}
+
+		
 }

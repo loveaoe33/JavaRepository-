@@ -20,7 +20,7 @@ public class SQLClass {
 	private String Password;
 	private String sql_Str;
 	public SQLClass() {
-		this.conn_Str="jdbc:mysql://localhost/personnel_Attend?serverTimezone=UTC";
+		this.conn_Str="jdbc:mysql://192.168.2.147:3307/personnel_attend?serverTimezone=UTC";
 		this.Account="root";
 		this.Password="love20720";
 		this.sql_Str="";

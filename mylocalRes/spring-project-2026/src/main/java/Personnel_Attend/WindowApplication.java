@@ -24,20 +24,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class WindowApplication extends SQLOB {
 	private SQLClass sqlclass;
 	private final Employee employee;
+	private final Router_Config router_Congif;
 	private String SQL_Str = null;
 	private Date date = new Date(0);
 	private HashMap<String, String> mapDepart = new HashMap<String, String>();
 	private HashMap<String, String> selfDepart = new HashMap<String, String>();
+	private ArrayList<String> server_address = new ArrayList<String>();
 	private ArrayList<String> localPersonnel = new ArrayList<String>();
 	private ObjectMapper Windowmapper = new ObjectMapper();
 
-	public WindowApplication(SQLClass sqlclass, Employee employee) {
+	public WindowApplication(SQLClass sqlclass, Employee employee, Router_Config router_Congif) {
 		super(sqlclass);
 		this.employee = employee;
 		this.sqlclass = sqlclass;
+		this.router_Congif = router_Congif;
 		Init_EmpDepart(); // 儲存員工管轄權部門
 		Init_SelfDepart();// 儲存員工已Mapping資料
 		Init_localPersonnel();// 儲存當月出勤紀錄
+		Init_Ip_Router();// 初始化程式路由位置
 		System.out.print("B組件:" + sqlclass);
 		// TODO Auto-generated constructor stub
 	}
@@ -50,6 +54,26 @@ public class WindowApplication extends SQLOB {
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			System.out.println("字串更新失敗" + e.getMessage());
+		}
+	}
+
+	public void Init_Ip_Router() {
+		server_address.clear();
+		SQL_Str = "select * from address_serve";
+		Res_SQL(SQL_Str);
+		try {
+			pst = con.prepareStatement(sqlclass.getSql_Str());
+			rs = pst.executeQuery();
+			if (rs.next()) {
+				do {
+					server_address.add(router_Congif.getRouter_JsonString(rs));
+				} while (rs.next());
+
+			}
+		} catch (SQLException e) {
+			System.out.println("Init_Ip_Router錯誤" + e.getMessage());
+		} finally {
+			close_SQL();
 		}
 	}
 
@@ -554,7 +578,7 @@ public class WindowApplication extends SQLOB {
 //		return "None data";
 //	}
 
-	public String allEmpData(ArrayList<String> SearchData, String Month_Switch, String SelectData, String Depart,
+	public String All_EmpData(ArrayList<String> SearchData, String Month_Switch, String SelectData, String Depart,
 			String Emp, String Start, String End) {
 
 		try {
@@ -570,7 +594,7 @@ public class WindowApplication extends SQLOB {
 				// 提取月份寫法
 				// SQL_Str="select * from time_table where name=? MONTH(time_stamp) BETWEEN
 				// startMonth=? AND endMonth=?" ;
-				SQL_Str = "select * from  time_table where  name=? AND time_stamp BETWEEN  ? AND ?";
+				SQL_Str = "select * from  time_table_backup where  name=? AND time_stamp BETWEEN  ? AND ?";
 				Res_SQL(SQL_Str);
 				pst = con.prepareStatement(sqlclass.getSql_Str());
 
@@ -586,7 +610,7 @@ public class WindowApplication extends SQLOB {
 				// 提取月份
 				// SQL_Str="select * from time_table where depart=? MONTH(time_stamp) BETWEEN
 				// startMonth=? AND endMonth=?" ;
-				SQL_Str = "select * from  time_table where  depart=?  AND time_stamp BETWEEN  ? AND ?";
+				SQL_Str = "select * from  time_table_backup where  depart=?  AND time_stamp BETWEEN  ? AND ?";
 				Res_SQL(SQL_Str);
 				pst = con.prepareStatement(sqlclass.getSql_Str());
 				pst.setString(1, Depart);
@@ -658,7 +682,7 @@ public class WindowApplication extends SQLOB {
 
 	}
 
-	public String insertExcel(ArrayList<String> dataList) throws JsonMappingException, JsonProcessingException {
+	public String Insert_Excel(ArrayList<String> dataList) throws JsonMappingException, JsonProcessingException {
 		try {
 			if (dataList != null && !dataList.isEmpty() && clearSQL()) {
 				SQL_Str = "insert into time_table(id,depart,name,jsonString,time_stamp,insert_time)"
@@ -691,23 +715,62 @@ public class WindowApplication extends SQLOB {
 			System.out.println("insertExcel錯誤" + e.getMessage());
 			return "SQLfail";
 		} finally {
+			Init_localPersonnel();
 			close_SQL();
 		}
 	}
 
-	public String All_JurisData(ArrayList<String> dataList, String Emp_ID, String Start, String End) {
+	public String Insert_Excel_BackUp(ArrayList<String> dataList) throws JsonMappingException, JsonProcessingException {
+		try {
+			if (dataList != null && !dataList.isEmpty() && clearSQL()) {
+				SQL_Str = "insert into time_table(id,depart,name,jsonString,time_stamp,insert_time)"
+						+ "select ifNull(max(id),0)+1,?,?,?,?,? FROM time_table_backup";
+				Res_SQL(SQL_Str);
+				pst = con.prepareStatement(sqlclass.getSql_Str());
+				con.setAutoCommit(false);
+				for (String i : dataList) {
+					JsonNode rootdata = Windowmapper.readTree(i);
+					JsonNode dateNodeDate = rootdata.get("Date");
+					JsonNode dateNodeDepart = rootdata.get("Department");
+					JsonNode dateNodeName = rootdata.get("Name");
+					pst.setString(1, dateNodeDepart.asText());
+					pst.setString(2, dateNodeName.asText());
+					pst.setString(3, i);
+					pst.setString(4, dateNodeDate.asText());
+					pst.setDate(5, Date_Time());
+					pst.addBatch();
+				}
+				pst.executeBatch(); // 執行批量操作
+				con.commit();
+				pst.clearParameters();
+
+				return "Sucess";
+			} else {
+				return "fail";
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Insert_Excel_BackUp錯誤" + e.getMessage());
+			return "SQLfail";
+		} finally {
+			Init_localPersonnel();
+			close_SQL();
+		}
+	}
+
+	public String All_JurisData(ArrayList<String> dataList, String Emp_Level, String Emp_ID, String Start, String End) {
 		try {
 			DateTimeFormatter formatetr = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			Date startDate = Date.valueOf(LocalDate.parse(Start));
 			Date endDate = Date.valueOf(LocalDate.parse(End));
-			String[] splitDepart = mapDepart.get(Emp_ID).split(",");
-			for (int i = 0; i < splitDepart.length; i++) {
-				SQL_Str = "select * from time_table where depart=? AND  time_stamp BETWEEN  ? AND ?";
+
+			if (Emp_Level.equals("0")) {
+
+				SQL_Str = "select * from time_table_backup where   time_stamp BETWEEN  ? AND ?";
 				Res_SQL(SQL_Str);
 				pst = con.prepareStatement(sqlclass.getSql_Str());
-				pst.setString(1, splitDepart[i]);
-				pst.setDate(2, startDate);
-				pst.setDate(3, endDate);
+				pst.setDate(1, startDate);
+				pst.setDate(2, endDate);
 				rs = pst.executeQuery();
 				if (rs.next()) {
 
@@ -718,8 +781,30 @@ public class WindowApplication extends SQLOB {
 
 				}
 
+				return "Sucess";
+			} else {
+
+				String[] splitDepart = mapDepart.get(Emp_ID).split(",");
+				for (int i = 0; i < splitDepart.length; i++) {
+					SQL_Str = "select * from time_table_backup where depart=? AND  time_stamp BETWEEN  ? AND ?";
+					Res_SQL(SQL_Str);
+					pst = con.prepareStatement(sqlclass.getSql_Str());
+					pst.setString(1, splitDepart[i]);
+					pst.setDate(2, startDate);
+					pst.setDate(3, endDate);
+					rs = pst.executeQuery();
+					if (rs.next()) {
+
+						do {
+							dataList.add(employee.getAppEmployeeData_JsonString(rs));
+
+						} while (rs.next());
+
+					}
+
+				}
+				return "Sucess";
 			}
-			return "Sucess";
 
 		} catch (SQLException e) {
 			System.out.println("All_JurisData錯誤" + e.getMessage());
@@ -731,6 +816,11 @@ public class WindowApplication extends SQLOB {
 
 		}
 	}
+
+	public ArrayList<String> Get_Ip_Router() {
+		return server_address;
+	}
+
 //	public String selectDepData(ArrayList<String> SearchData,String Depart,String MonthSwitch,Date Start,Date End) {
 //		SQL_Str=seleSQL("","mapdepart");
 //

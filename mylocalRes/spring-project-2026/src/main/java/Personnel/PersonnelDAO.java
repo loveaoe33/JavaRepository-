@@ -30,7 +30,7 @@ public class PersonnelDAO {
 	}
 
 	private static PersonnelDAO SingleClass = new PersonnelDAO();
-	private String SQLConnectingSetting = "jdbc:mysql://localhost/personnel?serverTimezone=UTC";
+	private String SQLConnectingSetting = "jdbc:mysql://192.168.2.147:3307/personnel?serverTimezone=UTC";
 	private String SQLAccount = "root";
 	private String SQLPassword = "love20720";
 	SimpleDateFormat sdFormate = new SimpleDateFormat("hh:mm:ss");
@@ -56,6 +56,8 @@ public class PersonnelDAO {
 		return SingleClass;
 	}
 	
+	
+	
 	public void InitArticle() {
 
 	}
@@ -64,6 +66,7 @@ public class PersonnelDAO {
 			throws IllegalStateException, IOException, NoSuchAlgorithmException, SQLException, ClassNotFoundException {
 
 		try {
+			
 
 			lock.lock();
 			String userName = System.getProperty("user.name");
@@ -75,7 +78,9 @@ public class PersonnelDAO {
 			}
 
 			PersonnelDAO PersonSQL = PersonnelDAO.getInstance_SingleSQL();
-			String FilePath = "C:\\Users\\" + userName + "\\Desktop\\vue\\newvue\\public\\PersonnelFile\\";
+//			String FilePath = "C:\\Users\\" + userName + "\\Desktop\\vue\\newvue\\public\\PersonnelFile\\";
+            
+			String FilePath = "/app/PersonnelFile";
 
 			String StrDate = sdFormate.format(date);
 			if (file != null) {
@@ -170,7 +175,6 @@ public class PersonnelDAO {
 				String Power_Print_Article = "select * from Article ORDER BY id DESC";
 				SQL_Process(Power_Print_Article);
 				return sqlSetting.SQLCase_Personnel(CaseSQL.Print_Article_Power);
-
 			} else {
 //	        	String Print_Article_ = "select * from Article where (ArticleLv=0 or ArticleLv<="+EmployeId+")";  //依造LV搜尋文章
 				String Print_Article_ = "select * from Article where (ArticleLock=? or ArticleLock='') AND (ArticleLv=0 or ArticleLv<=?) ORDER BY id DESC"; // 依造LV搜尋文章

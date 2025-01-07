@@ -4,6 +4,7 @@ import DrugSQL.SQLStringSetting.CaseSQL;
 import SensoryModel.FileTrans;
 import SensoryModel.FileTrans.PathName;
 import SensoryModel.Sensory;
+import SensoryModel.SensoryDAO;
 import SensoryModel.SensoryLibra;
 import net.sf.json.JSONObject;
 
@@ -22,6 +23,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.servlet.annotation.MultipartConfig;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,12 +36,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import DesignPattern.CompositePattern;
 import DrugSQL.AbstractSQL;
 import DrugSQL.SQLStringSetting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@ComponentScan(basePackages = { "SensoryModel" })
 @RestController
 public class SensoryController {
 	private AbstractSQL sqlSetting;
@@ -47,14 +53,22 @@ public class SensoryController {
 	private String SensoryString = "select * from sensorTable ORDER BY id DESC";
 	private String SensoryOneString = "";
 	private String DeleteSensory = "";
-	private String SQLConnectingSetting = "jdbc:mysql://localhost/drugsql?serverTimezone=UTC";
+	private String SQLConntetingSetting="jdbc:mysql://192.168.2.203:3307/drugsql?serverTimezone=UTC";
 	private String SQLAccount = "root";
 	private String SQLPassword = "love20720";
 	private String CheckCode = "A0738";
 	private String UpdateString = "Update sensorTable SET %S= '%S' where id=%S";
-	private static ArrayList<Sensory> SensoryAll = new ArrayList<>();
+	private ArrayList<Sensory> SensoryAll = new ArrayList<>();
 	private final Logger logger = LoggerFactory.getLogger(this.getClass()); /* log調用 */
+
+	private SensoryDAO sensoryDAO;
 	private final Lock lock = new ReentrantLock();
+
+	@Autowired
+	public SensoryController(SensoryDAO sensoryDAO) {
+
+		this.sensoryDAO = sensoryDAO;
+	}
 
 	@CrossOrigin
 	@PostMapping("Sensory/UpLoadFile")
@@ -62,36 +76,7 @@ public class SensoryController {
 			throws IllegalStateException, IOException, NoSuchAlgorithmException, SQLException, ClassNotFoundException {
 		try {
 			lock.lock();
-			if (SensoryAll.isEmpty() || SensoryAll == null) {
-			} else {
-				SensoryAll.clear();
-			}
-			String ProcessCode;
-			String userName = System.getProperty("user.name");
-
-			String FilePath = "C:\\Users\\" + userName + "\\Desktop\\vue\\newvue\\public\\SensoryFile\\";
-			String QrPath = "C:\\Users\\" + userName + "\\Desktop\\vue\\newvue\\public\\SensoryQr\\";
-			SimpleDateFormat sdFormate = new SimpleDateFormat("hh:mm:ss");
-			Date date = new Date();
-			String StrDate = sdFormate.format(date);
-			if (sqlSetting == null) {
-				sqlSetting = new SQLStringSetting(PostDateString, SQLConnectingSetting, SQLAccount, SQLPassword);
-			}
-
-			if (file != null) {
-				ProcessCode = FileTrans.FileProcess(file, Qr, SenSoryId, FilePath, UpdateString, PathName.FilePath,
-						StrDate);
-				sqlSetting.ReSettSQL(ProcessCode, SQLConnectingSetting, SQLAccount, SQLPassword);
-				SensoryAll = sqlSetting.SQLCase(CaseSQL.UpLoadUrl);
-			}
-			if (Qr != null) {
-				ProcessCode = FileTrans.FileProcess(file, Qr, SenSoryId, QrPath, UpdateString, PathName.QrPath,
-						StrDate);
-				sqlSetting.ReSettSQL(ProcessCode, SQLConnectingSetting, SQLAccount, SQLPassword);
-				SensoryAll = sqlSetting.SQLCase(CaseSQL.UpLoadUrl);
-			}
-
-			return SensoryAll;
+			return sensoryDAO.fileUpload(file,Qr,SenSoryId);
 		} finally {
 			lock.unlock();
 
@@ -105,25 +90,8 @@ public class SensoryController {
 			throws SQLException, ClassNotFoundException {
 		try {
 			lock.lock();
-			if (SensoryAll.isEmpty() || SensoryAll == null) {
-			} else {
-				SensoryAll.clear();
-			}
 			SensoryLibra.TransFun(SensryPOST);
-			if (sqlSetting != null) {
-
-				sqlSetting.ReSettSQL(PostDateString, SQLConnectingSetting, SQLAccount, SQLPassword);
-				SensoryAll = sqlSetting.SQLCase(CaseSQL.PostDate);
-				return SensoryAll;
-			} else
-
-			{
-				sqlSetting = new SQLStringSetting(PostDateString, SQLConnectingSetting, SQLAccount, SQLPassword);
-				SensoryAll = sqlSetting.SQLCase(CaseSQL.PostDate);
-				return SensoryAll;
-
-			}
-
+			return sensoryDAO.insertSensoryData();
 		} finally {
 
 			lock.unlock();
@@ -173,22 +141,7 @@ public class SensoryController {
 			lock.lock();
 			int id = SensoryID.get("SensoryID");
 			DeleteSensory = "Delete from sensorTable where id=" + id;
-			if (SensoryAll.isEmpty() || SensoryAll == null) {
-			} else {
-				SensoryAll.clear();
-			}
-			if (sqlSetting != null) {
-				sqlSetting.ReSettSQL(DeleteSensory, SQLConnectingSetting, SQLAccount, SQLPassword);
-				SensoryAll = sqlSetting.SQLCase(CaseSQL.DeleteOne);
-				return SensoryAll;
-			} else
-
-			{
-				sqlSetting = new SQLStringSetting(DeleteSensory, SQLConnectingSetting, SQLAccount, SQLPassword);
-				SensoryAll = sqlSetting.SQLCase(CaseSQL.DeleteOne);
-				return SensoryAll;
-			}
-
+			return sensoryDAO.deleteSensoryData(DeleteSensory);
 		} finally {
 			lock.unlock();
 
@@ -202,23 +155,7 @@ public class SensoryController {
 
 		try {
 			lock.lock();
-			if (SensoryAll.isEmpty() || SensoryAll == null) {
-			} else {
-				SensoryAll.clear();
-			}
-			if (sqlSetting != null) {
-				sqlSetting.ReSettSQL(SensoryString, SQLConnectingSetting, SQLAccount, SQLPassword);
-				SensoryAll = sqlSetting.SQLCase(CaseSQL.Prinall);
-				sqlSetting = null;
-				return SensoryAll;
-			} else
-
-			{
-				sqlSetting = new SQLStringSetting(SensoryString, SQLConnectingSetting, SQLAccount, SQLPassword);
-				SensoryAll = sqlSetting.SQLCase(CaseSQL.Prinall);
-				return SensoryAll;
-			}
-
+			return sensoryDAO.getSensoryData();
 		} finally {
 			lock.unlock();
 
@@ -234,29 +171,12 @@ public class SensoryController {
 		try {
 			lock.lock();
 			int id = SensoryID.get("SensoryID");
-			SensoryOneString = "select * from sensorTable where id=" + id;
-			if (SensoryAll.isEmpty() || SensoryAll == null) {
-			} else {
-				SensoryAll.clear();
-			}
-			if (sqlSetting != null) {
-				sqlSetting.ReSettSQL(SensoryOneString, SQLConnectingSetting, SQLAccount, SQLPassword);
-				SensoryAll = sqlSetting.SQLCase(CaseSQL.PrintOne);
-				sqlSetting = null;
-				return SensoryAll;
-			} else
-
-			{
-				sqlSetting = new SQLStringSetting(SensoryOneString, SQLConnectingSetting, SQLAccount, SQLPassword);
-				SensoryAll = sqlSetting.SQLCase(CaseSQL.PrintOne);
-				return SensoryAll;
-			}
-
+			SensoryOneString = "select * from sensorTable where id=" + id ;
+			return sensoryDAO.queryOne(SensoryOneString);
 		} finally {
 			lock.unlock();
 
 		}
-
 	}
 
 	@CrossOrigin()
@@ -271,21 +191,7 @@ public class SensoryController {
 					? "select * from sensorTable  ORDER BY SensorDate DESC"
 					: "select * from sensorTable where SensorKey LIKE '%" + SensoryAreaString
 							+ "%' ORDER BY SensorDate DESC";
-			if (SensoryAll.isEmpty() || SensoryAll == null) {
-			} else {
-				SensoryAll.clear();
-			}
-			if (sqlSetting != null) {
-				sqlSetting.ReSettSQL(SensoryOneString, SQLConnectingSetting, SQLAccount, SQLPassword);
-				SensoryAll = sqlSetting.SQLCase(CaseSQL.PrinClass);
-				sqlSetting = null;
-				return SensoryAll;
-			} else {
-				sqlSetting = new SQLStringSetting(SensoryOneString, SQLConnectingSetting, SQLAccount, SQLPassword);
-				SensoryAll = sqlSetting.SQLCase(CaseSQL.PrinClass);
-				return SensoryAll;
-
-			}
+			return sensoryDAO.areaSensortData(SensoryOneString);
 
 		} finally {
 			lock.unlock();
